@@ -264,6 +264,54 @@ def generate_lesen():
 
 
 
+@app.route('/api/check_speech', methods=['POST'])
+def check_speech():
+    api_key = os.getenv('API_KEY')
+    data = request.json
+    text = data.get('text', '')
+
+    if not api_key:
+        return jsonify({"error": "API Key is missing."}), 400
+    if not text:
+        return jsonify({"correction": None}), 200
+
+    system_prompt = (
+        "You are a strict but friendly German grammar checker for language learners. "
+        "The user will give you a sentence they just SPOKE in German. "
+        "Your job: carefully check for grammar, vocabulary, word order, or article errors. "
+        "If the sentence is CORRECT, reply with exactly the word: OK\n"
+        "If there are mistakes, reply with a SHORT HTML snippet (no surrounding tags like <html> or <body>). "
+        "Use this exact format:\n"
+        "<b>✏️ Korrektur:</b> <span style='color:#7ee787'>[corrected sentence here]</span><br>"
+        "<b>💡 Erklärung:</b> [brief explanation in English of what was wrong and why]"
+        "Do NOT add any extra commentary, greetings, or markdown."
+    )
+
+    payload = {
+        "model": "qwen/qwen3.8-27b",
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": text}
+        ],
+        "temperature": 0.1,
+        "max_tokens": 256
+    }
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
+        res.raise_for_status()
+        result = res.json()['choices'][0]['message']['content'].strip()
+        if result == "OK":
+            return jsonify({"correction": None})
+        return jsonify({"correction": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/api/dictionary', methods=['POST'])
 def dictionary_translate():
     api_key = os.getenv('API_KEY')

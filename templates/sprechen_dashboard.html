@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -26,7 +26,8 @@
       color: var(--text);
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      min-height: 100vh;
+      height: 100dvh;
       overflow: hidden;
     }
 
@@ -44,7 +45,7 @@
     .logo { font-size: 1.5rem; font-weight: 700; color: #fff; text-decoration: none; }
     .logo span { color: var(--primary); }
 
-    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
     .nav-links a { color: var(--sub); text-decoration: none; font-weight: 500; transition: color 0.2s; }
     .nav-links a:hover { color: #fff; }
     .nav-links a.active { color: var(--primary); }
@@ -135,7 +136,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
-      max-height: calc(100vh - 180px);
+      max-height: calc(100dvh - 180px);
     }
 
     .chat-messages {
@@ -202,6 +203,10 @@
       justify-content: center;
       transition: all 0.2s;
       box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+      /* Prevent long-press copy/context menu on touch screens */
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
     }
 
     .record-btn:active {
@@ -225,30 +230,28 @@
       font-size: 0.9rem;
     }
 
-      @media (max-width: 768px) {
+    @media (max-width: 768px) {
       .sidebar {
         position: absolute;
         z-index: 1000;
         height: 100%;
         box-shadow: 4px 0 15px rgba(0,0,0,0.5);
       }
-      .main-content {
-        padding: 1rem;
-      }
-      .btn {
-        width: 100%;
-        justify-content: center;
-        align-self: stretch !important;
-      }
-  
-      .audio-controls {
-        flex-direction: column;
-      }
-    }
-    @media (max-width: 768px) {
+      .main-content { padding: 1rem; }
       .logo { font-size: 1.2rem; }
-      .nav-links { gap: 0.8rem; }
-      .nav-links a { font-size: 0.9rem; }
+      .nav-links { gap: 0.6rem; }
+      .nav-links a { font-size: 0.85rem; }
+      .header-text h1 { font-size: 1.4rem; }
+      .chat-input-area { padding: 1rem; }
+    }
+    @media (max-width: 480px) {
+      header { padding: 0.8rem 1rem; }
+      .nav-links a { font-size: 0.78rem; }
+      .main-content { padding: 0.6rem; }
+      .chat-container { max-height: calc(100dvh - 160px); }
+      .record-btn { width: 58px; height: 58px; font-size: 1.5rem; }
+      /* Dictionary full-width on tiny screens */
+      .dict-box { width: calc(100vw - 20px); }
     }
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -392,7 +395,7 @@
             </select>
           </div>
           <div class="status-text" id="status-text">Halte den Mikrofon-Button gedrückt, um zu sprechen.</div>
-          <button class="record-btn" id="record-btn" onmousedown="startRecording()" onmouseup="stopRecording()" onmouseleave="stopRecording()" ontouchstart="startRecording()" ontouchend="stopRecording()">🎙️</button>
+          <button class="record-btn" id="record-btn" onmousedown="startRecording()" onmouseup="stopRecording()" onmouseleave="stopRecording()">🎙️</button>
         </div>
       </div>
     </main>
@@ -467,35 +470,7 @@
       const msgs = document.getElementById('chat-messages');
       const div = document.createElement('div');
       div.className = 'message ' + role;
-      
-      if (role === 'ai') {
-        const textSpan = document.createElement('span');
-        textSpan.innerText = text;
-        
-        const controls = document.createElement('div');
-        controls.style.marginTop = '0.5rem';
-        controls.style.display = 'flex';
-        controls.style.gap = '0.5rem';
-        
-        const slowBtn = document.createElement('button');
-        slowBtn.innerHTML = '🐢 Langsam abspielen';
-        slowBtn.style = 'background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 4px; color: #fff; font-size: 0.75rem; cursor: pointer;';
-        slowBtn.onclick = () => speakGerman(text, 0.6);
-        
-        const normalBtn = document.createElement('button');
-        normalBtn.innerHTML = '▶️ Normal';
-        normalBtn.style = 'background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 4px; color: #fff; font-size: 0.75rem; cursor: pointer;';
-        normalBtn.onclick = () => speakGerman(text, 1.0);
-        
-        controls.appendChild(normalBtn);
-        controls.appendChild(slowBtn);
-        
-        div.appendChild(textSpan);
-        div.appendChild(controls);
-      } else {
-        div.innerText = text;
-      }
-      
+      div.innerText = text;
       msgs.appendChild(div);
       msgs.scrollTop = msgs.scrollHeight;
       return div;
@@ -576,20 +551,40 @@
         }
         
         const userText = transData.text;
-        appendMessage('user', userText);
+        const userMsgDiv = appendMessage('user', userText);
         chatHistory.push({"role": "user", "content": userText});
         
-        // 2. Send User Text to LLM for Response
+        // 2. Run grammar check AND AI chat reply in parallel
         document.getElementById('status-text').innerText = "AI tippt...";
-        const chatRes = await fetch('/api/chat', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            system: scenarios[currentScenario].system,
-            messages: chatHistory
+        const [chatRes, corrRes] = await Promise.all([
+          fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              system: scenarios[currentScenario].system,
+              messages: chatHistory
+            })
+          }),
+          fetch('/api/check_speech', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ text: userText })
           })
-        });
+        ]);
         
+        // 3. Show grammar correction bubble (if any mistakes found)
+        const corrData = await corrRes.json();
+        if (corrData.correction) {
+          const msgs = document.getElementById('chat-messages');
+          const corrDiv = document.createElement('div');
+          corrDiv.className = 'message correction';
+          corrDiv.innerHTML = corrData.correction;
+          // Insert correction right after the user's message
+          userMsgDiv.insertAdjacentElement('afterend', corrDiv);
+          msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        // 4. Show AI conversational reply
         const chatData = await chatRes.json();
         if(chatData.error) throw new Error(chatData.error);
         
@@ -597,7 +592,7 @@
         appendMessage('ai', aiText);
         chatHistory.push({"role": "assistant", "content": aiText});
         
-        // 3. Play audio
+        // 5. Play AI audio
         speakGerman(aiText);
         
         document.getElementById('status-text').innerText = "Halte den Mikrofon-Button gedrückt, um zu sprechen.";
@@ -610,6 +605,22 @@
 
     // Force voices to load on some browsers
     window.speechSynthesis.onvoiceschanged = () => {};
+
+    // Register touch events with passive:false so preventDefault() works,
+    // preventing the browser's long-press copy/context-menu on touch screens.
+    const recordBtn = document.getElementById('record-btn');
+    recordBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      startRecording();
+    }, { passive: false });
+    recordBtn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      stopRecording();
+    }, { passive: false });
+    recordBtn.addEventListener('touchcancel', (e) => {
+      e.preventDefault();
+      stopRecording();
+    }, { passive: false });
   
     function toggleUserMenu() {
       const dropdown = document.getElementById('user-dropdown');

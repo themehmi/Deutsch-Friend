@@ -116,7 +116,7 @@
     /* MAIN CONTENT */
     .main-content { 
       flex: 1; 
-      overflow-y: auto; 
+      overflow: hidden;  /* Chat UI — internal areas scroll independently */
       padding: 2rem; 
       background: var(--bg-color); 
       display: flex;
@@ -130,13 +130,13 @@
     /* CHAT UI */
     .chat-container {
       flex: 1;
+      min-height: 0;          /* Lets flex shrink below content size — critical on mobile */
       display: flex;
       flex-direction: column;
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
-      max-height: calc(100dvh - 180px);
     }
 
     .chat-messages {
@@ -237,20 +237,23 @@
         height: 100%;
         box-shadow: 4px 0 15px rgba(0,0,0,0.5);
       }
-      .main-content { padding: 1rem; }
+      .main-content { padding: 1rem; overflow: hidden; }
+      .content-header { margin-bottom: 0.75rem; }
       .logo { font-size: 1.2rem; }
       .nav-links { gap: 0.6rem; }
       .nav-links a { font-size: 0.85rem; }
       .header-text h1 { font-size: 1.4rem; }
-      .chat-input-area { padding: 1rem; }
+      .header-text p { font-size: 0.85rem; }
+      .chat-input-area { padding: 0.8rem 1rem; }
     }
     @media (max-width: 480px) {
-      header { padding: 0.8rem 1rem; }
-      .nav-links a { font-size: 0.78rem; }
-      .main-content { padding: 0.6rem; }
-      .chat-container { max-height: calc(100dvh - 160px); }
-      .record-btn { width: 58px; height: 58px; font-size: 1.5rem; }
-      /* Dictionary full-width on tiny screens */
+      header { padding: 0.6rem 0.8rem; }
+      .nav-links a { font-size: 0.75rem; }
+      .main-content { padding: 0.5rem; }
+      .content-header { margin-bottom: 0.5rem; }
+      .record-btn { width: 56px; height: 56px; font-size: 1.5rem; }
+      .status-text { font-size: 0.78rem; }
+      .dict-widget { bottom: 10px; right: 10px; }
       .dict-box { width: calc(100vw - 20px); }
     }
     /* Custom Scrollbar */

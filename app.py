@@ -3,6 +3,7 @@ import urllib.request
 import urllib.error
 import json
 import os
+import requests
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -20,6 +21,18 @@ def grammar():
 @app.route('/schreiben')
 def schreiben():
     return render_template('schreiben_dashboard.html')
+
+@app.route('/sprechen')
+def sprechen():
+    return render_template('sprechen_dashboard.html')
+
+@app.route('/hoeren')
+def hoeren():
+    return render_template('hoeren_dashboard.html')
+
+@app.route('/lesen')
+def lesen():
+    return render_template('lesen_dashboard.html')
 
 @app.route('/api/check_text', methods=['POST'])
 def check_text():
@@ -103,5 +116,191 @@ def generate_scenario():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/transcribe', methods=['POST'])
+def transcribe():
+    api_key = os.getenv('API_KEY')
+    lang = request.form.get('language')
+    
+    if 'audio' not in request.files:
+        return jsonify({"error": "No audio file provided"}), 400
+    
+    audio_file = request.files['audio']
+    headers = {"Authorization": f"Bearer {api_key}"}
+    files = {
+        'file': (audio_file.filename, audio_file.stream, audio_file.content_type),
+        'model': (None, 'whisper-large-v3'),
+        'prompt': (None, 'This is a student speaking German and English. Please transcribe accurately. Hallo, wie geht es dir? Hello, how are you?')
+    }
+    
+    if lang:
+        files['language'] = (None, lang)
+    
+    try:
+        res = requests.post("https://api.groq.com/openai/v1/audio/transcriptions", headers=headers, files=files)
+        res.raise_for_status()
+        return jsonify({"text": res.json().get('text', '')})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    api_key = os.getenv('API_KEY')
+    data = request.json
+    system_prompt = data.get('system', '')
+    messages = data.get('messages', [])
+    
+    payload_messages = [{"role": "system", "content": system_prompt}] + messages
+    
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0"
+    }
+    
+    payload = {
+        "model": "qwen/qwen3.8-27b",
+        "messages": payload_messages,
+        "temperature": 0.5,
+        "max_tokens": 256
+    }
+    
+    try:
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
+        res.raise_for_status()
+        return jsonify({"reply": res.json()['choices'][0]['message']['content']})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/generate_listen', methods=['POST'])
+def generate_listen():
+    api_key = os.getenv('API_KEY')
+    data = request.json
+    topic = data.get('topic')
+    custom_prompt = data.get('custom_prompt')
+    
+    if not api_key:
+        return jsonify({"error": "API Key is missing."}), 400
+
+    prompts = {
+        'bahnhof': "Write a short, realistic train station announcement in German (about 3 sentences). E.g. a delayed train or platform change.",
+        'wetter': "Write a short, realistic German weather report for tomorrow (about 3 sentences).",
+        'nachrichten': "Write a short, realistic German news headline/bulletin (about 3 sentences).",
+        'alltag': "Write a short, casual German voice message from a friend (about 3 sentences). E.g. about meeting up or asking a favor."
+    }
+
+    if topic == 'custom' and custom_prompt:
+        system_prompt = f"Write a short, realistic German listening exercise text (about 3 sentences) based on this scenario: '{custom_prompt}'."
+    else:
+        system_prompt = prompts.get(topic, "Write 3 short German sentences.")
+    
+    payload = {
+        "model": "qwen/qwen3.8-27b",
+        "messages": [
+            {"role": "system", "content": "You are a German text generator. Output strictly the German text and nothing else. No markdown, no quotes, no English translations. Just the raw German text."},
+            {"role": "user", "content": system_prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 128
+    }
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
+        res.raise_for_status()
+        transcript = res.json()['choices'][0]['message']['content'].strip()
+        return jsonify({"transcript": transcript})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/generate_lesen', methods=['POST'])
+def generate_lesen():
+    api_key = os.getenv('API_KEY')
+    data = request.json
+    topic = data.get('topic')
+    custom_prompt = data.get('custom_prompt')
+    
+    if not api_key:
+        return jsonify({"error": "API Key is missing."}), 400
+
+    prompts = {
+        'email': "Write a B1-level German email (about 80 words). Below the email, write 3 reading comprehension questions in German.",
+        'blog': "Write a B1-level German blog post (about 80 words). Below the post, write 3 reading comprehension questions in German.",
+        'news': "Write a B1-level German short news article (about 80 words). Below the article, write 3 reading comprehension questions in German.",
+        'story': "Write a B1-level German short story (about 80 words). Below the story, write 3 reading comprehension questions in German."
+    }
+    
+    if topic == 'custom' and custom_prompt:
+        system_prompt = f"Write a B1-level German text about: '{custom_prompt}'. Below the text, write 3 reading comprehension questions in German."
+    else:
+        system_prompt = prompts.get(topic, prompts['email'])
+        
+    payload = {
+        "model": "qwen/qwen3.8-27b",
+        "messages": [
+            {"role": "system", "content": "You are a German teacher. Output strictly the German text followed immediately by 3 questions. No markdown, no English translations."},
+            {"role": "user", "content": system_prompt}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 512
+    }
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
+        res.raise_for_status()
+        text = res.json()['choices'][0]['message']['content'].strip()
+        return jsonify({"text": text})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+
+@app.route('/api/dictionary', methods=['POST'])
+def dictionary_translate():
+    api_key = os.getenv('API_KEY')
+    data = request.json
+    word = data.get('word', '')
+    
+    if not api_key:
+        return jsonify({"error": "API Key is missing. Add it in the backend."}), 400
+    if not word:
+        return jsonify({"error": "Word is missing."}), 400
+
+    payload = {
+        "model": "qwen/qwen3.8-27b",
+        "messages": [
+            {"role": "system", "content": "You are a bilingual German-English dictionary assistant. If the user provides a German word, reply with its English translation; if English, reply with German (include the definite article der/die/das for nouns). IMPORTANT: If the user provides a verb in ANY form (e.g., 'gegangen', 'mache', 'write'), provide the translation, identify its current grammatical form, and provide the infinitive. ALWAYS automatically include the following verb conjugations for the infinitive: Partizip II (Perfekt), Präteritum (Past), Futur I, and Futur II. Keep responses strictly focused on translation and grammatical forms, neatly formatted without conversational filler."},
+            {"role": "user", "content": word}
+        ],
+        "temperature": 0.3,
+        "max_tokens": 256
+    }
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
+        res.raise_for_status()
+        translation = res.json()['choices'][0]['message']['content'].strip()
+        return jsonify({"translation": translation})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)
+
+
+

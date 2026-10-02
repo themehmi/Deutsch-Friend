@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 
 <head>
   <meta charset="UTF-8">
-  <title>Deutsch Lernen - Schreiben</title>
+  <title>Deutsch Friend - Schreiben</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap');
@@ -41,12 +41,11 @@
       overflow: hidden;
     }
 
-    header {
-      padding: 1rem 2rem;
+    header { position: relative; padding: 1rem 2rem;
       background: var(--sidebar-bg);
       border-bottom: 1px solid var(--border);
       display: flex;
-      justify-content: space-between;
+      flex-direction: column; justify-content: center; gap: 1rem;
       align-items: center;
       flex-shrink: 0;
     }
@@ -57,13 +56,7 @@
       gap: 1rem;
     }
 
-    .toggle-btn {
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
+    
 
     .logo {
       font-size: 1.5rem;
@@ -131,7 +124,7 @@
       font-weight: 600;
       cursor: pointer;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column; justify-content: center; gap: 1rem;
       align-items: center;
       transition: color 0.2s;
     }
@@ -163,7 +156,7 @@
 
     .sidebar-menu li a {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column; justify-content: center; gap: 1rem;
       padding: 0.8rem 1.5rem;
       color: var(--text);
       text-decoration: none;
@@ -303,11 +296,7 @@
       margin-top: 2rem;
     }
 
-    .editor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .editor-header { display: flex; justify-content: space-between; align-items: center; }
 
     .editor-title {
       color: #fff;
@@ -353,26 +342,132 @@
     .hidden-section {
       display: none !important;
     }
-  </style>
+      @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        z-index: 1000;
+        height: 100%;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+      }
+      .main-content {
+        padding: 1rem;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+        align-self: stretch !important;
+      }
+  
+      .audio-controls {
+        flex-direction: column;
+      }
+    }
+    @media (max-width: 768px) {
+      .logo { font-size: 1.2rem; }
+      .nav-links { gap: 0.8rem; }
+      .nav-links a { font-size: 0.9rem; }
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-color, #0d1117); }
+    ::-webkit-scrollbar-thumb { background: var(--border, #30363d); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--sub, #8b949e); }
+    .close-sidebar-btn {
+      background: none;
+      border: none;
+      color: var(--sub);
+      font-size: 1.2rem;
+      cursor: pointer;
+      align-self: flex-start;
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+      transition: color 0.2s;
+      } {
+      color: var(--primary);
+    }
+    @media (max-width: 768px) {
+      .close-sidebar-btn { display: block; }
+    }
+    .open-sidebar-btn {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: none;
+      border-radius: 0 8px 8px 0;
+      color: var(--sub);
+      padding: 1.5rem 0.5rem;
+      cursor: pointer;
+      z-index: 999;
+      display: none;
+      transition: color 0.2s, background 0.2s;
+    }
+    .open-sidebar-btn:hover {
+      color: var(--primary);
+      background: var(--hover);
+    }
+    .sidebar.hidden + .open-sidebar-btn {
+      display: block;
+    }
+
+    .user-menu-container { position: absolute; left: 1.5rem; top: 1.2rem; z-index: 100; }
+    .toggle-btn { background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+    .user-dropdown { display: none; position: absolute; top: 100%; left: 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0; margin-top: 0.5rem; width: 120px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .user-dropdown a { display: block; padding: 0.5rem 1rem; color: var(--text); text-decoration: none; font-size: 0.9rem; text-align: left; }
+    .user-dropdown a:hover { background: var(--hover); color: var(--primary); }
+
+    /* Dictionary Widget */
+    .dict-widget { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end; }
+    .dict-toggle-btn { width: 55px; height: 55px; border-radius: 50%; background: var(--primary, #3b82f6); color: #fff; border: none; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: transform 0.2s, background 0.2s; display: flex; justify-content: center; align-items: center; }
+    .dict-toggle-btn:hover { transform: scale(1.08); background: #1f6feb; }
+    .dict-box { width: 320px; height: 420px; background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; margin-bottom: 15px; display: flex; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.6); overflow: hidden; opacity: 1; transform: translateY(0); transition: opacity 0.3s, transform 0.3s; }
+    .dict-widget.closed .dict-box { opacity: 0; pointer-events: none; transform: translateY(20px); position: absolute; bottom: 100%; right: 0; }
+    .dict-widget.closed .dict-toggle-btn { display: flex; }
+    .dict-widget:not(.closed) .dict-toggle-btn { display: none; }
+    .dict-header { background: var(--primary, #3b82f6); color: #fff; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1.1rem; }
+    .dict-content { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .dict-input-area { padding: 10px; border-top: 1px solid var(--border, #30363d); display: flex; gap: 8px; background: var(--bg-color, #0d1117); }
+    .dict-input-area input { flex: 1; background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); color: #fff; padding: 10px 15px; border-radius: 20px; outline: none; font-size: 0.95rem; }
+    .dict-input-area input:focus { border-color: var(--primary, #3b82f6); }
+    .dict-input-area button { background: var(--primary, #3b82f6); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; justify-content: center; align-items: center; transition: background 0.2s; }
+    .dict-input-area button:hover { background: #1f6feb; }
+    .dict-msg { padding: 10px 14px; border-radius: 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+    .dict-msg.user { background: var(--primary, #3b82f6); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .dict-msg.bot { background: var(--border, #30363d); color: var(--text, #c9d1d9); align-self: flex-start; border-bottom-left-radius: 4px; }
+</style>
+
+
 </head>
 
 <body>
 
   <header>
     <div class="logo-container">
-      <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
-      <a href="/" class="logo">Deutsch<span>Lernen</span></a>
+      
+      <div class="user-menu-container">
+        <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
+        <div class="user-dropdown" id="user-dropdown">
+          <a href="/login">Login</a>
+          <a href="/signup">Sign Up</a>
+        </div>
+      </div>
+
+      <a href="/" class="logo">Deutsch <span>Friend</span></a>
     </div>
     <div class="nav-links">
       <a href="/grammar">Grammatik</a>
-      <a href="/#hoeren">Hören</a>
-      <a href="/#sprechen">Sprechen</a>
+      <a href="/lesen">Lesen</a>
+      <a href="/hoeren">Hören</a>
+      <a href="/sprechen">Sprechen</a>
       <a href="/schreiben" class="active">Schreiben</a>
     </div>
   </header>
 
   <div class="layout-container">
-    <aside class="sidebar" id="sidebar">
+        <aside class="sidebar" id="sidebar">
+      <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
       <div class="sidebar-section">
         <div class="sidebar-title" onclick="toggleDropdown(this)">E-Mail & Brief (B1)</div>
         <ul class="sidebar-menu">
@@ -408,6 +503,7 @@
         </ul>
       </div>
     </aside>
+    <button class="open-sidebar-btn" onclick="toggleSidebar()" title="Menü öffnen">▶</button>
 
     <main class="main-content">
       <div class="content-header">
@@ -423,7 +519,10 @@
     </main>
   </div>
 
-  <script>
+    <script>
+    if (window.innerWidth <= 768) {
+      document.getElementById('sidebar').classList.add('hidden');
+    }
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('hidden');
     }
@@ -994,7 +1093,102 @@
     window.onload = () => {
       loadSection('anrede');
     };
-  </script>
+  
+    function toggleUserMenu() {
+      const dropdown = document.getElementById('user-dropdown');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+    document.addEventListener('click', function(event) {
+      const container = document.querySelector('.user-menu-container');
+      const dropdown = document.getElementById('user-dropdown');
+      if (container && !container.contains(event.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+
+    function toggleDict() {
+      document.getElementById('dict-widget').classList.toggle('closed');
+    }
+    async function translateWord() {
+      const input = document.getElementById('dict-input');
+      const word = input.value.trim();
+      if (!word) return;
+      const content = document.getElementById('dict-content');
+      
+      const userMsg = document.createElement('div');
+      userMsg.className = 'dict-msg user';
+      userMsg.textContent = word;
+      content.appendChild(userMsg);
+      
+      input.value = '';
+      content.scrollTop = content.scrollHeight;
+      
+      const botMsg = document.createElement('div');
+      botMsg.className = 'dict-msg bot';
+      botMsg.textContent = '...';
+      content.appendChild(botMsg);
+      content.scrollTop = content.scrollHeight;
+      
+      try {
+        const res = await fetch('/api/dictionary', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({word: word})
+        });
+        const data = await res.json();
+        if (data.error) {
+          botMsg.textContent = "Error: " + data.error;
+        } else {
+          botMsg.textContent = data.translation;
+        }
+      } catch (e) {
+        botMsg.textContent = "Verbindungsfehler";
+      }
+      content.scrollTop = content.scrollHeight;
+    }
+</script>
+
+
+
+  <!-- Dictionary Widget -->
+  <div id="dict-widget" class="dict-widget closed">
+    <div class="dict-box">
+      <div class="dict-header">
+        <span>📚 Wörterbuch</span>
+        <button onclick="toggleDict()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.5rem;line-height:1;">×</button>
+      </div>
+      <div class="dict-content" id="dict-content">
+        <p style="color:var(--sub);font-size:0.85rem;text-align:center;">Tippe ein Wort auf Deutsch oder Englisch ein.</p>
+      </div>
+      <div class="dict-input-area">
+        <input type="text" id="dict-input" placeholder="Übersetzen..." onkeypress="if(event.key === 'Enter') translateWord()">
+        <button onclick="translateWord()">➔</button>
+      </div>
+    </div>
+    <button class="dict-toggle-btn" onclick="toggleDict()" title="Wörterbuch">📚</button>
+  </div>
 </body>
 
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

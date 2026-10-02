@@ -532,8 +532,8 @@
 
     function unlockAudio() {
       if (!audioUnlocked && 'speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance('');
-        utterance.volume = 0;
+        const utterance = new SpeechSynthesisUtterance(' ');
+        utterance.volume = 0.01;
         window.speechSynthesis.speak(utterance);
         audioUnlocked = true;
       }
@@ -543,15 +543,23 @@
     function speakGerman(text, customRate) {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'de-DE';
-        utterance.rate = customRate || 0.9;
         
-        // Try to find a German voice
-        const deVoice = voices.find(v => v.lang.startsWith('de'));
-        if (deVoice) utterance.voice = deVoice;
-        
-        window.speechSynthesis.speak(utterance);
+        // Small delay to allow cancel() to process on mobile browsers before speaking
+        setTimeout(() => {
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'de-DE';
+          utterance.rate = customRate || 0.9;
+          
+          if (voices.length === 0) {
+            loadVoices();
+          }
+          
+          // Try to find a German voice
+          const deVoice = voices.find(v => v.lang.startsWith('de') || v.lang === 'de_DE' || v.lang === 'de-DE');
+          if (deVoice) utterance.voice = deVoice;
+          
+          window.speechSynthesis.speak(utterance);
+        }, 50);
       }
     }
 

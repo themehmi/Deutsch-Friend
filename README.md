@@ -1,6 +1,6 @@
 # Deutsch-Friend — Documentation
 
-Deutsch-Fruend is a Flask web application for practising German across the four exam skills (**Schreiben, Sprechen, Hören, Lesen**), plus grammar and a built-in dictionary. The Flask backend serves HTML pages and acts as a thin proxy to the [Groq API](https://console.groq.com/), which provides both the LLM (text generation, correction, chat) and Whisper (speech-to-text).
+Deutsch-Friend is a Flask web application for practising German across the four exam skills (**Schreiben, Sprechen, Hören, Lesen**), plus grammar and a built-in dictionary. The Flask backend serves HTML pages and acts as a thin proxy to the [Groq API](https://console.groq.com/), which provides both the LLM (text generation, correction, chat) and Whisper (speech-to-text).
 
 > **Scope note:** This document is based on `app.py` and `requirements.txt`. The HTML/JS files in `templates/` were not reviewed, so frontend behaviour is described only where it can be inferred from the backend.
 
@@ -9,7 +9,7 @@ Deutsch-Fruend is a Flask web application for practising German across the four 
 ## 1. Project Structure
 
 ```
-Deutsch-Fruend/
+Deutsch-Friend/
 ├── app.py              # Flask app: page routes + API routes (all logic)
 ├── requirements.txt    # Flask, python-dotenv, requests
 ├── templates/          # Jinja2/HTML pages (index + one dashboard per skill)
@@ -45,7 +45,7 @@ Deutsch-Fruend/
 
 ```bash
 git clone https://github.com/themehmi/Deutsch-Fruend.git
-cd Deutsch-Fruend
+cd Deutsch-Fruend   # folder name matches the GitHub repo name
 python -m venv venv && source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```

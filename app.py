@@ -193,6 +193,9 @@ def generate_listen():
     else:
         system_prompt = prompts.get(topic, "Write 3 short German sentences.")
     
+    level = data.get('level', 'A1')
+    system_prompt += f" Strictly adapt your vocabulary and grammar to the {level} CEFR language level."
+    
     payload = {
         "model": "qwen/qwen3.8-27b",
         "messages": [
@@ -237,6 +240,9 @@ def generate_lesen():
         system_prompt = f"Write a B1-level German text about: '{custom_prompt}'. Below the text, write 3 reading comprehension questions in German."
     else:
         system_prompt = prompts.get(topic, prompts['email'])
+        
+    level = data.get('level', 'A1')
+    system_prompt += f" Strictly adapt your vocabulary and grammar to the {level} CEFR language level."
         
     payload = {
         "model": "qwen/qwen3.8-27b",

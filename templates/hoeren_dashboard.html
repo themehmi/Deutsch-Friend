@@ -649,8 +649,17 @@
     <aside class="sidebar" id="sidebar">
       <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
       <div class="sidebar-section">
-        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Diktat (A2-B1)</div>
+        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Diktat</div>
         <ul class="sidebar-menu collapsed">
+          <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
+            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+            <select id="preset-level-select" style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
+              <option value="A1" selected>A1</option>
+              <option value="A2">A2</option>
+              <option value="B1">B1</option>
+              <option value="B2">B2</option>
+            </select>
+          </li>
           <li><a onclick="setTopic('bahnhof')" id="link-bahnhof">Bahnhof Durchsage</a></li>
           <li><a onclick="setTopic('wetter')" id="link-wetter">Wetterbericht</a></li>
           <li><a onclick="setTopic('nachrichten')" id="link-nachrichten">Nachrichten</a></li>
@@ -668,9 +677,9 @@
             <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
             <select id="level-select"
               style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
-              <option value="A1">A1</option>
+              <option value="A1" selected>A1</option>
               <option value="A2">A2</option>
-              <option value="B1" selected>B1</option>
+              <option value="B1">B1</option>
               <option value="B2">B2</option>
             </select>
             <button class="btn btn-primary"
@@ -766,7 +775,8 @@
       if (link) link.classList.add('active');
       currentTopic = key;
       customTopicText = ""; // Not a custom topic
-      resetState(topics[key]);
+      const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'A1';
+      resetState(topics[key] + " (" + level + ")");
     }
 
     function setCustomTopic() {
@@ -794,10 +804,14 @@
       btn.disabled = true;
 
       try {
+        const payload = { topic: currentTopic, custom_prompt: customTopicText };
+        if (currentTopic !== 'custom') {
+            payload.level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'A1';
+        }
         const res = await fetch('/api/generate_listen', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ topic: currentTopic, custom_prompt: customTopicText })
+          body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);

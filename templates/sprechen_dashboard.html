@@ -256,6 +256,22 @@
       margin-top: -0.5rem;
     }
 
+    .chat-container.hide-text .message.ai span,
+    .chat-container.hide-text .message.user,
+    .chat-container.hide-text .message.correction span {
+      filter: blur(5px);
+      opacity: 0.7;
+      transition: filter 0.3s, opacity 0.3s;
+      cursor: pointer;
+    }
+    
+    .chat-container.hide-text .message.ai span:hover,
+    .chat-container.hide-text .message.user:hover,
+    .chat-container.hide-text .message.correction span:hover {
+      filter: blur(0);
+      opacity: 1;
+    }
+
     .chat-input-area {
       padding: 1.5rem;
       background: var(--sidebar-bg);
@@ -645,8 +661,17 @@
     <aside class="sidebar" id="sidebar">
       <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
       <div class="sidebar-section">
-        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Szenarien (B1)</div>
+        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Szenarien</div>
         <ul class="sidebar-menu collapsed">
+          <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
+            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+            <select id="preset-level-select" style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
+              <option value="A1" selected>A1</option>
+              <option value="A2">A2</option>
+              <option value="B1">B1</option>
+              <option value="B2">B2</option>
+            </select>
+          </li>
           <li><a onclick="startScenario('party')" id="link-party">Eine Party planen</a></li>
           <li><a onclick="startScenario('problem')" id="link-problem">Ein Problem lösen</a></li>
           <li><a onclick="startScenario('meinung')" id="link-meinung">Diskussion: Meinung äußern</a></li>
@@ -671,9 +696,9 @@
             <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
             <select id="level-select"
               style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
-              <option value="A1">A1</option>
+              <option value="A1" selected>A1</option>
               <option value="A2">A2</option>
-              <option value="B1" selected>B1</option>
+              <option value="B1">B1</option>
               <option value="B2">B2</option>
             </select>
             <button class="btn btn-primary"
@@ -707,6 +732,11 @@
               <option value="en">English</option>
               <option value="">Auto-Detect</option>
             </select>
+            
+            <label style="color: var(--sub); font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem; margin-left: 1rem; cursor: pointer;">
+              <input type="checkbox" id="toggle-transcript" checked onchange="document.querySelector('.chat-container').classList.toggle('hide-text', !this.checked)">
+              Transkript anzeigen
+            </label>
           </div>
           <div class="status-text" id="status-text">Tippe auf den Mikrofon-Button, um zu sprechen.</div>
           <button class="record-btn" id="record-btn" onclick="toggleRecording()">🎙️</button>
@@ -790,8 +820,9 @@
       document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
       document.getElementById('link-' + key).classList.add('active');
 
+      const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'B1';
       currentScenario = key;
-      document.getElementById('page-title').innerText = scenarios[key].title;
+      document.getElementById('page-title').innerText = scenarios[key].title + " (" + level + ")";
 
       // Reset Chat
       chatHistory = [];
@@ -971,12 +1002,19 @@
 
         // 2. Run grammar check AND AI chat reply in parallel
         document.getElementById('status-text').innerText = "AI tippt...";
+        
+        let activeSystemPrompt = scenarios[currentScenario].system;
+        if (currentScenario !== 'custom') {
+          const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'B1';
+          activeSystemPrompt += ` Please strictly adapt your vocabulary, grammar, and corrections to the ${level} CEFR language level.`;
+        }
+        
         const [chatRes, corrRes] = await Promise.all([
           fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              system: scenarios[currentScenario].system,
+              system: activeSystemPrompt,
               messages: chatHistory
             })
           }),
@@ -985,7 +1023,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               text: userText,
-              system: scenarios[currentScenario].system
+              system: activeSystemPrompt
             })
           })
         ]);

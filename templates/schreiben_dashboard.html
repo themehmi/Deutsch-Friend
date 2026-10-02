@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Deutsch Lernen - Schreiben</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+      --bg-color: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --sub: #8b949e;
+      --primary: #e5534b;
+      /* Red theme for Schreiben */
+      --hover: rgba(229, 83, 75, 0.1);
+      --sidebar-bg: #010409;
+
+      /* Specific colors for letter parts */
+      --color-formell: #58a6ff;
+      --color-informell: #238636;
+      --color-connector: #d2a8ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      padding: 1rem 2rem;
+      background: var(--sidebar-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--sub);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .layout-container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 280px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 1.5rem 0;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar.hidden {
+      margin-left: -280px;
+    }
+
+    .sidebar-section {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--sub);
+      padding: 0.8rem 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .sidebar-title:hover {
+      color: #fff;
+    }
+
+    .sidebar-title::after {
+      content: '▼';
+      font-size: 0.6rem;
+      transition: transform 0.3s;
+    }
+
+    .sidebar-title.collapsed::after {
+      transform: rotate(-90deg);
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      max-height: 500px;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out;
+    }
+
+    .sidebar-menu.collapsed {
+      max-height: 0;
+    }
+
+    .sidebar-menu li a {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 1.5rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .sidebar-menu li a:hover {
+      background: var(--hover);
+    }
+
+    .sidebar-menu li a.active {
+      background: var(--hover);
+      color: var(--primary);
+      border-left-color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      background: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content-header {
+      margin-bottom: 2rem;
+    }
+
+    .header-text h1 {
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .header-text p {
+      color: var(--sub);
+      font-size: 1rem;
+    }
+
+    /* CARDS UI */
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .write-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s;
+    }
+
+    .write-card:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .card-sub {
+      color: var(--sub);
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .phrase-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .phrase-item {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .phrase-item.formell {
+      border-left-color: var(--color-formell);
+    }
+
+    .phrase-item.informell {
+      border-left-color: var(--color-informell);
+    }
+
+    .phrase-de {
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+      margin-bottom: 0.3rem;
+      font-size: 1.05rem;
+    }
+
+    .phrase-en {
+      font-size: 0.9rem;
+      color: var(--sub);
+    }
+
+    .phrase-note {
+      font-size: 0.8rem;
+      color: #e3b341;
+      margin-top: 0.5rem;
+      display: block;
+      font-style: italic;
+    }
+
+    /* EDITOR */
+    .editor-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background: var(--sidebar-bg);
+      padding: 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .editor-title {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .editor-actions button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      transition: opacity 0.2s;
+    }
+
+    .editor-actions button:hover {
+      opacity: 0.8;
+    }
+
+    textarea.writing-pad {
+      width: 100%;
+      min-height: 250px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    textarea.writing-pad:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(229, 83, 75, 0.2);
+    }
+
+    .hidden-section {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo-container">
+      <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+      <a href="/" class="logo">Deutsch<span>Lernen</span></a>
+    </div>
+    <div class="nav-links">
+      <a href="/grammar">Grammatik</a>
+      <a href="/#hoeren">Hören</a>
+      <a href="/#sprechen">Sprechen</a>
+      <a href="/schreiben" class="active">Schreiben</a>
+    </div>
+  </header>
+
+  <div class="layout-container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title" onclick="toggleDropdown(this)">E-Mail & Brief (B1)</div>
+        <ul class="sidebar-menu">
+          <li><a onclick="loadSection('anrede')" id="link-anrede" class="active">Anrede (Salutation)</a></li>
+          <li><a onclick="loadSection('einleitung')" id="link-einleitung">Einleitung (Intro)</a></li>
+          <li><a onclick="loadSection('hauptteil')" id="link-hauptteil">Hauptteil (Body)</a></li>
+          <li><a onclick="loadSection('schluss')" id="link-schluss">Schluss (Sign-off)</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Konnektoren (A2-B1)</div>
+        <ul class="sidebar-menu collapsed">
+          <li><a onclick="loadSection('gruende')" id="link-gruende">Gründe & Folgen (Why)</a></li>
+          <li><a onclick="loadSection('gegensatz')" id="link-gegensatz">Gegensätze (But/Although)</a></li>
+          <li><a onclick="loadSection('aufzaehlung')" id="link-aufzaehlung">Aufzählung (And/Also)</a></li>
+        </ul>
+      </div>
+
+
+      <div class="sidebar-section">
+        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Meinung & Diskussion (B1)</div>
+        <ul class="sidebar-menu collapsed">
+          <li><a onclick="loadSection('meinung')" id="link-meinung">Eigene Meinung (Opinion)</a></li>
+          <li><a onclick="loadSection('zustimmen')" id="link-zustimmen">Zustimmen (Agreeing)</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title" onclick="toggleDropdown(this)">Übung</div>
+        <ul class="sidebar-menu">
+          <li><a onclick="loadSection('editor')" id="link-editor">Text Editor & Prompts</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-header">
+        <div class="header-text">
+          <h1 id="page-title">Anrede (Salutation)</h1>
+          <p id="page-sub">How to start an email or letter properly based on formality.</p>
+        </div>
+      </div>
+
+      <div class="content-container" id="content-container">
+        <!-- Content gets injected here -->
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('hidden');
+    }
+
+    function toggleDropdown(element) {
+      // Close all other open sections
+      document.querySelectorAll('.sidebar-title').forEach(title => {
+        if (title !== element && !title.classList.contains('collapsed')) {
+          title.classList.add('collapsed');
+          if (title.nextElementSibling) {
+            title.nextElementSibling.classList.add('collapsed');
+          }
+        }
+      });
+
+      // Toggle the clicked section
+      element.classList.toggle('collapsed');
+      const menu = element.nextElementSibling;
+      if (menu) menu.classList.toggle('collapsed');
+    }
+
+    const data = {
+
+      meinung: {
+        title: "Eigene Meinung äußern (Expressing Opinion)",
+        sub: "Crucial for B1 exams (Schreiben Teil 2 - Blogbeitrag).",
+        html: `
+          <div class="grid-2">
+            <div class="write-card">
+              <h3 style="color: var(--primary); margin-bottom: 1rem;">Meiner Meinung nach...</h3>
+              <p style="color:var(--sub); margin-bottom:1rem; font-size:0.9rem;">The classic way to express an opinion. <strong>Inversion required!</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Meiner Meinung nach <span style="color:var(--primary);">ist</span> das eine gute Idee.</div>
+                  <div class="phrase-en">In my opinion, that is a good idea.</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Meiner Meinung nach <span style="color:var(--primary);">sollten</span> wir mehr Sport machen.</div>
+                  <div class="phrase-en">In my opinion, we should do more sports.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <h3 style="color: #58a6ff; margin-bottom: 1rem;">Ich denke / Ich finde, dass...</h3>
+              <p style="color:var(--sub); margin-bottom:1rem; font-size:0.9rem;">Using a subordinate clause (Nebensatz). <strong>Verb at the end!</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Ich denke, <strong>dass</strong> das eine gute Idee <span style="color:var(--primary);">ist</span>.</div>
+                  <div class="phrase-en">I think that it is a good idea.</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Ich bin der Meinung, <strong>dass</strong> wir helfen <span style="color:var(--primary);">sollten</span>.</div>
+                  <div class="phrase-en">I am of the opinion that we should help.</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      zustimmen: {
+        title: "Zustimmen & Ablehnen",
+        sub: "Agreeing and Disagreeing",
+        html: `
+          <div class="grid-2">
+            <div class="write-card">
+              <h3 style="color: #238636; margin-bottom: 1rem;">Zustimmen (Agreeing)</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Da bin ich ganz deiner Meinung!</div>
+                  <div class="phrase-en">I completely agree with you!</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Da hast du völlig recht.</div>
+                  <div class="phrase-en">You are absolutely right about that.</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Ich stimme dir zu, weil...</div>
+                  <div class="phrase-en">I agree with you because...</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <h3 style="color: #e5534b; margin-bottom: 1rem;">Ablehnen (Disagreeing)</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Das sehe ich ganz anders!</div>
+                  <div class="phrase-en">I see that completely differently!</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Da bin ich mir nicht so sicher.</div>
+                  <div class="phrase-en">I am not so sure about that.</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Ich bin dagegen, weil...</div>
+                  <div class="phrase-en">I am against it because...</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      anrede: {
+        title: "Anrede (Salutation)",
+        sub: "Always pay attention to capitalization in the next line!",
+        html: `
+          <div class="grid-2">
+            <div class="write-card">
+              <h3 style="color: var(--color-formell); margin-bottom: 1rem;">Formell (Sie)</h3>
+              <p style="color:var(--sub); margin-bottom:1rem; font-size:0.9rem;">To companies, authorities, or strangers.</p>
+              <ul class="phrase-list">
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Sehr geehrte Damen und Herren,</div>
+                  <div class="phrase-en">Dear Sir or Madam,</div>
+                  <span class="phrase-note">When you don't know the name.</span>
+                </li>
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Sehr geehrte Frau Müller,</div>
+                  <div class="phrase-en">Dear Ms. Müller,</div>
+                </li>
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Sehr geehrter Herr Schmidt,</div>
+                  <div class="phrase-en">Dear Mr. Schmidt,</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <h3 style="color: var(--color-informell); margin-bottom: 1rem;">Informell (Du / Ihr)</h3>
+              <p style="color:var(--sub); margin-bottom:1rem; font-size:0.9rem;">To friends, family, or close colleagues.</p>
+              <ul class="phrase-list">
+                <li class="phrase-item informell">
+                  <div class="phrase-de">Liebe Anna,</div>
+                  <div class="phrase-en">Dear Anna, (for female)</div>
+                </li>
+                <li class="phrase-item informell">
+                  <div class="phrase-de">Lieber Max,</div>
+                  <div class="phrase-en">Dear Max, (for male)</div>
+                </li>
+                <li class="phrase-item informell">
+                  <div class="phrase-de">Hallo zusammen,</div>
+                  <div class="phrase-en">Hello everyone, (to a group)</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="write-card" style="margin-top: 1rem; border-color: #e3b341;">
+            <h3 style="color: #e3b341; margin-bottom: 0.5rem;">⚠️ Golden Rule: The Comma</h3>
+            <p style="line-height: 1.5; color: var(--text);">
+              Unlike in English, after the comma in the salutation, the very first word of your email <strong>must be uncapitalized</strong> (unless it's a noun!).
+              <br><br>
+              <em>Example:</em><br>
+              Liebe Anna,<br>
+              <strong>v</strong>ielen Dank für deine Einladung.
+            </p>
+          </div>
+        `
+      },
+      einleitung: {
+        title: "Einleitung (Introduction)",
+        sub: "The opening sentence sets the tone.",
+        html: `
+          <div class="grid-2">
+            <div class="write-card">
+              <h3 style="color: var(--color-formell); margin-bottom: 1rem;">Formell</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item formell">
+                  <div class="phrase-de">ich schreibe Ihnen, weil...</div>
+                  <div class="phrase-en">I am writing to you because...</div>
+                </li>
+                <li class="phrase-item formell">
+                  <div class="phrase-de">vielen Dank für Ihre E-Mail.</div>
+                  <div class="phrase-en">Thank you for your email.</div>
+                </li>
+                <li class="phrase-item formell">
+                  <div class="phrase-de">hiermit möchte ich mich um [die Stelle] bewerben.</div>
+                  <div class="phrase-en">I would like to apply for [the position] herewith.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <h3 style="color: var(--color-informell); margin-bottom: 1rem;">Informell</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item informell">
+                  <div class="phrase-de">wie geht es dir? Mir geht es gut.</div>
+                  <div class="phrase-en">How are you? I am fine.</div>
+                </li>
+                <li class="phrase-item informell">
+                  <div class="phrase-de">vielen Dank für die Einladung, ich komme gern!</div>
+                  <div class="phrase-en">Thanks for the invite, I'd love to come!</div>
+                </li>
+                <li class="phrase-item informell">
+                  <div class="phrase-de">ich habe mich sehr über deinen Brief gefreut.</div>
+                  <div class="phrase-en">I was very happy to receive your letter.</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      hauptteil: {
+        title: "Hauptteil (Body Phrases)",
+        sub: "Common situations you need to express in exams (B1).",
+        html: `
+          <div class="grid-2">
+            <div class="write-card">
+              <h3 style="color: #d2a8ff; margin-bottom: 1rem;">Entschuldigen (Apologizing)</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Es tut mir sehr leid, aber ich kann leider nicht kommen.</div>
+                  <div class="phrase-en">I am very sorry, but unfortunately I cannot come.</div>
+                </li>
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Ich bitte um Entschuldigung für die Verspätung.</div>
+                  <div class="phrase-en">I apologize for the delay.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <h3 style="color: #58a6ff; margin-bottom: 1rem;">Einen Termin vorschlagen</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Hättest du / Hätten Sie am Freitag Zeit?</div>
+                  <div class="phrase-en">Would you have time on Friday?</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Passt es dir / Ihnen um 15 Uhr?</div>
+                  <div class="phrase-en">Does 3 PM suit you?</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Wir könnten uns am Bahnhof treffen.</div>
+                  <div class="phrase-en">We could meet at the train station.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <h3 style="color: #ff7b72; margin-bottom: 1rem;">Beschweren (Complaining)</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Ich bin sehr unzufrieden mit Ihrem Service.</div>
+                  <div class="phrase-en">I am very dissatisfied with your service.</div>
+                </li>
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Leider war [das Hotelzimmer] nicht wie beschrieben.</div>
+                  <div class="phrase-en">Unfortunately, [the hotel room] was not as described.</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      schluss: {
+        title: "Schluss (Sign-off)",
+        sub: "How to perfectly end the email.",
+        html: `
+          <div class="grid-2">
+            <div class="write-card">
+              <h3 style="color: var(--color-formell); margin-bottom: 1rem;">Formell</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Mit freundlichen Grüßen</div>
+                  <div class="phrase-en">Sincerely yours / Best regards</div>
+                  <span class="phrase-note">No comma after this! Just your full name on the next line.</span>
+                </li>
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Ich freue mich auf Ihre Antwort.</div>
+                  <div class="phrase-en">I look forward to your reply.</div>
+                </li>
+                <li class="phrase-item formell">
+                  <div class="phrase-de">Vielen Dank im Voraus.</div>
+                  <div class="phrase-en">Thank you in advance.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <h3 style="color: var(--color-informell); margin-bottom: 1rem;">Informell</h3>
+              <ul class="phrase-list">
+                <li class="phrase-item informell">
+                  <div class="phrase-de">Liebe Grüße (LG)</div>
+                  <div class="phrase-en">Best wishes / Love</div>
+                  <span class="phrase-note">No comma! Just your first name next line.</span>
+                </li>
+                <li class="phrase-item informell">
+                  <div class="phrase-de">Viele Grüße</div>
+                  <div class="phrase-en">Many regards</div>
+                </li>
+                <li class="phrase-item informell">
+                  <div class="phrase-de">Bis bald / Ruf mich an!</div>
+                  <div class="phrase-en">See you soon / Call me!</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      gruende: {
+        title: "Gründe & Folgen (Cause & Effect)",
+        sub: "Connecting sentences with Why and Therefore.",
+        html: `
+          <div class="verbs-container">
+            <div class="write-card">
+              <div class="card-title">weil / da (Because)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">Subordinating conjunctions. <strong>Verb goes to the END.</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Ich lerne Deutsch, <strong>weil</strong> ich in Berlin arbeiten <span style="color:var(--primary);">möchte</span>.</div>
+                  <div class="phrase-en">I learn German because I want to work in Berlin.</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de"><strong>Da</strong> es regnet, <span style="color:var(--primary);">bleibe</span> ich zu Hause.</div>
+                  <div class="phrase-en">Since it is raining, I am staying home.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <div class="card-title">deshalb / deswegen / darum (Therefore / That's why)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">Adverbs in Position 1. <strong>Verb goes to Position 2 (Inversion).</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Es regnet, <strong>deshalb</strong> <span style="color:var(--primary);">bleibe</span> ich zu Hause.</div>
+                  <div class="phrase-en">It is raining, therefore I stay home.</div>
+                </li>
+                <li class="phrase-item">
+                  <div class="phrase-de">Ich habe kein Geld, <strong>darum</strong> <span style="color:var(--primary);">kann</span> ich nicht mitkommen.</div>
+                  <div class="phrase-en">I have no money, that's why I can't come along.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <div class="card-title">denn (Because)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">ADUSO conjunction (Position 0). <strong>Verb stays in Position 2.</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Ich bleibe zu Hause, <strong>denn</strong> ich <span style="color:var(--primary);">bin</span> krank.</div>
+                  <div class="phrase-en">I stay home, because I am sick.</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      gegensatz: {
+        title: "Gegensätze (Contrasts)",
+        sub: "Connecting sentences with But and Although.",
+        html: `
+          <div class="verbs-container">
+            <div class="write-card">
+              <div class="card-title">obwohl (Although)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">Subordinating conjunction. <strong>Verb goes to the END.</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de"><strong>Obwohl</strong> es regnet, <span style="color:var(--primary);">gehe</span> ich spazieren.</div>
+                  <div class="phrase-en">Although it is raining, I am going for a walk.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <div class="card-title">trotzdem (Nevertheless / Still)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">Adverb in Position 1. <strong>Verb goes to Position 2 (Inversion).</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Es regnet, <strong>trotzdem</strong> <span style="color:var(--primary);">gehe</span> ich spazieren.</div>
+                  <div class="phrase-en">It is raining, nevertheless I am going for a walk.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <div class="card-title">aber (But)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">ADUSO conjunction (Position 0). <strong>Verb stays in Position 2.</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Es regnet, <strong>aber</strong> ich <span style="color:var(--primary);">gehe</span> spazieren.</div>
+                  <div class="phrase-en">It is raining, but I am going for a walk.</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      aufzaehlung: {
+        title: "Aufzählung (Additions)",
+        sub: "Connecting sentences with Also and Not only... but also.",
+        html: `
+          <div class="verbs-container">
+            <div class="write-card">
+              <div class="card-title">außerdem (Furthermore / Besides)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">Adverb in Position 1. <strong>Verb goes to Position 2.</strong></p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Die Wohnung ist billig, <strong>außerdem</strong> <span style="color:var(--primary);">liegt</span> sie zentral.</div>
+                  <div class="phrase-en">The apartment is cheap, furthermore it is centrally located.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <div class="card-title">nicht nur ... sondern auch (Not only ... but also)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">Two-part connector.</p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de">Er spricht <strong>nicht nur</strong> Englisch, <strong>sondern auch</strong> Deutsch.</div>
+                  <div class="phrase-en">He speaks not only English, but also German.</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="write-card">
+              <div class="card-title">einerseits ... andererseits (On the one hand ... on the other hand)</div>
+              <p style="color: var(--text); margin-bottom: 1rem;">Two-part connector (Adverbs in Position 1).</p>
+              <ul class="phrase-list">
+                <li class="phrase-item">
+                  <div class="phrase-de"><strong>Einerseits</strong> ist die Stadt schön, <strong>andererseits</strong> ist sie sehr teuer.</div>
+                  <div class="phrase-en">On the one hand the city is beautiful, on the other hand it is very expensive.</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+
+
+      editor: {
+        title: "Freies Schreiben (Free Writing)",
+        sub: "Define your own scenario and practice writing.",
+        html: `
+          <div class="write-card" style="margin-bottom: 1.5rem; border-color: var(--primary);">
+            <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Worüber möchtest du schreiben? (Context)</h3>
+            <p style="color: var(--sub); font-size: 0.9rem; margin-bottom: 1rem;">Tell your AI teacher what you want to practice, and it will generate a scenario for you!</p>
+            <div style="display: flex; gap: 1rem;">
+              <input type="text" id="custom-prompt" placeholder="Z.B. Ich möchte eine Beschwerde-E-Mail üben..." style="flex: 1; padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--sidebar-bg); color: #fff; font-family: 'Inter', sans-serif;">
+              <button id="generate-btn" onclick="generateScenario()" style="background: var(--primary); color: #fff; border: none; padding: 0 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 600;">Übung Erstellen</button>
+            </div>
+            <div id="scenario-container" style="display:none; margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.05); border-left: 4px solid var(--color-formell); border-radius: 4px; color: #fff; font-size: 0.95rem; line-height: 1.5;"></div>
+          </div>
+          
+          <div class="editor-container">
+            <div class="editor-header">
+              <div class="editor-title">Dein Text</div>
+              <div class="editor-actions">
+                <button onclick="clearText()">Clear</button>
+                <button id="check-btn" onclick="checkText()">Check Text</button>
+              </div>
+            </div>
+            <textarea id="notepad" class="writing-pad" placeholder="Schreibe deinen Text hier..."></textarea>
+            <div id="feedback-container" style="display:none; background:var(--card-bg); padding:1.5rem; border-radius:8px; border:1px solid var(--primary); margin-top:1rem; color:#fff; line-height:1.6;"></div>
+          </div>
+        `
+      }
+
+    };
+
+    function loadSection(sectionKey) {
+      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+      document.getElementById('link-' + sectionKey).classList.add('active');
+
+      const sectionData = data[sectionKey];
+      document.getElementById('page-title').innerText = sectionData.title;
+      document.getElementById('page-sub').innerText = sectionData.sub;
+      document.getElementById('content-container').innerHTML = sectionData.html;
+
+      // Load saved text if switching to editor
+      if (sectionKey === 'editor') {
+        const saved = localStorage.getItem('schreiben_text');
+        if (saved) document.getElementById('notepad').value = saved;
+
+        // Auto-save
+        document.getElementById('notepad').addEventListener('input', (e) => {
+          localStorage.setItem('schreiben_text', e.target.value);
+        });
+
+        const savedPrompt = localStorage.getItem('schreiben_prompt');
+        if (savedPrompt) document.getElementById('custom-prompt').value = savedPrompt;
+
+        document.getElementById('custom-prompt').addEventListener('input', (e) => {
+          localStorage.setItem('schreiben_prompt', e.target.value);
+        });
+
+
+      }
+    }
+
+    function clearText() {
+      if (confirm('Möchtest du den Text wirklich löschen?')) {
+        document.getElementById('notepad').value = '';
+        localStorage.removeItem('schreiben_text');
+        document.getElementById('feedback-container').style.display = 'none';
+        document.getElementById('scenario-container').style.display = 'none';
+      }
+    }
+
+    async function generateScenario() {
+      const topic = document.getElementById('custom-prompt').value.trim();
+      if (!topic) return alert("Please enter a topic first.");
+
+      const btn = document.getElementById('generate-btn');
+      btn.innerText = "Generating...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/generate_scenario', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic: topic })
+        });
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error);
+
+        const container = document.getElementById('scenario-container');
+        container.innerHTML = "<strong>Deine Aufgabe:</strong><br><br>" + data.scenario;
+        container.style.display = "block";
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+
+      btn.innerText = "Übung Erstellen";
+      btn.disabled = false;
+    }
+
+
+    async function checkText() {
+      const apiKey = '';
+      const text = document.getElementById('notepad').value.trim();
+      const prompt = document.getElementById('custom-prompt').value.trim() || 'Please correct my German text.';
+
+
+      if (!text) return alert("Please write some text first.");
+
+
+
+      const btn = document.getElementById('check-btn');
+      btn.innerText = "Checking...";
+      btn.disabled = true;
+      document.getElementById('feedback-container').style.display = "none";
+
+      try {
+        const res = await fetch('/api/check_text', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ api_key: apiKey, text: text, prompt: prompt })
+        });
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error);
+
+        const feedbackDiv = document.getElementById('feedback-container');
+        feedbackDiv.innerHTML = data.feedback;
+        feedbackDiv.style.display = "block";
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+
+      btn.innerText = "Check Text";
+      btn.disabled = false;
+    }
+
+
+
+    window.onload = () => {
+      loadSection('anrede');
+    };
+  </script>
+</body>
+
+</html>

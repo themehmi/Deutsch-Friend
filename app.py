@@ -270,6 +270,8 @@ def check_speech():
     data = request.json
     text = data.get('text', '')
 
+    system = data.get('system', '')
+
     if not api_key:
         return jsonify({"error": "API Key is missing."}), 400
     if not text:
@@ -278,12 +280,15 @@ def check_speech():
     system_prompt = (
         "You are a strict but friendly German grammar checker for language learners. "
         "The user will give you a sentence they just SPOKE in German. "
-        "Your job: carefully check for grammar, vocabulary, word order, or article errors. "
-        "If the sentence is CORRECT, reply with exactly the word: OK\n"
-        "If there are mistakes, reply with a SHORT HTML snippet (no surrounding tags like <html> or <body>). "
+        "Your job is twofold: \n"
+        "1. Check if the sentence makes sense in the context of the current scenario/topic. \n"
+        f"The current scenario context is: '{system}'\n"
+        "2. Carefully check for grammar, vocabulary, word order, or article errors.\n"
+        "If the sentence is ON TOPIC and grammatically CORRECT, reply with exactly the word: OK\n"
+        "If the sentence is OFF TOPIC or has mistakes, reply with a SHORT HTML snippet (no surrounding tags like <html> or <body>). "
         "Use this exact format:\n"
-        "<b>✏️ Korrektur:</b> <span style='color:#7ee787'>[corrected sentence here]</span><br>"
-        "<b>💡 Erklärung:</b> [brief explanation in English of what was wrong and why]"
+        "<b>✏️ Korrektur:</b> <span style='color:#7ee787'>[corrected sentence or on-topic suggestion here]</span><br>"
+        "<b>💡 Erklärung:</b> [brief explanation in English of what was wrong grammatically, or why it was off-topic and what they should have said instead]"
         "Do NOT add any extra commentary, greetings, or markdown."
     )
 

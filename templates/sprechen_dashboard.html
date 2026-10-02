@@ -370,6 +370,24 @@
           <li><a onclick="startScenario('free')" id="link-free" class="active">Einfacher Chat</a></li>
         </ul>
       </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Eigenes Thema</div>
+        <ul class="sidebar-menu collapsed">
+          <li style="padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="font-size: 0.85rem; color: var(--sub);">Thema:</label>
+            <input type="text" id="custom-scenario" placeholder="z.B. Im Supermarkt" style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+            <select id="level-select" style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+              <option value="A1">A1</option>
+              <option value="A2">A2</option>
+              <option value="B1" selected>B1</option>
+              <option value="B2">B2</option>
+            </select>
+            <button class="btn btn-primary" style="padding: 0.4rem; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; justify-content: center;" onclick="setCustomTopic()">Thema setzen</button>
+          </li>
+        </ul>
+      </div>
     </aside>
     <button class="open-sidebar-btn" onclick="toggleSidebar()" title="Menü öffnen">▶</button>
 
@@ -377,7 +395,7 @@
       <div class="content-header">
         <div class="header-text">
           <h1 id="page-title">Einfacher Chat</h1>
-          <p id="page-sub">Sprich mit dem AI-Lehrer. Halte den Button gedrückt, um zu sprechen.</p>
+          <p id="page-sub">Sprich mit dem AI-Lehrer. Tippe auf den Button, um zu sprechen.</p>
         </div>
       </div>
       
@@ -395,8 +413,8 @@
               <option value="">Auto-Detect</option>
             </select>
           </div>
-          <div class="status-text" id="status-text">Halte den Mikrofon-Button gedrückt, um zu sprechen.</div>
-          <button class="record-btn" id="record-btn" onmousedown="startRecording()" onmouseup="stopRecording()" onmouseleave="stopRecording()">🎙️</button>
+          <div class="status-text" id="status-text">Tippe auf den Mikrofon-Button, um zu sprechen.</div>
+          <button class="record-btn" id="record-btn" onclick="toggleRecording()">🎙️</button>
         </div>
       </div>
     </main>
@@ -444,6 +462,27 @@
         system: "You are a friendly German teacher. Have a casual conversation with the user in German. If they make a grammar mistake, gently point it out in English, then continue in German. If the user speaks English or asks a question in English, answer them in English."
       }
     };
+
+    function setCustomTopic() {
+      const val = document.getElementById('custom-scenario').value.trim();
+      const level = document.getElementById('level-select').value;
+      if (!val) {
+        alert("Bitte gib ein Thema ein.");
+        return;
+      }
+      currentScenario = 'custom';
+      scenarios['custom'] = {
+        title: "Thema: " + val + " (" + level + ")",
+        system: "You are a friendly German conversation partner. The user wants to practice the following scenario/topic: '" + val + "'. Start the conversation appropriately. Keep your responses short (1-2 sentences). The language level should be strictly " + level + ". Always end by asking a question to keep the conversation going. If the user speaks in English or asks for help, respond in English. Otherwise, speak in German."
+      };
+      
+      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+      document.getElementById('page-title').innerText = scenarios['custom'].title;
+      
+      chatHistory = [];
+      const messagesDiv = document.getElementById('chat-messages');
+      messagesDiv.innerHTML = '<div class="message ai">Lass uns über "' + val + '" sprechen! (Tippe auf das Mikrofon, um zu beginnen)</div>';
+    }
 
     let currentScenario = 'free';
     let chatHistory = [];
@@ -517,6 +556,17 @@
     }
 
     // STT (Microphone Recording)
+    let recordStartTime = 0;
+    let cancelNextProcessing = false;
+
+    function toggleRecording() {
+      if (isRecording) {
+        stopRecording();
+      } else {
+        startRecording();
+      }
+    }
+
     async function startRecording() {
       if (isRecording) return;
       unlockAudio();
@@ -531,14 +581,17 @@
         };
         
         mediaRecorder.onstop = async () => {
+          if (cancelNextProcessing) return;
           const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
           await processAudio(audioBlob);
         };
         
         mediaRecorder.start();
         isRecording = true;
+        recordStartTime = Date.now();
+        cancelNextProcessing = false;
         document.getElementById('record-btn').classList.add('recording');
-        document.getElementById('status-text').innerText = "Aufnahme läuft... (Lass los zum Senden)";
+        document.getElementById('status-text').innerText = "Aufnahme läuft... (Tippe erneut zum Senden)";
       } catch (err) {
         alert("Mikrofon-Zugriff verweigert: " + err.message);
       }
@@ -546,10 +599,17 @@
 
     function stopRecording() {
       if (!isRecording || !mediaRecorder) return;
+      
+      if (Date.now() - recordStartTime < 800) {
+        cancelNextProcessing = true;
+        document.getElementById('status-text').innerText = "Aufnahme zu kurz. Tippe erneut.";
+      } else {
+        document.getElementById('status-text').innerText = "Audio wird verarbeitet...";
+      }
+
       mediaRecorder.stop();
       isRecording = false;
       document.getElementById('record-btn').classList.remove('recording');
-      document.getElementById('status-text').innerText = "Audio wird verarbeitet...";
       
       // Stop all tracks to release mic
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
@@ -592,7 +652,10 @@
           fetch('/api/check_speech', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ text: userText })
+            body: JSON.stringify({ 
+              text: userText,
+              system: scenarios[currentScenario].system 
+            })
           })
         ]);
         
@@ -619,7 +682,7 @@
         // 5. Play AI audio
         speakGerman(aiText);
         
-        document.getElementById('status-text').innerText = "Halte den Mikrofon-Button gedrückt, um zu sprechen.";
+        document.getElementById('status-text').innerText = "Tippe auf den Mikrofon-Button, um zu sprechen.";
         
       } catch (err) {
         alert("Fehler: " + err.message);
@@ -635,15 +698,7 @@
     const recordBtn = document.getElementById('record-btn');
     recordBtn.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      startRecording();
-    }, { passive: false });
-    recordBtn.addEventListener('touchend', (e) => {
-      e.preventDefault();
-      stopRecording();
-    }, { passive: false });
-    recordBtn.addEventListener('touchcancel', (e) => {
-      e.preventDefault();
-      stopRecording();
+      toggleRecording();
     }, { passive: false });
   
     function toggleUserMenu() {

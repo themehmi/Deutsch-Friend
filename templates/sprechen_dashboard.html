@@ -355,9 +355,9 @@
         <aside class="sidebar" id="sidebar">
       <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
       <div class="sidebar-section">
-        <div class="sidebar-title" onclick="toggleDropdown(this)">Szenarien (B1)</div>
-        <ul class="sidebar-menu">
-          <li><a onclick="startScenario('party')" id="link-party" class="active">Eine Party planen</a></li>
+        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Szenarien (B1)</div>
+        <ul class="sidebar-menu collapsed">
+          <li><a onclick="startScenario('party')" id="link-party">Eine Party planen</a></li>
           <li><a onclick="startScenario('problem')" id="link-problem">Ein Problem lösen</a></li>
           <li><a onclick="startScenario('meinung')" id="link-meinung">Diskussion: Meinung äußern</a></li>
           <li><a onclick="startScenario('restaurant')" id="link-restaurant">Im Restaurant</a></li>
@@ -365,9 +365,9 @@
       </div>
       
       <div class="sidebar-section">
-        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Freies Gespräch</div>
-        <ul class="sidebar-menu collapsed">
-          <li><a onclick="startScenario('free')" id="link-free">Einfacher Chat</a></li>
+        <div class="sidebar-title" onclick="toggleDropdown(this)">Freies Gespräch</div>
+        <ul class="sidebar-menu">
+          <li><a onclick="startScenario('free')" id="link-free" class="active">Einfacher Chat</a></li>
         </ul>
       </div>
     </aside>
@@ -376,14 +376,14 @@
     <main class="main-content">
       <div class="content-header">
         <div class="header-text">
-          <h1 id="page-title">Eine Party planen</h1>
+          <h1 id="page-title">Einfacher Chat</h1>
           <p id="page-sub">Sprich mit dem AI-Lehrer. Halte den Button gedrückt, um zu sprechen.</p>
         </div>
       </div>
       
       <div class="chat-container">
         <div class="chat-messages" id="chat-messages">
-          <div class="message ai">Hallo! Wir wollen am Wochenende eine Überraschungsparty für Anna organisieren. Hast du schon Ideen, was wir machen könnten?</div>
+          <div class="message ai">Lass uns anfangen! (Send a voice message to begin)</div>
         </div>
         
         <div class="chat-input-area">
@@ -445,7 +445,7 @@
       }
     };
 
-    let currentScenario = 'party';
+    let currentScenario = 'free';
     let chatHistory = [];
     
     let mediaRecorder;
@@ -477,6 +477,29 @@
       return div;
     }
 
+    let voices = [];
+    let audioUnlocked = false;
+
+    function loadVoices() {
+      if ('speechSynthesis' in window) {
+        voices = window.speechSynthesis.getVoices();
+      }
+    }
+    
+    if ('speechSynthesis' in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function unlockAudio() {
+      if (!audioUnlocked && 'speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance('');
+        utterance.volume = 0;
+        window.speechSynthesis.speak(utterance);
+        audioUnlocked = true;
+      }
+    }
+
     // TTS (Text to Speech)
     function speakGerman(text, customRate) {
       if ('speechSynthesis' in window) {
@@ -486,7 +509,6 @@
         utterance.rate = customRate || 0.9;
         
         // Try to find a German voice
-        const voices = window.speechSynthesis.getVoices();
         const deVoice = voices.find(v => v.lang.startsWith('de'));
         if (deVoice) utterance.voice = deVoice;
         
@@ -497,6 +519,7 @@
     // STT (Microphone Recording)
     async function startRecording() {
       if (isRecording) return;
+      unlockAudio();
       
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });

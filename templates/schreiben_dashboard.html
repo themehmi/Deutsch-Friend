@@ -469,9 +469,9 @@
         <aside class="sidebar" id="sidebar">
       <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
       <div class="sidebar-section">
-        <div class="sidebar-title" onclick="toggleDropdown(this)">E-Mail & Brief (B1)</div>
-        <ul class="sidebar-menu">
-          <li><a onclick="loadSection('anrede')" id="link-anrede" class="active">Anrede (Salutation)</a></li>
+        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">E-Mail & Brief (B1)</div>
+        <ul class="sidebar-menu collapsed">
+          <li><a onclick="loadSection('anrede')" id="link-anrede">Anrede (Salutation)</a></li>
           <li><a onclick="loadSection('einleitung')" id="link-einleitung">Einleitung (Intro)</a></li>
           <li><a onclick="loadSection('hauptteil')" id="link-hauptteil">Hauptteil (Body)</a></li>
           <li><a onclick="loadSection('schluss')" id="link-schluss">Schluss (Sign-off)</a></li>
@@ -1091,7 +1091,7 @@
 
 
     window.onload = () => {
-      loadSection('anrede');
+      loadSection('editor');
     };
   
     function toggleUserMenu() {

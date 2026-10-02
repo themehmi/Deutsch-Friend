@@ -845,11 +845,10 @@
     }
 
     function unlockAudio() {
-      if (!audioUnlocked && 'speechSynthesis' in window) {
+      if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(' ');
         utterance.volume = 0.01;
         window.speechSynthesis.speak(utterance);
-        audioUnlocked = true;
       }
     }
 
@@ -927,6 +926,10 @@
 
     function stopRecording() {
       if (!isRecording || !mediaRecorder) return;
+      
+      // Call unlockAudio on stop to renew the iOS Safari speech gesture token
+      // right before the async API call begins
+      unlockAudio();
 
       if (Date.now() - recordStartTime < 800) {
         cancelNextProcessing = true;

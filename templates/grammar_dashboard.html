@@ -391,9 +391,7 @@
           <li><a onclick="loadCategory('regel')" id="link-regel">Regelmäßige Verben <span class="badge-count" id="count-regel"></span></a></li>
           <li><a onclick="loadCategory('unregel')" id="link-unregel">Unregelmäßige Verben <span class="badge-count" id="count-unregel"></span></a></li>
           <li><hr style="border: none; border-top: 1px solid var(--border); margin: 0.5rem 1.5rem;"></li>
-          <li><a onclick="loadCategory('nom_verben')" id="link-nom_verben">Nominativ Verben <span class="badge-count" id="count-nom_verben"></span></a></li>
-          <li><a onclick="loadCategory('akk_verben')" id="link-akk_verben">Akkusativ Verben <span class="badge-count" id="count-akk_verben"></span></a></li>
-          <li><a onclick="loadCategory('dativ_verben')" id="link-dativ_verben">Dativ Verben <span class="badge-count" id="count-dativ_verben"></span></a></li>
+
         </ul>
       </div>
     </aside>
@@ -5414,12 +5412,36 @@ const verbsData = {
 
     const pronouns = ["ich", "du", "er/sie/es", "wir", "ihr", "sie/Sie"];
 
-    function renderVerbCard(verbObj) {
+    function renderVerbCard(verbObj, cat, index) {
         const conj = conjugateVerb(verbObj.inf);
         
+        let typeBadge = "";
+        if (cat === 'regel' || cat === 'unregel') {
+            let vType = "";
+            let inf = verbObj.inf;
+            
+            const inList = (listName) => verbsData[listName] && verbsData[listName].some(v => v.inf === inf);
+            
+            if (inList('nom') || inList('nom_verben')) vType = "Nominativ";
+            else if (inList('dat') || inList('dativ_verben')) vType = "Dativ";
+            else if (inList('mix')) vType = "Dativ & Akkusativ";
+            else if (inList('akk') || inList('akk_verben')) vType = "Akkusativ";
+            else vType = "Akkusativ";
+            
+            if (vType) {
+                typeBadge += `<span class="badge-count" style="font-size:0.8rem; font-weight:normal; margin-left: 5px;">${vType}</span>`;
+            }
+            if (inList('trenn')) {
+                typeBadge += `<span class="badge-count" style="font-size:0.8rem; font-weight:normal; margin-left: 5px;">Trennbare</span>`;
+            } else if (inList('untr')) {
+                typeBadge += `<span class="badge-count" style="font-size:0.8rem; font-weight:normal; margin-left: 5px;">Untrennbare</span>`;
+            }
+        }
+        
+        let displayTitle = index ? `${index}. ${verbObj.inf}` : verbObj.inf;
         // Include the Partizip II in the title or a badge
         let card = `<div class="verb-card" data-search="${verbObj.inf.toLowerCase()} ${verbObj.en.toLowerCase()} ${conj.part2.toLowerCase()}">
-            <div class="verb-title">${verbObj.inf} <span class="badge-count" style="font-size:0.8rem; font-weight:normal;">Partizip II: ${conj.part2}</span></div>
+            <div class="verb-title">${displayTitle} <span class="badge-count" style="font-size:0.8rem; font-weight:normal;">Partizip II: ${conj.part2}</span>${typeBadge}</div>
             <div class="verb-en">${verbObj.en}</div>
             <div class="conjugation-grid">`;
 
@@ -5458,10 +5480,7 @@ const verbsData = {
         untr: { title: "Untrennbare Verben", sub: "100 Verben vollständig konjugiert." },
         praep: { title: "Präpositionen", sub: "100 Verben mit festen Präpositionen vollständig konjugiert." },
         regel: { title: "Regelmäßige Verben", sub: "100 schwache Verben vollständig konjugiert." },
-        unregel: { title: "Unregelmäßige Verben", sub: "100 starke/unregelmäßige Verben vollständig konjugiert." },
-        dativ_verben: { title: "Verben mit Dativ", sub: "These verbs strictly require a Dative object (mir, dir, dem, der, etc.)" },
-        nom_verben: { title: "Nominativ Verben", sub: "Verbs that take the Nominative case (Copula verbs)." },
-        akk_verben: { title: "Verben mit Akkusativ", sub: "The most common verbs that take a direct Accusative object." }
+        unregel: { title: "Unregelmäßige Verben", sub: "100 starke/unregelmäßige Verben vollständig konjugiert." }
     };
 
     
@@ -6203,8 +6222,8 @@ const verbsData = {
         } else {
             document.getElementById('searchInput').parentElement.style.display = 'block';
             let verbs = verbsData[cat];
-            verbs.forEach(v => {
-                content += renderVerbCard(v);
+            verbs.forEach((v, index) => {
+                content += renderVerbCard(v, cat, index + 1);
             });
         }
         
@@ -6232,7 +6251,7 @@ const verbsData = {
     }
 
     window.onload = () => {
-        ['trenn', 'untr', 'praep', 'regel', 'unregel', 'nom_verben', 'akk_verben', 'dativ_verben'].forEach(c => {
+        ['trenn', 'untr', 'praep', 'regel', 'unregel'].forEach(c => {
             const countEl = document.getElementById('count-' + c);
             if(countEl) countEl.innerText = verbsData[c].length;
         });

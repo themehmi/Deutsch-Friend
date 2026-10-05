@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Deutsch Friend - Sprechen</title>
+  <title>Deutsch Friend - Quiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap');
@@ -14,9 +14,9 @@
       --border: #30363d;
       --text: #c9d1d9;
       --sub: #8b949e;
-      --primary: #238636;
-      /* Green theme for Sprechen */
-      --hover: rgba(35, 134, 54, 0.1);
+      --primary: #2ea043;
+      /* Green theme for Quiz */
+      --hover: rgba(46, 160, 67, 0.1);
       --sidebar-bg: #010409;
     }
 
@@ -186,10 +186,13 @@
       background: var(--bg-color);
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
 
     .content-header {
       margin-bottom: 2rem;
+      width: 100%;
+      max-width: 800px;
     }
 
     .header-text h1 {
@@ -204,132 +207,103 @@
       font-size: 1rem;
     }
 
-    /* CHAT UI */
-    .chat-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+    .reading-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      overflow: hidden;
-      max-height: calc(100vh - 180px);
-    }
-
-    .chat-messages {
-      flex: 1;
-      padding: 1.5rem;
-      overflow-y: auto;
+      padding: 2rem;
+      width: 100%;
+      max-width: 800px;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
-    .message {
-      max-width: 80%;
-      padding: 1rem;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      line-height: 1.5;
-      font-size: 0.95rem;
-    }
-
-    .message.ai {
+    .btn {
       background: var(--sidebar-bg);
+      color: #fff;
       border: 1px solid var(--border);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .message.user {
+    .btn:hover {
+      background: var(--hover);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
       background: var(--primary);
       color: #fff;
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
+      border: none;
     }
 
-    .message.correction {
-      background: rgba(210, 168, 255, 0.1);
-      border: 1px solid #d2a8ff;
-      color: #d2a8ff;
-      font-size: 0.85rem;
-      margin-top: -0.5rem;
+    .btn-primary:hover {
+      background: #d5639f;
+      color: #fff;
     }
 
-    .chat-container.hide-text .message.ai span,
-    .chat-container.hide-text .message.user,
-    .chat-container.hide-text .message.correction span {
-      filter: blur(5px);
-      opacity: 0.7;
-      transition: filter 0.3s, opacity 0.3s;
-      cursor: pointer;
-    }
-    
-    .chat-container.hide-text .message.ai span:hover,
-    .chat-container.hide-text .message.user:hover,
-    .chat-container.hide-text .message.correction span:hover {
-      filter: blur(0);
-      opacity: 1;
-    }
-
-    .chat-input-area {
+    .text-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
       padding: 1.5rem;
-      background: var(--sidebar-bg);
-      border-top: 1px solid var(--border);
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.8;
+      font-size: 1.05rem;
+      white-space: pre-wrap;
+    }
+
+    .dictation-area {
+      width: 100%;
+      max-width: 800px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 1rem;
     }
 
-    .record-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      font-size: 1.8rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
-      /* Prevent long-press copy/context menu on touch screens */
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
+    textarea {
+      width: 100%;
+      height: 150px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      resize: vertical;
     }
 
-    .record-btn:active {
-      transform: scale(0.95);
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
     }
 
-    .record-btn.recording {
-      background: #e5534b;
-      /* Red when recording */
-      box-shadow: 0 0 20px rgba(229, 83, 75, 0.6);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    .status-text {
-      color: var(--sub);
-      font-size: 0.9rem;
+    .feedback-box {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: none;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
     }
 
     @media (max-width: 768px) {
@@ -664,424 +638,87 @@
       <a href="/grammar">Grammatik</a>
       <a href="/lesen">Lesen</a>
       <a href="/hoeren">Hören</a>
-      <a href="/sprechen" class="active">Sprechen</a>
+      <a href="/sprechen">Sprechen</a>
       <a href="/schreiben">Schreiben</a>
-      <a href="/quiz">Tutor</a>
+      <a href="/quiz" class="active">Tutor</a>
     </div>
   </header>
 
-  <div class="layout-container">
-    <aside class="sidebar" id="sidebar">
-      <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
-      <div class="sidebar-section">
-        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Szenarien</div>
-        <ul class="sidebar-menu collapsed">
-          <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
-            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
-            <select id="preset-level-select" style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
-              <option value="A1" selected>A1</option>
-              <option value="A2">A2</option>
-              <option value="B1">B1</option>
-              <option value="B2">B2</option>
-            </select>
-          </li>
-          <li><a onclick="startScenario('party')" id="link-party">Eine Party planen</a></li>
-          <li><a onclick="startScenario('problem')" id="link-problem">Ein Problem lösen</a></li>
-          <li><a onclick="startScenario('meinung')" id="link-meinung">Diskussion: Meinung äußern</a></li>
-          <li><a onclick="startScenario('restaurant')" id="link-restaurant">Im Restaurant</a></li>
-        </ul>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Freies Gespräch</div>
-        <ul class="sidebar-menu collapsed">
-          <li><a onclick="startScenario('free')" id="link-free">Einfacher Chat</a></li>
-        </ul>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-title" onclick="toggleDropdown(this)">Eigenes Thema</div>
-        <ul class="sidebar-menu">
-          <li style="padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
-            <label style="font-size: 0.85rem; color: var(--sub);">Thema:</label>
-            <input type="text" id="custom-scenario" placeholder="z.B. Im Supermarkt"
-              style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
-            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
-            <select id="level-select"
-              style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
-              <option value="A1" selected>A1</option>
-              <option value="A2">A2</option>
-              <option value="B1">B1</option>
-              <option value="B2">B2</option>
-            </select>
-            <button class="btn btn-primary"
-              style="padding: 0.4rem; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; justify-content: center;"
-              onclick="setCustomTopic()">Thema setzen</button>
-          </li>
-        </ul>
-      </div>
-    </aside>
-    <button class="open-sidebar-btn" onclick="toggleSidebar()" title="Menü öffnen">▶</button>
-
-    <main class="main-content">
-      <div class="content-header">
+  <div class="layout-container" style="justify-content: center; padding: 1rem 2rem 2rem;">
+    <main class="main-content" style="max-width: 900px; width: 100%; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); display: flex; flex-direction: column; height: 80vh; padding: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div class="content-header" style="padding: 1.5rem; border-bottom: 1px solid var(--border); margin: 0; width: 100%; background: var(--sidebar-bg); display: flex; align-items: center; justify-content: space-between;">
         <div class="header-text">
-          <h1 id="page-title">Eigenes Thema</h1>
-          <p id="page-sub">Sprich mit dem AI-Lehrer. Setze zuerst ein Thema in der Seitenleiste.</p>
+          <h1 id="page-title" style="font-size: 1.5rem; margin-bottom: 0.3rem;">🤖 German Tutor Bot</h1>
+          <p id="page-sub" style="font-size: 0.95rem;">Ask me to explain grammar, generate exercises, or help with translations!</p>
         </div>
       </div>
 
-      <div class="chat-container">
-        <div class="chat-messages" id="chat-messages">
-          <div class="message ai">Lass uns anfangen! (Setze zuerst ein Thema in der Seitenleiste / Set a topic from Sidebar first)</div>
+      <div id="chat-messages" style="flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; background: var(--bg-color);">
+        <div class="chat-message bot" style="background: rgba(46, 160, 67, 0.1); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; line-height: 1.6; align-self: flex-start; max-width: 90%;">
+          Hello! I am your personal German tutor. What would you like to learn or practice today?<br><br>
+          <i>Tip: "Explain the Dative case", "Create 10 exercises for Prepositions", or "How do I say 'I am hungry'?".</i>
         </div>
-
-        <div class="chat-input-area">
-          <div style="display: flex; gap: 1rem; margin-bottom: 0.5rem; align-items: center; justify-content: center;">
-            <span style="color: var(--sub); font-size: 0.85rem;">Sprache / Language:</span>
-            <select id="mic-lang"
-              style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
-              <option value="de" selected>Deutsch</option>
-              <option value="en">English</option>
-              <option value="">Auto-Detect</option>
-            </select>
-            
-            <label style="color: var(--sub); font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem; margin-left: 1rem; cursor: pointer;">
-              <input type="checkbox" id="toggle-transcript" checked onchange="document.querySelector('.chat-container').classList.toggle('hide-text', !this.checked)">
-              Transkript anzeigen
-            </label>
-          </div>
-          <div class="status-text" id="status-text">Tippe auf den Mikrofon-Button, um zu sprechen.</div>
-          <button class="record-btn" id="record-btn" onclick="toggleRecording()">🎙️</button>
-        </div>
+      </div>
+      
+      <div style="padding: 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 1rem; background: var(--sidebar-bg);">
+        <input type="text" id="chat-input" placeholder="e.g., Explain the Dative case..." style="flex: 1; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; font-size: 1rem;" onkeypress="if(event.key === 'Enter') sendMessage()">
+        <button class="btn btn-primary" onclick="sendMessage()" id="send-btn" style="padding: 0 2rem;">Send</button>
       </div>
     </main>
   </div>
 
   <script>
-    if (window.innerWidth <= 768) {
-      document.getElementById('sidebar').classList.add('hidden');
-    }
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('hidden');
-    }
-
-    function toggleDropdown(element) {
-      document.querySelectorAll('.sidebar-title').forEach(title => {
-        if (title !== element && !title.classList.contains('collapsed')) {
-          title.classList.add('collapsed');
-          if (title.nextElementSibling) title.nextElementSibling.classList.add('collapsed');
-        }
-      });
-      element.classList.toggle('collapsed');
-      const menu = element.nextElementSibling;
-      if (menu) menu.classList.toggle('collapsed');
-    }
-
-    const scenarios = {
-      party: {
-        title: "Eine Party planen",
-        system: "You are a German conversation partner. The user is practicing for the Goethe B1 exam (Teil 2: Gemeinsam etwas planen). You are planning a surprise party for a mutual friend named Anna. Keep your responses short (1-2 sentences). Always end by asking a question. If the user speaks in English, asks for help in English, or asks you to change the subject, you MUST comply and answer them in English. Otherwise, speak strictly in B1 level German."
-      },
-      problem: {
-        title: "Ein Problem lösen",
-        system: "You are a German conversation partner for a B1 exam. You and the user bought a new TV together for your shared apartment, but it is broken. You need to discuss what to do. Keep your responses short. Always ask a follow-up question. If the user speaks in English or asks for help, respond in English. Otherwise, speak strictly in B1 level German."
-      },
-      meinung: {
-        title: "Diskussion: Meinung äußern",
-        system: "You are a German conversation partner. The user is practicing expressing opinions (B1 level). The topic is: 'Sollten Autos in der Innenstadt verboten werden?'. State your opinion and ask the user for theirs. Disagree politely. Keep responses short. If the user speaks in English or asks for help, respond in English. Otherwise, reply in German."
-      },
-      restaurant: {
-        title: "Im Restaurant",
-        system: "You are a friendly German waiter. The user is the customer. Ask what they want to order, answer questions, and handle the bill. Keep responses short. If the user speaks to you in English, respond in English to help them. Otherwise, speak in A2/B1 level German."
-      },
-      free: {
-        title: "Einfacher Chat",
-        system: "You are a friendly German teacher. Have a casual conversation with the user in German. If they make a grammar mistake, gently point it out in English, then continue in German. If the user speaks English or asks a question in English, answer them in English."
-      }
-    };
-
-    function setCustomTopic() {
-      const val = document.getElementById('custom-scenario').value.trim();
-      const level = document.getElementById('level-select').value;
-      if (!val) {
-        alert("Bitte gib ein Thema ein.");
-        return;
-      }
-      currentScenario = 'custom';
-      scenarios['custom'] = {
-        title: "Thema: " + val + " (" + level + ")",
-        system: "You are a friendly German conversation partner. The user wants to practice the following scenario/topic: '" + val + "'. Start the conversation appropriately. Keep your responses short (1-2 sentences). The language level should be strictly " + level + ". Always end by asking a question to keep the conversation going. If the user speaks in English or asks for help, respond in English. Otherwise, speak in German."
-      };
-
-      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-      document.getElementById('page-title').innerText = scenarios['custom'].title;
-
-      chatHistory = [];
-      const messagesDiv = document.getElementById('chat-messages');
-      messagesDiv.innerHTML = '<div class="message ai">Lass uns über "' + val + '" sprechen! (Tippe auf das Mikrofon, um zu beginnen)</div>';
-    }
-
-    let currentScenario = 'custom';
     let chatHistory = [];
 
-    let mediaRecorder;
-    let audioChunks = [];
-    let isRecording = false;
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
 
-    function startScenario(key) {
-      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-      document.getElementById('link-' + key).classList.add('active');
-
-      const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'B1';
-      currentScenario = key;
-      document.getElementById('page-title').innerText = scenarios[key].title + " (" + level + ")";
-
-      // Reset Chat
-      chatHistory = [];
-      document.getElementById('chat-messages').innerHTML = '';
-
-      // AI starts the conversation
-      appendMessage("ai", "Lass uns anfangen! (Send a voice message to begin)");
-    }
-
-    function appendMessage(role, text) {
-      const msgs = document.getElementById('chat-messages');
-      const div = document.createElement('div');
-      div.className = 'message ' + role;
-
-      if (role === 'ai') {
-        const textSpan = document.createElement('span');
-        textSpan.innerText = text;
-        const btn = document.createElement('button');
-        btn.innerText = '🔊';
-        btn.style.background = 'none';
-        btn.style.border = 'none';
-        btn.style.cursor = 'pointer';
-        btn.style.marginLeft = '10px';
-        btn.style.fontSize = '1rem';
-        btn.title = "Vorlesen";
-        btn.onclick = () => speakGerman(text);
-
-        div.appendChild(textSpan);
-        div.appendChild(btn);
-      } else {
-        div.innerText = text;
-      }
-
-      msgs.appendChild(div);
-      msgs.scrollTop = msgs.scrollHeight;
-      return div;
-    }
-
-    let voices = [];
-    let audioUnlocked = false;
-
-    function loadVoices() {
-      if ('speechSynthesis' in window) {
-        voices = window.speechSynthesis.getVoices();
-      }
-    }
-
-    if ('speechSynthesis' in window) {
-      loadVoices();
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-    }
-
-    function unlockAudio() {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(' ');
-        utterance.volume = 0.01;
-        window.speechSynthesis.speak(utterance);
-      }
-    }
-
-    // TTS (Text to Speech)
-    let currentUtterance = null; // Global to prevent garbage collection on iOS
-
-    function speakGerman(text, customRate) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-
-        // Small delay to allow cancel() to process on mobile browsers before speaking
-        setTimeout(() => {
-          currentUtterance = new SpeechSynthesisUtterance(text);
-          currentUtterance.lang = 'de-DE';
-          currentUtterance.rate = customRate || 0.9;
-
-          if (voices.length === 0) {
-            loadVoices();
-          }
-
-          // Try to find a German voice
-          const deVoice = voices.find(v => v.lang.startsWith('de') || v.lang === 'de_DE' || v.lang === 'de-DE');
-          if (deVoice) currentUtterance.voice = deVoice;
-
-          window.speechSynthesis.speak(currentUtterance);
-        }, 50);
-      }
-    }
-
-    // STT (Microphone Recording)
-    let recordStartTime = 0;
-    let cancelNextProcessing = false;
-
-    function toggleRecording() {
-      if (isRecording) {
-        stopRecording();
-      } else {
-        startRecording();
-      }
-    }
-
-    async function startRecording() {
-      if (isRecording) return;
-      if (currentScenario === 'custom' && !scenarios['custom']) {
-        alert("Bitte setze zuerst ein Thema in der Seitenleiste.\n\nSet a topic from the sidebar first.");
-        return;
-      }
-      unlockAudio();
-
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
-
-        mediaRecorder.ondataavailable = event => {
-          audioChunks.push(event.data);
-        };
-
-        mediaRecorder.onstop = async () => {
-          if (cancelNextProcessing) return;
-          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-          await processAudio(audioBlob);
-        };
-
-        mediaRecorder.start();
-        isRecording = true;
-        recordStartTime = Date.now();
-        cancelNextProcessing = false;
-        document.getElementById('record-btn').classList.add('recording');
-        document.getElementById('status-text').innerText = "Aufnahme läuft... (Tippe erneut zum Senden)";
-      } catch (err) {
-        alert("Mikrofon-Zugriff verweigert: " + err.message);
-      }
-    }
-
-    function stopRecording() {
-      if (!isRecording || !mediaRecorder) return;
+      const chatMessages = document.getElementById('chat-messages');
       
-      // Call unlockAudio on stop to renew the iOS Safari speech gesture token
-      // right before the async API call begins
-      unlockAudio();
+      chatHistory.push({ role: "user", content: text });
+      
+      const userDiv = document.createElement('div');
+      userDiv.style = "align-self: flex-end; background: var(--border); padding: 1rem; border-radius: 8px; max-width: 80%; font-size: 1rem; line-height: 1.5;";
+      userDiv.textContent = text;
+      chatMessages.appendChild(userDiv);
+      
+      input.value = "";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
 
-      if (Date.now() - recordStartTime < 800) {
-        cancelNextProcessing = true;
-        document.getElementById('status-text').innerText = "Aufnahme zu kurz. Tippe erneut.";
-      } else {
-        document.getElementById('status-text').innerText = "Audio wird verarbeitet...";
-      }
+      const btn = document.getElementById('send-btn');
+      btn.disabled = true;
+      btn.innerText = "⏳...";
 
-      mediaRecorder.stop();
-      isRecording = false;
-      document.getElementById('record-btn').classList.remove('recording');
-
-      // Stop all tracks to release mic
-      mediaRecorder.stream.getTracks().forEach(track => track.stop());
-    }
-
-    async function processAudio(blob) {
-      // 1. Send Audio to Groq Whisper via Flask Backend
-      const formData = new FormData();
-      formData.append('audio', blob, 'audio.webm');
-      formData.append('language', document.getElementById('mic-lang').value);
+      const botDiv = document.createElement('div');
+      botDiv.style = "align-self: flex-start; background: rgba(46, 160, 67, 0.1); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; max-width: 90%; line-height: 1.6; font-size: 1rem;";
+      botDiv.innerHTML = "Thinking... (Please wait)";
+      chatMessages.appendChild(botDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
 
       try {
-        const transRes = await fetch('/api/transcribe', {
+        const res = await fetch('/api/quiz_chat', {
           method: 'POST',
-          body: formData
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: chatHistory })
         });
-        const transData = await transRes.json();
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
 
-        if (transData.error) throw new Error(transData.error);
-        if (!transData.text || transData.text.trim() === '') {
-          document.getElementById('status-text').innerText = "Ich konnte nichts hören. Bitte nochmal versuchen.";
-          return;
-        }
-
-        const userText = transData.text;
-        const userMsgDiv = appendMessage('user', userText);
-        chatHistory.push({ "role": "user", "content": userText });
-
-        // 2. Run grammar check AND AI chat reply in parallel
-        document.getElementById('status-text').innerText = "AI tippt...";
-        
-        let activeSystemPrompt = scenarios[currentScenario].system;
-        if (currentScenario !== 'custom') {
-          const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'B1';
-          activeSystemPrompt += ` Please strictly adapt your vocabulary, grammar, and corrections to the ${level} CEFR language level.`;
-        }
-        
-        const [chatRes, corrRes] = await Promise.all([
-          fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              system: activeSystemPrompt,
-              messages: chatHistory
-            })
-          }),
-          fetch('/api/check_speech', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              text: userText,
-              system: activeSystemPrompt
-            })
-          })
-        ]);
-
-        // 3. Show grammar correction bubble (if any mistakes found)
-        const corrData = await corrRes.json();
-        if (corrData.correction) {
-          const msgs = document.getElementById('chat-messages');
-          const corrDiv = document.createElement('div');
-          corrDiv.className = 'message correction';
-          corrDiv.innerHTML = corrData.correction;
-          // Insert correction right after the user's message
-          userMsgDiv.insertAdjacentElement('afterend', corrDiv);
-          msgs.scrollTop = msgs.scrollHeight;
-        }
-
-        // 4. Show AI conversational reply
-        const chatData = await chatRes.json();
-        if (chatData.error) throw new Error(chatData.error);
-
-        const aiText = chatData.reply;
-        appendMessage('ai', aiText);
-        chatHistory.push({ "role": "assistant", "content": aiText });
-
-        // 5. Play AI audio
-        speakGerman(aiText);
-
-        document.getElementById('status-text').innerText = "Tippe auf den Mikrofon-Button, um zu sprechen.";
+        botDiv.innerHTML = data.reply;
+        chatHistory.push({ role: "assistant", content: data.reply });
 
       } catch (err) {
-        alert("Fehler: " + err.message);
-        document.getElementById('status-text').innerText = "Fehler aufgetreten.";
+        botDiv.innerHTML = "<span style='color:red'>Error: " + err.message + "</span>";
+        chatHistory.pop();
       }
+
+      btn.disabled = false;
+      btn.innerText = "Send";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Force voices to load on some browsers
-    window.speechSynthesis.onvoiceschanged = () => { };
-
-    // Register touch events with passive:false so preventDefault() works,
-    // preventing the browser's long-press copy/context-menu on touch screens.
-    const recordBtn = document.getElementById('record-btn');
-    recordBtn.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      toggleRecording();
-    }, { passive: false });
 
     function toggleUserMenu() {
       const dropdown = document.getElementById('user-dropdown');

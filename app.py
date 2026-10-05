@@ -127,6 +127,10 @@ def hoeren():
 def lesen():
     return render_template('lesen_dashboard.html')
 
+@app.route('/quiz')
+def quiz():
+    return render_template('quiz_dashboard.html')
+
 @app.route('/api/save_preference', methods=['POST'])
 def save_preference():
     if 'username' not in session:
@@ -387,8 +391,38 @@ def generate_lesen():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/quiz_chat', methods=['POST'])
+def quiz_chat():
+    api_key = os.getenv('API_KEY')
+    data = request.json
+    messages = data.get('messages', [])
+    
+    if not api_key:
+        return jsonify({"error": "API Key is missing."}), 400
 
+    system_prompt = "You are a friendly German teacher and language learning assistant. The user can ask you to explain any German grammar topic, request specific exercises, ask for translations, or anything else related to learning German. You must communicate with the user in English by default, unless they request otherwise. When they ask for exercises, generate them clearly with an answer key at the end. Format your responses beautifully in HTML (e.g., using <h3>, <p>, <ul>, <li>, <b>). Do NOT use markdown code blocks like ```html."
+    
+    payload_messages = [{"role": "system", "content": system_prompt}] + messages
+    
+    payload = {
+        "model": "qwen/qwen3.8-27b",
+        "messages": payload_messages,
+        "temperature": 0.7,
+        "max_tokens": 2048
+    }
 
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
+        res.raise_for_status()
+        reply_html = res.json()['choices'][0]['message']['content'].strip()
+        return jsonify({"reply": reply_html})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/check_speech', methods=['POST'])
 def check_speech():

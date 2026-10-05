@@ -236,7 +236,13 @@
     .dict-msg { padding: 10px 14px; border-radius: 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
     .dict-msg.user { background: var(--primary, #3b82f6); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
     .dict-msg.bot { background: var(--border, #30363d); color: var(--text, #c9d1d9); align-self: flex-start; border-bottom-left-radius: 4px; }
-</style>
+@media (max-width: 768px) {
+      .logo {
+        font-size: 1.2rem !important;
+      }
+    }
+  </style>
+
 
 
 </head>
@@ -250,7 +256,7 @@
           <div style="width: 35px; height: 35px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; text-transform: uppercase;">
             {{ session.username[0] }}
           </div>
-          <span style="font-weight: 500; font-size: 1rem; color: #fff;">{{ session.username }}</span>
+          <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
         </div>
         <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
           <a href="/logout">Logout</a>

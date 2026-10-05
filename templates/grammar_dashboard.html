@@ -746,8 +746,8 @@
             <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
 
             <div class="sidebar-section">
-                <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Grundlagen (Basics)</div>
-                <ul class="sidebar-menu collapsed">
+                <div class="sidebar-title" onclick="toggleDropdown(this)">Grundlagen (Basics)</div>
+                <ul class="sidebar-menu">
                     <li><a onclick="loadCategory('artikel')" id="link-artikel">Artikel & Nomen</a></li>
                     <li><a onclick="loadCategory('pronomen')" id="link-pronomen">Pronomen</a></li>
                     <li><a onclick="loadCategory('praep_artikel')" id="link-praep_artikel">Präpositionen & Kasus</a>
@@ -6315,66 +6315,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        `,
-
-            praep_artikel: `
-            <div class="verbs-container">
-                <div class="verb-card">
-                    <div class="verb-title">Akkusativ Präpositionen</div>
-                    <div class="verb-en">Always force the following noun into Akkusativ! (DOGFU)</div>
-                    <div class="conjugation-grid">
-                        <div class="tense-col" style="margin-bottom: 1.5rem;">
-                            <ul class="tense-list">
-                                <li><span class="pronoun" style="width:100px;">durch</span> <span class="verb-form">through</span></li>
-                                <li><span class="pronoun" style="width:100px;">ohne</span> <span class="verb-form">without</span></li>
-                                <li><span class="pronoun" style="width:100px;">gegen</span> <span class="verb-form">against</span></li>
-                                <li><span class="pronoun" style="width:100px;">für</span> <span class="verb-form">for</span></li>
-                                <li><span class="pronoun" style="width:100px;">um</span> <span class="verb-form">around / at (time)</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="verb-card">
-                    <div class="verb-title">Dativ Präpositionen</div>
-                    <div class="verb-en">Always force the following noun into Dativ!</div>
-                    <div class="conjugation-grid">
-                        <div class="tense-col" style="margin-bottom: 1.5rem;">
-                            <ul class="tense-list">
-                                <li><span class="pronoun" style="width:100px;">aus</span> <span class="verb-form">out of / from (country)</span></li>
-                                <li><span class="pronoun" style="width:100px;">außer</span> <span class="verb-form">except for</span></li>
-                                <li><span class="pronoun" style="width:100px;">bei</span> <span class="verb-form">at / near / with (a company/person)</span></li>
-                                <li><span class="pronoun" style="width:100px;">mit</span> <span class="verb-form">with / by (transport)</span></li>
-                                <li><span class="pronoun" style="width:100px;">nach</span> <span class="verb-form">after / to (cities/countries)</span></li>
-                                <li><span class="pronoun" style="width:100px;">seit</span> <span class="verb-form">since / for (time)</span></li>
-                                <li><span class="pronoun" style="width:100px;">von</span> <span class="verb-form">from / of</span></li>
-                                <li><span class="pronoun" style="width:100px;">zu</span> <span class="verb-form">to (places/people)</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="verb-card">
-                    <div class="verb-title">Wechselpräpositionen</div>
-                    <div class="verb-en">Akkusativ (Movement/Wohin?) vs Dativ (Static/Wo?)</div>
-                    <div class="conjugation-grid">
-                        <div class="tense-col" style="margin-bottom: 1.5rem;">
-                            <ul class="tense-list">
-                                <li><span class="pronoun" style="width:120px;">in</span> <span class="verb-form">in / into</span></li>
-                                <li><span class="pronoun" style="width:120px;">an</span> <span class="verb-form">at / on (vertical)</span></li>
-                                <li><span class="pronoun" style="width:120px;">auf</span> <span class="verb-form">on (horizontal)</span></li>
-                                <li><span class="pronoun" style="width:120px;">über</span> <span class="verb-form">over / above</span></li>
-                                <li><span class="pronoun" style="width:120px;">unter</span> <span class="verb-form">under</span></li>
-                                <li><span class="pronoun" style="width:120px;">vor</span> <span class="verb-form">in front of / before</span></li>
-                                <li><span class="pronoun" style="width:120px;">hinter</span> <span class="verb-form">behind</span></li>
-                                <li><span class="pronoun" style="width:120px;">neben</span> <span class="verb-form">next to</span></li>
-                                <li><span class="pronoun" style="width:120px;">zwischen</span> <span class="verb-form">between</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="verb-card">
                     <div class="verb-title">Possessivpronomen – Nominativ</div>
                     <div class="verb-en">Who owns it? The subject's possessive (mein Bruder, dein Auto...)</div>
@@ -6651,6 +6591,66 @@
                     </div>
                 </div>
             </div>
+            </div>
+        `,
+
+            praep_artikel: `
+            <div class="verbs-container">
+                <div class="verb-card">
+                    <div class="verb-title">Akkusativ Präpositionen</div>
+                    <div class="verb-en">Always force the following noun into Akkusativ! (DOGFU)</div>
+                    <div class="conjugation-grid">
+                        <div class="tense-col" style="margin-bottom: 1.5rem;">
+                            <ul class="tense-list">
+                                <li><span class="pronoun" style="width:100px;">durch</span> <span class="verb-form">through</span></li>
+                                <li><span class="pronoun" style="width:100px;">ohne</span> <span class="verb-form">without</span></li>
+                                <li><span class="pronoun" style="width:100px;">gegen</span> <span class="verb-form">against</span></li>
+                                <li><span class="pronoun" style="width:100px;">für</span> <span class="verb-form">for</span></li>
+                                <li><span class="pronoun" style="width:100px;">um</span> <span class="verb-form">around / at (time)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="verb-card">
+                    <div class="verb-title">Dativ Präpositionen</div>
+                    <div class="verb-en">Always force the following noun into Dativ!</div>
+                    <div class="conjugation-grid">
+                        <div class="tense-col" style="margin-bottom: 1.5rem;">
+                            <ul class="tense-list">
+                                <li><span class="pronoun" style="width:100px;">aus</span> <span class="verb-form">out of / from (country)</span></li>
+                                <li><span class="pronoun" style="width:100px;">außer</span> <span class="verb-form">except for</span></li>
+                                <li><span class="pronoun" style="width:100px;">bei</span> <span class="verb-form">at / near / with (a company/person)</span></li>
+                                <li><span class="pronoun" style="width:100px;">mit</span> <span class="verb-form">with / by (transport)</span></li>
+                                <li><span class="pronoun" style="width:100px;">nach</span> <span class="verb-form">after / to (cities/countries)</span></li>
+                                <li><span class="pronoun" style="width:100px;">seit</span> <span class="verb-form">since / for (time)</span></li>
+                                <li><span class="pronoun" style="width:100px;">von</span> <span class="verb-form">from / of</span></li>
+                                <li><span class="pronoun" style="width:100px;">zu</span> <span class="verb-form">to (places/people)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="verb-card">
+                    <div class="verb-title">Wechselpräpositionen</div>
+                    <div class="verb-en">Akkusativ (Movement/Wohin?) vs Dativ (Static/Wo?)</div>
+                    <div class="conjugation-grid">
+                        <div class="tense-col" style="margin-bottom: 1.5rem;">
+                            <ul class="tense-list">
+                                <li><span class="pronoun" style="width:120px;">in</span> <span class="verb-form">in / into</span></li>
+                                <li><span class="pronoun" style="width:120px;">an</span> <span class="verb-form">at / on (vertical)</span></li>
+                                <li><span class="pronoun" style="width:120px;">auf</span> <span class="verb-form">on (horizontal)</span></li>
+                                <li><span class="pronoun" style="width:120px;">über</span> <span class="verb-form">over / above</span></li>
+                                <li><span class="pronoun" style="width:120px;">unter</span> <span class="verb-form">under</span></li>
+                                <li><span class="pronoun" style="width:120px;">vor</span> <span class="verb-form">in front of / before</span></li>
+                                <li><span class="pronoun" style="width:120px;">hinter</span> <span class="verb-form">behind</span></li>
+                                <li><span class="pronoun" style="width:120px;">neben</span> <span class="verb-form">next to</span></li>
+                                <li><span class="pronoun" style="width:120px;">zwischen</span> <span class="verb-form">between</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
         `,
 
 

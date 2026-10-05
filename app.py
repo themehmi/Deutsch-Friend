@@ -127,9 +127,9 @@ def hoeren():
 def lesen():
     return render_template('lesen_dashboard.html')
 
-@app.route('/quiz')
-def quiz():
-    return render_template('quiz_dashboard.html')
+@app.route('/tutor')
+def tutor():
+    return render_template('tutor_dashboard.html')
 
 @app.route('/api/save_preference', methods=['POST'])
 def save_preference():
@@ -391,8 +391,8 @@ def generate_lesen():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/api/quiz_chat', methods=['POST'])
-def quiz_chat():
+@app.route('/api/tutor_chat', methods=['POST'])
+def tutor_chat():
     api_key = os.getenv('API_KEY')
     data = request.json
     messages = data.get('messages', [])

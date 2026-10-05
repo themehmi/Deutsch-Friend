@@ -6,17 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deutsch Friend - Grammatik</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap');
 
         :root {
             --bg-color: #0d1117;
-            --sidebar-bg: #161b22;
-            --card-bg: #1c2128;
+            --sidebar-bg: #010409;
+            --card-bg: #161b22;
             --border: #30363d;
-            --primary: #58a6ff;
+            --primary: #8957e5;
+            /* Purple theme for Grammatik */
+            --hover: rgba(137, 87, 229, 0.1);
             --text: #c9d1d9;
             --sub: #8b949e;
-            --hover: #21262d;
         }
 
         * {
@@ -26,7 +27,7 @@
         }
 
         body {
-            font-family: 'Inter', Arial, sans-serif;
+            font-family: 'Outfit', sans-serif;
             background: var(--bg-color);
             color: var(--text);
             display: flex;
@@ -37,32 +38,28 @@
 
         /* HEADER */
         header {
-            position: relative;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid var(--border);
-            background: var(--sidebar-bg);
+            padding: 2rem 5%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 1rem;
             align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--sidebar-bg, #010409);
+            position: relative;
             flex-shrink: 0;
+            z-index: 100;
         }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-
-
 
         .logo {
-            font-size: 1.3rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
             font-weight: 700;
             color: #fff;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .logo span {
@@ -72,16 +69,23 @@
         .nav-links {
             display: flex;
             gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .nav-links a {
-            color: var(--text);
+            color: var(--sub);
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
         }
 
-        .nav-links a:hover,
+        .nav-links a:hover {
+            color: #fff;
+        }
+
         .nav-links a.active {
             color: var(--primary);
         }
@@ -123,9 +127,8 @@
             font-weight: 600;
             cursor: pointer;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 1rem;
+            flex-direction: row;
+            justify-content: space-between;
             align-items: center;
             transition: color 0.2s;
         }
@@ -157,9 +160,9 @@
 
         .sidebar-menu li a {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 1rem;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
             padding: 0.8rem 1.5rem;
             color: var(--text);
             text-decoration: none;
@@ -174,7 +177,7 @@
         }
 
         .sidebar-menu li a.active {
-            background: rgba(88, 166, 255, 0.1);
+            background: var(--hover);
             color: var(--primary);
             border-left-color: var(--primary);
             font-weight: 500;
@@ -434,7 +437,7 @@
             transition: color 0.2s;
         }
 
-            {
+            .close-sidebar-btn:hover {
             color: var(--primary);
         }
 
@@ -673,60 +676,37 @@
 <body>
 
     <header>
-        <style>
-            .guide-icon-btn {
-                position: absolute;
-                right: 1.5rem;
-                top: 2.6rem;
-                transform: translateY(-50%);
-                z-index: 100;
-                cursor: pointer;
-                font-size: 1.8rem;
-                transition: transform 0.2s;
-                display: flex;
-                align-items: center;
-            }
-
-            
-        </style>
-        <div class="guide-icon-btn" onclick="toggleGuideModal()" title="App Guide"
-            onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
-        <div class="logo-container">
-            <div class="user-menu-container">
-                {% if session.username %}
-                <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
-                    <div
-                        style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
-                        {{ session.username[0] }}
-                    </div>
-                    <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
+        <div style="position: absolute; right: 1.5rem; top: 2.6rem; transform: translateY(-50%); z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s; display: flex; align-items: center;"
+            onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
+            onmouseout="this.style.transform='translateY(-50%) scale(1)'">📖</div>
+        <div class="user-menu-container">
+            {% if session.username %}
+            <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
+                <div
+                    style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
+                    {{ session.username[0] }}
                 </div>
-                <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
-                    <a href="/logout">Logout</a>
-                </div>
-                {% else %}
-                <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
-                <div class="user-dropdown" id="user-dropdown">
-                    <a href="/login">Login</a>
-                    <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-                    <a href="/signup">Sign Up</a>
-                </div>
-                {% endif %}
+                <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
             </div>
-
-            <a href="/" class="logo">Deutsch <span>Friend</span></a>
+            <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
+                <a href="/logout">Logout</a>
+            </div>
+            {% else %}
+            <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
+            <div class="user-dropdown" id="user-dropdown">
+                <a href="/login">Login</a>
+                <a href="/signup">Sign Up</a>
+            </div>
+            {% endif %}
         </div>
-        <div class="nav-links">
-            <a href="#" class="active">Grammatik</a>
-            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
+        <a href="/" class="logo">Deutsch<span>Friend</span></a>
+        <nav class="nav-links">
+            <a href="/grammar" class="active">Grammatik</a>
             <a href="/lesen">Lesen</a>
-            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
             <a href="/hoeren">Hören</a>
-            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
             <a href="/sprechen">Sprechen</a>
-            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
             <a href="/schreiben">Schreiben</a>
-        </div>
+        </nav>
     </header>
 
     <div class="layout-container">
@@ -6900,6 +6880,31 @@
             }
         }
     </script>
+
+    <script>
+        // Auto-hide header on scroll down
+        document.addEventListener('DOMContentLoaded', () => {
+            let lastScroll = 0;
+            const mainContent = document.querySelector('.main-content');
+            const header = document.querySelector('header');
+            
+            if (mainContent && header) {
+                header.style.transition = 'margin-top 0.3s ease-in-out';
+                mainContent.addEventListener('scroll', () => {
+                    const currentScroll = mainContent.scrollTop;
+                    if (currentScroll > lastScroll && currentScroll > 50) {
+                        // Scroll down - hide header
+                        header.style.marginTop = `-${header.offsetHeight}px`;
+                    } else {
+                        // Scroll up - show header
+                        header.style.marginTop = '0px';
+                    }
+                    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+                });
+            }
+        });
+    </script>
 </body>
+
 
 </html>

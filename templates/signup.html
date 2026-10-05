@@ -188,7 +188,7 @@
         <a href="/login" class="link">Already have an account? Log in</a>
     </div>
 
-    <a href="/" class="back-link">← Back to Homepage</a>
+    <a href="/" class="back-link">â† Back to Homepage</a>
 
 
     <script>
@@ -235,10 +235,10 @@
 
             <div
                 style="padding: 1.5rem; border-bottom: 1px solid var(--border, #30363d); display: flex; justify-content: space-between; align-items: center; background: var(--primary, #58a6ff); color: #fff;">
-                <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">📖 Deutsch
+                <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">ðŸ“– Deutsch
                     Friend Guide</h2>
                 <button onclick="toggleGuideModal()"
-                    style="background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;">×</button>
+                    style="background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;">Ã—</button>
             </div>
 
             <!-- Tabs Header -->
@@ -262,30 +262,30 @@
 
                     <div
                         style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid var(--primary, #58a6ff); border-radius: 4px;">
-                        <h4 style="margin-bottom: 0.3rem; color: #fff;">📚 Grammatik (Grammar)</h4>
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">ðŸ“š Grammatik (Grammar)</h4>
                         <p>Learn cases and fixed prepositions through hundreds of examples.</p>
                     </div>
                     <div
                         style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(247, 120, 186, 0.1); border-left: 4px solid #f778ba; border-radius: 4px;">
-                        <h4 style="margin-bottom: 0.3rem; color: #fff;">📖 Lesen (Reading)</h4>
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">ðŸ“– Lesen (Reading)</h4>
                         <p>Read authentic German texts customized to your level (A1-B2) and answer comprehension
                             questions.</p>
                     </div>
                     <div
                         style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; border-radius: 4px;">
-                        <h4 style="margin-bottom: 0.3rem; color: #fff;">🎧 Hören (Listening)</h4>
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">ðŸŽ§ Hören (Listening)</h4>
                         <p>Listen to generated audio scenarios. Type out the transcript and let the AI grade your
                             accuracy.</p>
                     </div>
                     <div
                         style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(210, 153, 34, 0.1); border-left: 4px solid #d29922; border-radius: 4px;">
-                        <h4 style="margin-bottom: 0.3rem; color: #fff;">🗣️ Sprechen (Speaking)</h4>
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">ðŸ—£️ Sprechen (Speaking)</h4>
                         <p>Record your voice to practice speaking. The AI will analyze your pronunciation and grammar in
                             real-time.</p>
                     </div>
                     <div
                         style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
-                        <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">âœ️ Schreiben (Writing)</h4>
                         <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR
                             level.</p>
                     </div>
@@ -304,7 +304,7 @@
 
                     <div style="margin-bottom: 1.5rem;">
                         <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 2: Navigation & The Sidebar Arrow</h4>
-                        <p>Look for the <b>▶ or ◀ arrow</b> on the left side of the screen on any dashboard page.
+                        <p>Look for the <b>â–¶ or â—€ arrow</b> on the left side of the screen on any dashboard page.
                             Clicking this arrow will open or collapse the side menu. This sidebar contains options,
                             settings, and topic choices to customize your learning.</p>
                     </div>
@@ -330,7 +330,7 @@
 
                     <div style="margin-bottom: 1.5rem;">
                         <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 5: Use the Dictionary Widget</h4>
-                        <p>Stuck on a word? Don't leave the app! Click the <b>📚 floating dictionary</b> icon in the
+                        <p>Stuck on a word? Don't leave the app! Click the <b>ðŸ“š floating dictionary</b> icon in the
                             bottom right of any page. Type in an English or German word to get translations and verb
                             conjugations instantly.</p>
                     </div>
@@ -378,6 +378,43 @@
             }
         }
     </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const header = document.querySelector('header');
+        const mainContent = document.querySelector('.main-content');
+        
+        let lastScrollY = 0;
+        
+        if (header) {
+            header.style.transition = 'margin-top 0.3s ease-in-out, top 0.3s ease-in-out';
+        }
+        
+        function handleScroll(currentScrollY) {
+            if (!header) return;
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                if (mainContent) {
+                    header.style.marginTop = '-' + header.offsetHeight + 'px';
+                } else {
+                    header.style.top = '-' + header.offsetHeight + 'px';
+                }
+            } else {
+                if (mainContent) {
+                    header.style.marginTop = '0px';
+                } else {
+                    header.style.top = '0px';
+                }
+            }
+            lastScrollY = currentScrollY;
+        }
+
+        if (mainContent) {
+            mainContent.addEventListener('scroll', () => handleScroll(mainContent.scrollTop));
+        } else {
+            window.addEventListener('scroll', () => handleScroll(window.scrollY));
+        }
+    });
+</script>
 </body>
 
 </html>
+

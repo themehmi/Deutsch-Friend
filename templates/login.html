@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Deutsch Friend - Lesen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --sub: #8b949e;
+            --primary: #f778ba;
+            /* Pink theme for Lesen */
+            --hover: rgba(247, 120, 186, 0.1);
+            --sidebar-bg: #010409;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--sidebar-bg, #010409);
+            position: relative;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: var(--sub);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .layout-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            margin-left: -280px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sub);
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .sidebar-title:hover {
+            color: #fff;
+        }
+
+        .sidebar-title::after {
+            content: '▼';
+            font-size: 0.6rem;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-title.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        .sidebar-menu.collapsed {
+            max-height: 0;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.8rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-menu li a:hover {
+            background: var(--hover);
+        }
+
+        .sidebar-menu li a.active {
+            background: var(--hover);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .header-text h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header-text p {
+            color: var(--sub);
+            font-size: 1rem;
+        }
+
+        .reading-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: var(--sidebar-bg);
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--hover);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #d5639f;
+            color: #fff;
+        }
+
+        .text-box {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            white-space: pre-wrap;
+        }
+
+        .dictation-area {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .feedback-box {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: none;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                z-index: 1000;
+                height: 100%;
+                box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+                align-self: stretch !important;
+            }
+
+            .audio-controls {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color, #0d1117);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border, #30363d);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--sub, #8b949e);
+        }
+
+        .close-sidebar-btn {
+            background: none;
+            border: none;
+            color: var(--sub);
+            font-size: 1.2rem;
+            cursor: pointer;
+            align-self: flex-start;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            transition: color 0.2s;
+        }
+
+            {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .close-sidebar-btn {
+                display: block;
+            }
+        }
+
+        .open-sidebar-btn {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            color: var(--sub);
+            padding: 1.5rem 0.5rem;
+            cursor: pointer;
+            z-index: 999;
+            display: none;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .open-sidebar-btn:hover {
+            color: var(--primary);
+            background: var(--hover);
+        }
+
+        .sidebar.hidden+.open-sidebar-btn {
+            display: block;
+        }
+
+        .user-menu-container {
+            position: absolute;
+            left: 1.5rem;
+            top: 2.6rem;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            width: 120px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .user-dropdown a:hover {
+            background: var(--hover);
+            color: var(--primary);
+        }
+
+        /* Dictionary Widget */
+        .dict-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .dict-toggle-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dict-toggle-btn:hover {
+            transform: scale(1.08);
+            background: #1f6feb;
+        }
+
+        .dict-box {
+            width: 320px;
+            height: 420px;
+            background: var(--card-bg, #161b22);
+            border: 1px solid var(--border, #30363d);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dict-widget.closed .dict-box {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+        }
+
+        .dict-widget.closed .dict-toggle-btn {
+            display: flex;
+        }
+
+        .dict-widget:not(.closed) .dict-toggle-btn {
+            display: none;
+        }
+
+        .dict-header {
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .dict-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dict-input-area {
+            padding: 10px;
+            border-top: 1px solid var(--border, #30363d);
+            display: flex;
+            gap: 8px;
+            background: var(--bg-color, #0d1117);
+        }
+
+        .dict-input-area input {
+            flex: 1;
+            background: var(--card-bg, #161b22);
+            border: 1px solid var(--border, #30363d);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .dict-input-area input:focus {
+            border-color: var(--primary, #3b82f6);
+        }
+
+        .dict-input-area button {
+            background: var(--primary, #3b82f6);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .dict-input-area button:hover {
+            background: #1f6feb;
+        }
+
+        .dict-msg {
+            padding: 10px 14px;
+            border-radius: 15px;
+            max-width: 85%;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .dict-msg.user {
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .dict-msg.bot {
+            background: var(--border, #30363d);
+            color: var(--text, #c9d1d9);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <header>
+        <div style="position: absolute; right: 1.5rem; top: 2.6rem; transform: translateY(-50%); z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s; display: flex; align-items: center;"
+            onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
+            onmouseout="this.style.transform='translateY(-50%) scale(1)'">📖</div>
+        <div class="user-menu-container">
+            {% if session.username %}
+            <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
+                <div
+                    style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
+                    {{ session.username[0] }}
+                </div>
+                <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
+            </div>
+            <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
+                <a href="/logout">Logout</a>
+            </div>
+            {% else %}
+            <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
+            <div class="user-dropdown" id="user-dropdown">
+                <a href="/login">Login</a>
+                <a href="/signup">Sign Up</a>
+            </div>
+            {% endif %}
+        </div>
+        <a href="/" class="logo">Deutsch<span>Friend</span></a>
+        <nav class="nav-links">
+            <a href="/grammar">Grammatik</a>
+            <a href="/lesen" class="active">Lesen</a>
+            <a href="/hoeren">Hören</a>
+            <a href="/sprechen">Sprechen</a>
+            <a href="/schreiben">Schreiben</a>
+        </nav>
+    </header>
+
+    <div class="layout-container">
+        <aside class="sidebar" id="sidebar">
+            <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
+            <div class="sidebar-section">
+                <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Leseverstehen</div>
+                <ul class="sidebar-menu collapsed">
+                    <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
+                        <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+                        <select id="preset-level-select"
+                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
+                            <option value="A1" selected>A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                        </select>
+                    </li>
+                    <li><a onclick="setTopic('email')" id="link-email">E-Mail lesen</a></li>
+                    <li><a onclick="setTopic('blog')" id="link-blog">Blogbeitrag</a></li>
+                    <li><a onclick="setTopic('news')" id="link-news">Zeitungsartikel</a></li>
+                    <li><a onclick="setTopic('story')" id="link-story">Kurzgeschichte</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="toggleDropdown(this)">Eigenes Thema</div>
+                <ul class="sidebar-menu">
+                    <li style="padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-size: 0.85rem; color: var(--sub);">Thema:</label>
+                        <input type="text" id="custom-scenario" placeholder="z.B. Ein Text über Fußball"
+                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+                        <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+                        <select id="level-select"
+                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+                            <option value="A1" selected>A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                        </select>
+                        <button class="btn btn-primary"
+                            style="padding: 0.4rem; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; justify-content: center;"
+                            onclick="setCustomTopic()">Thema setzen</button>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <button class="open-sidebar-btn" onclick="toggleSidebar()" title="Menü öffnen">▶</button>
+
+        <main class="main-content">
+            <div class="content-header">
+                <div class="header-text">
+                    <h1 id="page-title">Eigenes Thema</h1>
+                    <p id="page-sub">Lies den Text sorgfältig durch und beantworte die Fragen unten.</p>
+                </div>
+            </div>
+
+            <div class="reading-card">
+                <button class="btn btn-primary" id="generate-btn" style="align-self: flex-start;"
+                    onclick="generateText()">📖
+                    Neuen Text Generieren</button>
+
+                <div class="text-box" id="text-box" style="display: none;">
+                    <!-- Text appears here -->
+                </div>
+            </div>
+
+            <div class="dictation-area">
+                <h3 style="color: var(--primary);">Deine Antworten:</h3>
+                <textarea id="answers-text" placeholder="Beantworte die Fragen hier..."></textarea>
+                <button class="btn btn-primary" style="align-self: flex-start;"
+                    onclick="checkAnswers()">Überprüfen</button>
+            </div>
+
+            <div class="feedback-box" id="feedback-box" style="margin-top: 2rem;"></div>
+
+        </main>
+    </div>
+
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.add('hidden');
+        }
+        let currentTopic = 'custom';
+        let customTopicText = "";
+        let currentReadingText = "";
+
+        const topics = {
+            email: "E-Mail lesen",
+            blog: "Blogbeitrag",
+            news: "Zeitungsartikel",
+            story: "Kurzgeschichte",
+            custom: "Eigenes Thema"
+        };
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('hidden');
+        }
+
+        function toggleDropdown(element) {
+            document.querySelectorAll('.sidebar-title').forEach(title => {
+                if (title !== element && !title.classList.contains('collapsed')) {
+                    title.classList.add('collapsed');
+                    if (title.nextElementSibling) title.nextElementSibling.classList.add('collapsed');
+                }
+            });
+            element.classList.toggle('collapsed');
+            const menu = element.nextElementSibling;
+            if (menu) menu.classList.toggle('collapsed');
+        }
+
+        function resetState(titleStr) {
+            document.getElementById('page-title').innerText = titleStr;
+
+            currentReadingText = "";
+            document.getElementById('text-box').style.display = 'none';
+            document.getElementById('text-box').innerHTML = '';
+            document.getElementById('answers-text').value = '';
+            document.getElementById('feedback-box').style.display = 'none';
+        }
+
+        function setTopic(key) {
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            const link = document.getElementById('link-' + key);
+            if (link) link.classList.add('active');
+            currentTopic = key;
+            customTopicText = "";
+            const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'A1';
+            resetState(topics[key] + " (" + level + ")");
+        }
+
+        function setCustomTopic() {
+            const val = document.getElementById('custom-scenario').value.trim();
+            const level = document.getElementById('level-select').value;
+            if (!val) {
+                alert("Bitte gib ein Thema ein.");
+                return;
+            }
+            currentTopic = 'custom';
+            customTopicText = val + " (Language Level: " + level + ")";
+
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            resetState("Thema: " + val + " (" + level + ")");
+        }
+
+        async function generateText() {
+            if (currentTopic === 'custom' && !customTopicText) {
+                alert("Bitte setze zuerst ein Szenario in der Seitenleiste.\n\nOder wähle ein Thema aus den Kategorien.\n\nChoose or Set Scenario from Sidebar");
+                return;
+            }
+
+            const btn = document.getElementById('generate-btn');
+            btn.innerText = "⏳ Generiere...";
+            btn.disabled = true;
+
+            try {
+                const payload = { topic: currentTopic, custom_prompt: customTopicText };
+                if (currentTopic !== 'custom') {
+                    payload.level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'A1';
+                }
+                const res = await fetch('/api/generate_lesen', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                currentReadingText = data.text;
+                document.getElementById('text-box').innerText = currentReadingText;
+                document.getElementById('text-box').style.display = 'block';
+
+            } catch (err) {
+                alert("Error: " + err.message);
+            }
+
+            btn.innerText = "📖 Neuen Text Generieren";
+            btn.disabled = false;
+        }
+
+        async function checkAnswers() {
+            const userText = document.getElementById('answers-text').value.trim();
+            if (!userText || !currentReadingText) return alert("Bitte generiere einen Text und beantworte die Fragen.");
+
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.style.display = 'block';
+            feedbackBox.innerHTML = "Wird überprüft...";
+
+            try {
+                const res = await fetch('/api/check_text', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: userText,
+                        prompt: "The user is doing a reading comprehension exercise. The text and questions they read were:\n\n" + currentReadingText + "\n\nTheir answers are:\n\n" + userText + "\n\nPlease grade their answers. Point out if they misunderstood the text, and correct any German grammar/spelling mistakes in their answers. Give your feedback in English."
+                    })
+                });
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+
+                feedbackBox.innerHTML = data.feedback;
+            } catch (err) {
+                feedbackBox.innerHTML = "<span style='color:red'>Fehler: " + err.message + "</span>";
+            }
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+        document.addEventListener('click', function (event) {
+            const container = document.querySelector('.user-menu-container');
+            const dropdown = document.getElementById('user-dropdown');
+            if (container && !container.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        function toggleDict() {
+            document.getElementById('dict-widget').classList.toggle('closed');
+        }
+        async function translateWord() {
+            const input = document.getElementById('dict-input');
+            const word = input.value.trim();
+            if (!word) return;
+            const content = document.getElementById('dict-content');
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'dict-msg user';
+            userMsg.textContent = word;
+            content.appendChild(userMsg);
+
+            input.value = '';
+            content.scrollTop = content.scrollHeight;
+
+            const botMsg = document.createElement('div');
+            botMsg.className = 'dict-msg bot';
+            botMsg.textContent = '...';
+            content.appendChild(botMsg);
+            content.scrollTop = content.scrollHeight;
+
+            try {
+                const res = await fetch('/api/dictionary', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ word: word })
+                });
+                const data = await res.json();
+                if (data.error) {
+                    botMsg.textContent = "Error: " + data.error;
+                } else {
+                    botMsg.textContent = data.translation;
+                }
+            } catch (e) {
+                botMsg.textContent = "Verbindungsfehler";
+            }
+            content.scrollTop = content.scrollHeight;
+        }
+    </script>
+
+
+
+    <!-- Dictionary Widget -->
+    <div id="dict-widget" class="dict-widget closed">
+        <div class="dict-box">
+            <div class="dict-header">
+                <span>📚 Wörterbuch</span>
+                <button onclick="toggleDict()"
+                    style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.5rem;line-height:1;">×</button>
+            </div>
+            <div class="dict-content" id="dict-content">
+                <p style="color:var(--sub);font-size:0.85rem;text-align:center;">Tippe ein Wort auf Deutsch oder
+                    Englisch ein.
+                </p>
+            </div>
+            <div class="dict-input-area">
+                <input type="text" id="dict-input" placeholder="Übersetzen..."
+                    onkeypress="if(event.key === 'Enter') translateWord()">
+                <button onclick="translateWord()">➔</button>
+            </div>
+        </div>
+        <button class="dict-toggle-btn" onclick="toggleDict()" title="Wörterbuch">📚</button>
+    </div>
+
+    <script>
+        // Automatically save and restore all dropdown choices from cloud only
+        document.addEventListener('DOMContentLoaded', async () => {
+            let cloudPrefs = {};
+            const isLoggedIn = {{ 'true' if session.get('username') else 'false'
+        }};
+
+        if (isLoggedIn) {
+            try {
+                const res = await fetch('/api/get_preferences');
+                if (res.ok) {
+                    cloudPrefs = await res.json();
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        document.querySelectorAll('select').forEach(el => {
+            if (!el.id) return;
+
+            if (cloudPrefs[el.id]) {
+                el.value = cloudPrefs[el.id];
+            }
+
+            el.addEventListener('change', () => {
+                if (isLoggedIn) {
+                    fetch('/api/save_preference', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: el.id, value: el.value })
+                    }).catch(console.error);
+                }
+            });
+        });
+  });
+    </script>
+
+    <!-- Guide Modal v3 -->
+    <div id="app-guide-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+        <div
+            style="background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; width: 90%; max-width: 700px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.8); animation: fadeIn 0.3s ease-out; overflow: hidden;">
+
+            <div
+                style="padding: 1.5rem; border-bottom: 1px solid var(--border, #30363d); display: flex; justify-content: space-between; align-items: center; background: var(--primary, #58a6ff); color: #fff;">
+                <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">📖 Deutsch
+                    Friend Guide</h2>
+                <button onclick="toggleGuideModal()"
+                    style="background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;">×</button>
+            </div>
+
+            <!-- Tabs Header -->
+            <div style="display: flex; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border, #30363d);">
+                <button id="tab-btn-features" onclick="switchGuideTab('features')"
+                    style="flex: 1; padding: 1rem; background: var(--hover, #21262d); border: none; color: var(--primary, #58a6ff); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--primary, #58a6ff); transition: all 0.2s; font-size: 1rem;">Features
+                    Overview</button>
+                <button id="tab-btn-tutorial" onclick="switchGuideTab('tutorial')"
+                    style="flex: 1; padding: 1rem; background: transparent; border: none; color: var(--sub, #8b949e); font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; font-size: 1rem;">Step-by-Step
+                    Tutorial</button>
+            </div>
+
+            <div
+                style="padding: 1.5rem; overflow-y: auto; color: var(--text-main, #c9d1d9); font-size: 0.95rem; line-height: 1.6; flex: 1;">
+
+                <!-- Features Tab -->
+                <div id="guide-tab-features" style="display: block;">
+                    <h3 style="color: var(--primary, #58a6ff); margin-bottom: 0.5rem;">Welcome to Deutsch Friend!</h3>
+                    <p style="margin-bottom: 1.2rem;">Your ultimate AI companion for mastering the German language.
+                        Here's what you can do:</p>
+
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid var(--primary, #58a6ff); border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">📚 Grammatik (Grammar)</h4>
+                        <p>Learn cases and fixed prepositions through hundreds of examples.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(247, 120, 186, 0.1); border-left: 4px solid #f778ba; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">📖 Lesen (Reading)</h4>
+                        <p>Read authentic German texts customized to your level (A1-B2) and answer comprehension
+                            questions.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">🎧 Hören (Listening)</h4>
+                        <p>Listen to generated audio scenarios. Type out the transcript and let the AI grade your
+                            accuracy.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(210, 153, 34, 0.1); border-left: 4px solid #d29922; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">🗣️ Sprechen (Speaking)</h4>
+                        <p>Record your voice to practice speaking. The AI will analyze your pronunciation and grammar in
+                            real-time.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
+                        <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR
+                            level.</p>
+                    </div>
+                </div>
+
+                <!-- Tutorial Tab -->
+                <div id="guide-tab-tutorial" style="display: none;">
+                    <h3 style="color: var(--primary, #58a6ff); margin-bottom: 1rem;">Full App Tutorial</h3>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 1: Set Up Your Account</h4>
+                        <p>Start by clicking <b>"Sign Up"</b> in the top left menu. Creating an account allows the app
+                            to securely save your preferences (like your preferred learning level) directly to the
+                            cloud. Once logged in, you'll see your profile icon in the top left corner!</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 2: Navigation & The Sidebar Arrow</h4>
+                        <p>Look for the <b>▶ or ◀ arrow</b> on the left side of the screen on any dashboard page.
+                            Clicking this arrow will open or collapse the side menu. This sidebar contains options,
+                            settings, and topic choices to customize your learning.</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 3: Choose Your Level</h4>
+                        <p>Using the opened side menu on the Reading or Listening dashboard, select your CEFR target
+                            level (A1, A2, B1, or B2). Your choice will be synced automatically across all devices!</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 4: Practice Daily Core Skills</h4>
+                        <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><b>Input (Lesen & Hören):</b> Generate a reading text or
+                                listening audio. Try to understand the context first without translating everything.
+                                Then, answer the comprehension questions.</li>
+                            <li style="margin-bottom: 0.5rem;"><b>Output (Schreiben & Sprechen):</b> Choose a topic or
+                                prompt. When writing, focus on grammar and let the AI grade you. When speaking, use the
+                                mic to record your sentence and instantly see if you were grammatically correct and
+                                on-topic!</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 5: Use the Dictionary Widget</h4>
+                        <p>Stuck on a word? Don't leave the app! Click the <b>📚 floating dictionary</b> icon in the
+                            bottom right of any page. Type in an English or German word to get translations and verb
+                            conjugations instantly.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleGuideModal() {
+            const modal = document.getElementById('app-guide-modal');
+            if (modal.style.display === 'none' || modal.style.display === '') {
+                modal.style.display = 'flex';
+            } else {
+                modal.style.display = 'none';
+            }
+        }
+
+        function switchGuideTab(tab) {
+            const featuresTab = document.getElementById('guide-tab-features');
+            const tutorialTab = document.getElementById('guide-tab-tutorial');
+            const featuresBtn = document.getElementById('tab-btn-features');
+            const tutorialBtn = document.getElementById('tab-btn-tutorial');
+
+            if (tab === 'features') {
+                featuresTab.style.display = 'block';
+                tutorialTab.style.display = 'none';
+                featuresBtn.style.background = 'var(--hover, #21262d)';
+                featuresBtn.style.color = 'var(--primary, #58a6ff)';
+                featuresBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
+
+                tutorialBtn.style.background = 'transparent';
+                tutorialBtn.style.color = 'var(--sub, #8b949e)';
+                tutorialBtn.style.borderBottom = '3px solid transparent';
+            } else {
+                featuresTab.style.display = 'none';
+                tutorialTab.style.display = 'block';
+                tutorialBtn.style.background = 'var(--hover, #21262d)';
+                tutorialBtn.style.color = 'var(--primary, #58a6ff)';
+                tutorialBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
+
+                featuresBtn.style.background = 'transparent';
+                featuresBtn.style.color = 'var(--sub, #8b949e)';
+                featuresBtn.style.borderBottom = '3px solid transparent';
+            }
+        }
+    </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const header = document.querySelector('header');
+        const mainContent = document.querySelector('.main-content');
+        
+        let lastScrollY = 0;
+        
+        if (header) {
+            header.style.transition = 'margin-top 0.3s ease-in-out, top 0.3s ease-in-out';
+        }
+        
+        function handleScroll(currentScrollY) {
+            if (!header) return;
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                if (mainContent) {
+                    header.style.marginTop = '-' + header.offsetHeight + 'px';
+                } else {
+                    header.style.top = '-' + header.offsetHeight + 'px';
+                }
+            } else {
+                if (mainContent) {
+                    header.style.marginTop = '0px';
+                } else {
+                    header.style.top = '0px';
+                }
+            }
+            lastScrollY = currentScrollY;
+        }
+
+        if (mainContent) {
+            mainContent.addEventListener('scroll', () => handleScroll(mainContent.scrollTop));
+        } else {
+            window.addEventListener('scroll', () => handleScroll(window.scrollY));
+        }
+    });
+</script>
+</body>
+
+</html>
+

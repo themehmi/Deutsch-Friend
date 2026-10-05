@@ -35,33 +35,29 @@
             height: 100vh;
             overflow: hidden;
         }
-
         header {
-            position: relative;
-            padding: 1rem 2rem;
-            background: var(--sidebar-bg);
-            border-bottom: 1px solid var(--border);
+            padding: 2rem 5%;
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
             flex-direction: column;
             justify-content: center;
             gap: 1rem;
             align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--sidebar-bg, #010409);
+            position: relative;
             flex-shrink: 0;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            z-index: 100;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
             font-weight: 700;
             color: #fff;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .logo span {
@@ -71,6 +67,7 @@
         .nav-links {
             display: flex;
             gap: 1.5rem;
+            list-style: none;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -79,7 +76,8 @@
             color: var(--sub);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
         }
 
         .nav-links a:hover {
@@ -125,9 +123,8 @@
             font-weight: 600;
             cursor: pointer;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 1rem;
+            flex-direction: row;
+            justify-content: space-between;
             align-items: center;
             transition: color 0.2s;
         }
@@ -159,9 +156,9 @@
 
         .sidebar-menu li a {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 1rem;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
             padding: 0.8rem 1.5rem;
             color: var(--text);
             text-decoration: none;
@@ -627,60 +624,37 @@
 <body>
 
     <header>
-        <style>
-            .guide-icon-btn {
-                position: absolute;
-                right: 1.5rem;
-                top: 2.6rem;
-                transform: translateY(-50%);
-                z-index: 100;
-                cursor: pointer;
-                font-size: 1.8rem;
-                transition: transform 0.2s;
-                display: flex;
-                align-items: center;
-            }
-
-            
-        </style>
-        <div class="guide-icon-btn" onclick="toggleGuideModal()" title="App Guide"
-            onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
-        <div class="logo-container">
-            <div class="user-menu-container">
-                {% if session.username %}
-                <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
-                    <div
-                        style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
-                        {{ session.username[0] }}
-                    </div>
-                    <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
+        <div style="position: absolute; right: 1.5rem; top: 2.6rem; transform: translateY(-50%); z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s; display: flex; align-items: center;"
+            onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
+            onmouseout="this.style.transform='translateY(-50%) scale(1)'">📖</div>
+        <div class="user-menu-container">
+            {% if session.username %}
+            <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
+                <div
+                    style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
+                    {{ session.username[0] }}
                 </div>
-                <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
-                    <a href="/logout">Logout</a>
-                </div>
-                {% else %}
-                <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
-                <div class="user-dropdown" id="user-dropdown">
-                    <a href="/login">Login</a>
-                    <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-                    <a href="/signup">Sign Up</a>
-                </div>
-                {% endif %}
+                <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
             </div>
-
-            <a href="/" class="logo">Deutsch <span>Friend</span></a>
+            <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
+                <a href="/logout">Logout</a>
+            </div>
+            {% else %}
+            <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
+            <div class="user-dropdown" id="user-dropdown">
+                <a href="/login">Login</a>
+                <a href="/signup">Sign Up</a>
+            </div>
+            {% endif %}
         </div>
-        <div class="nav-links">
+        <a href="/" class="logo">Deutsch<span>Friend</span></a>
+        <nav class="nav-links">
             <a href="/grammar">Grammatik</a>
-            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
             <a href="/lesen">Lesen</a>
-            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
             <a href="/hoeren" class="active">Hören</a>
-            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
             <a href="/sprechen">Sprechen</a>
-            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
             <a href="/schreiben">Schreiben</a>
-        </div>
+        </nav>
     </header>
 
     <div class="layout-container">
@@ -1185,6 +1159,31 @@
             }
         }
     </script>
+
+    <script>
+        // Auto-hide header on scroll down
+        document.addEventListener('DOMContentLoaded', () => {
+            let lastScroll = 0;
+            const mainContent = document.querySelector('.main-content');
+            const header = document.querySelector('header');
+            
+            if (mainContent && header) {
+                header.style.transition = 'margin-top 0.3s ease-in-out';
+                mainContent.addEventListener('scroll', () => {
+                    const currentScroll = mainContent.scrollTop;
+                    if (currentScroll > lastScroll && currentScroll > 50) {
+                        // Scroll down - hide header
+                        header.style.marginTop = `-${header.offsetHeight}px`;
+                    } else {
+                        // Scroll up - show header
+                        header.style.marginTop = '0px';
+                    }
+                    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+                });
+            }
+        });
+    </script>
 </body>
+
 
 </html>

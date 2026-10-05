@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Deutsch Friend - Quiz</title>
+  <title>Deutsch Friend - Lesen</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap');
@@ -14,9 +14,9 @@
       --border: #30363d;
       --text: #c9d1d9;
       --sub: #8b949e;
-      --primary: #7d8590;
-      /* Grey theme for Tutor */
-      --hover: rgba(125, 133, 144, 0.1);
+      --primary: #f778ba;
+      /* Pink theme for Lesen */
+      --hover: rgba(247, 120, 186, 0.1);
       --sidebar-bg: #010409;
     }
 
@@ -610,17 +610,7 @@
 <body>
 
   <header>
-<style>
-  .guide-icon-btn {
-    position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;
-  }
-  @media (max-width: 768px) {
-    .guide-icon-btn {
-      top: 0.2rem;
-    }
-  }
-</style>
-<div class="guide-icon-btn" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
+<div style="position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
     <div class="logo-container">
       <div class="user-menu-container">
         {% if session.username %}
@@ -637,7 +627,6 @@
         <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
         <div class="user-dropdown" id="user-dropdown">
           <a href="/login">Login</a>
-          <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
           <a href="/signup">Sign Up</a>
         </div>
         {% endif %}
@@ -647,94 +636,213 @@
     </div>
     <div class="nav-links">
       <a href="/grammar">Grammatik</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-      <a href="/lesen">Lesen</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
+      <a href="/lesen" class="active">Lesen</a>
       <a href="/hoeren">Hören</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
       <a href="/sprechen">Sprechen</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
       <a href="/schreiben">Schreiben</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-      <a href="/quiz" class="active">Tutor</a>
     </div>
   </header>
 
-  <div class="layout-container" style="justify-content: center; padding: 1rem 2rem 2rem;">
-    <main class="main-content" style="max-width: 900px; width: 100%; border-radius: 12px; border: 1px solid var(--border); background: var(--card-bg); display: flex; flex-direction: column; height: 80vh; padding: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-      <div class="content-header" style="padding: 1.5rem; border-bottom: 1px solid var(--border); margin: 0; width: 100%; background: var(--sidebar-bg); display: flex; align-items: center; justify-content: space-between;">
+  <div class="layout-container">
+    <aside class="sidebar" id="sidebar">
+      <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
+      <div class="sidebar-section">
+        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Leseverstehen</div>
+        <ul class="sidebar-menu collapsed">
+          <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
+            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+            <select id="preset-level-select" style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
+              <option value="A1" selected>A1</option>
+              <option value="A2">A2</option>
+              <option value="B1">B1</option>
+              <option value="B2">B2</option>
+            </select>
+          </li>
+          <li><a onclick="setTopic('email')" id="link-email">E-Mail lesen</a></li>
+          <li><a onclick="setTopic('blog')" id="link-blog">Blogbeitrag</a></li>
+          <li><a onclick="setTopic('news')" id="link-news">Zeitungsartikel</a></li>
+          <li><a onclick="setTopic('story')" id="link-story">Kurzgeschichte</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title" onclick="toggleDropdown(this)">Eigenes Thema</div>
+        <ul class="sidebar-menu">
+          <li style="padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <label style="font-size: 0.85rem; color: var(--sub);">Thema:</label>
+            <input type="text" id="custom-scenario" placeholder="z.B. Ein Text über Fußball"
+              style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+            <select id="level-select"
+              style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+              <option value="A1" selected>A1</option>
+              <option value="A2">A2</option>
+              <option value="B1">B1</option>
+              <option value="B2">B2</option>
+            </select>
+            <button class="btn btn-primary"
+              style="padding: 0.4rem; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; justify-content: center;"
+              onclick="setCustomTopic()">Thema setzen</button>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    <button class="open-sidebar-btn" onclick="toggleSidebar()" title="Menü öffnen">▶</button>
+
+    <main class="main-content">
+      <div class="content-header">
         <div class="header-text">
-          <h1 id="page-title" style="font-size: 1.5rem; margin-bottom: 0.3rem;">🤖 German Tutor Bot</h1>
-          <p id="page-sub" style="font-size: 0.95rem;">Ask me to explain grammar, generate exercises, or help with translations!</p>
+          <h1 id="page-title">Eigenes Thema</h1>
+          <p id="page-sub">Lies den Text sorgfältig durch und beantworte die Fragen unten.</p>
         </div>
       </div>
 
-      <div id="chat-messages" style="flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; background: var(--bg-color);">
-        <div class="chat-message bot" style="background: var(--hover); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; line-height: 1.6; align-self: flex-start; max-width: 90%;">
-          Hello! I am your personal German tutor. What would you like to learn or practice today?<br><br>
-          <i>Tip: "Explain the Dative case", "Create 10 exercises for Prepositions", or "How do I say 'I am hungry'?".</i>
+      <div class="reading-card">
+        <button class="btn btn-primary" id="generate-btn" style="align-self: flex-start;" onclick="generateText()">📖
+          Neuen Text Generieren</button>
+
+        <div class="text-box" id="text-box" style="display: none;">
+          <!-- Text appears here -->
         </div>
       </div>
-      
-      <div style="padding: 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 1rem; background: var(--sidebar-bg);">
-        <input type="text" id="chat-input" placeholder="e.g., Explain the Dative case..." style="flex: 1; padding: 1rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-color); color: #fff; font-family: 'Inter', sans-serif; font-size: 1rem;" onkeypress="if(event.key === 'Enter') sendMessage()">
-        <button class="btn btn-primary" onclick="sendMessage()" id="send-btn" style="padding: 0 2rem;">Send</button>
+
+      <div class="dictation-area">
+        <h3 style="color: var(--primary);">Deine Antworten:</h3>
+        <textarea id="answers-text" placeholder="Beantworte die Fragen hier..."></textarea>
+        <button class="btn btn-primary" style="align-self: flex-start;" onclick="checkAnswers()">Überprüfen</button>
       </div>
+
+      <div class="feedback-box" id="feedback-box" style="margin-top: 2rem;"></div>
+
     </main>
   </div>
 
   <script>
-    let chatHistory = [];
+    if (window.innerWidth <= 768) {
+      document.getElementById('sidebar').classList.add('hidden');
+    }
+    let currentTopic = 'custom';
+    let customTopicText = "";
+    let currentReadingText = "";
 
-    async function sendMessage() {
-      const input = document.getElementById('chat-input');
-      const text = input.value.trim();
-      if (!text) return;
+    const topics = {
+      email: "E-Mail lesen",
+      blog: "Blogbeitrag",
+      news: "Zeitungsartikel",
+      story: "Kurzgeschichte",
+      custom: "Eigenes Thema"
+    };
 
-      const chatMessages = document.getElementById('chat-messages');
-      
-      chatHistory.push({ role: "user", content: text });
-      
-      const userDiv = document.createElement('div');
-      userDiv.style = "align-self: flex-end; background: var(--border); padding: 1rem; border-radius: 8px; max-width: 80%; font-size: 1rem; line-height: 1.5;";
-      userDiv.textContent = text;
-      chatMessages.appendChild(userDiv);
-      
-      input.value = "";
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('hidden');
+    }
 
-      const btn = document.getElementById('send-btn');
+    function toggleDropdown(element) {
+      document.querySelectorAll('.sidebar-title').forEach(title => {
+        if (title !== element && !title.classList.contains('collapsed')) {
+          title.classList.add('collapsed');
+          if (title.nextElementSibling) title.nextElementSibling.classList.add('collapsed');
+        }
+      });
+      element.classList.toggle('collapsed');
+      const menu = element.nextElementSibling;
+      if (menu) menu.classList.toggle('collapsed');
+    }
+
+    function resetState(titleStr) {
+      document.getElementById('page-title').innerText = titleStr;
+
+      currentReadingText = "";
+      document.getElementById('text-box').style.display = 'none';
+      document.getElementById('text-box').innerHTML = '';
+      document.getElementById('answers-text').value = '';
+      document.getElementById('feedback-box').style.display = 'none';
+    }
+
+    function setTopic(key) {
+      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+      const link = document.getElementById('link-' + key);
+      if (link) link.classList.add('active');
+      currentTopic = key;
+      customTopicText = "";
+      const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'A1';
+      resetState(topics[key] + " (" + level + ")");
+    }
+
+    function setCustomTopic() {
+      const val = document.getElementById('custom-scenario').value.trim();
+      const level = document.getElementById('level-select').value;
+      if (!val) {
+        alert("Bitte gib ein Thema ein.");
+        return;
+      }
+      currentTopic = 'custom';
+      customTopicText = val + " (Language Level: " + level + ")";
+
+      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+      resetState("Thema: " + val + " (" + level + ")");
+    }
+
+    async function generateText() {
+      if (currentTopic === 'custom' && !customTopicText) {
+        alert("Bitte setze zuerst ein Szenario in der Seitenleiste.\n\nOder wähle ein Thema aus den Kategorien.\n\nChoose or Set Scenario from Sidebar");
+        return;
+      }
+
+      const btn = document.getElementById('generate-btn');
+      btn.innerText = "⏳ Generiere...";
       btn.disabled = true;
-      btn.innerText = "⏳...";
-
-      const botDiv = document.createElement('div');
-      botDiv.style = "align-self: flex-start; background: var(--hover); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; max-width: 90%; line-height: 1.6; font-size: 1rem;";
-      botDiv.innerHTML = "Thinking... (Please wait)";
-      chatMessages.appendChild(botDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
 
       try {
-        const res = await fetch('/api/quiz_chat', {
+        const payload = { topic: currentTopic, custom_prompt: customTopicText };
+        if (currentTopic !== 'custom') {
+            payload.level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'A1';
+        }
+        const res = await fetch('/api/generate_lesen', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: chatHistory })
+          body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (data.error) throw new Error(data.error);
 
-        botDiv.innerHTML = data.reply;
-        chatHistory.push({ role: "assistant", content: data.reply });
+        currentReadingText = data.text;
+        document.getElementById('text-box').innerText = currentReadingText;
+        document.getElementById('text-box').style.display = 'block';
 
       } catch (err) {
-        botDiv.innerHTML = "<span style='color:red'>Error: " + err.message + "</span>";
-        chatHistory.pop();
+        alert("Error: " + err.message);
       }
 
+      btn.innerText = "📖 Neuen Text Generieren";
       btn.disabled = false;
-      btn.innerText = "Send";
-      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+    async function checkAnswers() {
+      const userText = document.getElementById('answers-text').value.trim();
+      if (!userText || !currentReadingText) return alert("Bitte generiere einen Text und beantworte die Fragen.");
+
+      const feedbackBox = document.getElementById('feedback-box');
+      feedbackBox.style.display = 'block';
+      feedbackBox.innerHTML = "Wird überprüft...";
+
+      try {
+        const res = await fetch('/api/check_text', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: userText,
+            prompt: "The user is doing a reading comprehension exercise. The text and questions they read were:\n\n" + currentReadingText + "\n\nTheir answers are:\n\n" + userText + "\n\nPlease grade their answers. Point out if they misunderstood the text, and correct any German grammar/spelling mistakes in their answers. Give your feedback in English."
+          })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        feedbackBox.innerHTML = data.feedback;
+      } catch (err) {
+        feedbackBox.innerHTML = "<span style='color:red'>Fehler: " + err.message + "</span>";
+      }
+    }
 
     function toggleUserMenu() {
       const dropdown = document.getElementById('user-dropdown');
@@ -889,10 +997,6 @@
         <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
           <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
           <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR level.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(125, 133, 144, 0.1); border-left: 4px solid #7d8590; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">🤖 KI Tutor (Tutor)</h4>
-          <p>Chat with a personal AI tutor to explain grammar, translate phrases, or generate custom exercises for any topic.</p>
         </div>
       </div>
 

@@ -18,7 +18,6 @@
       --hoeren: #a855f7;
       --sprechen: #d29922;
       --schreiben: #e5534b;
-      --quiz: #2ea043;
     }
 
     * {
@@ -147,7 +146,6 @@
     .card.hoeren::before { background: var(--hoeren); }
     .card.sprechen::before { background: var(--sprechen); }
     .card.schreiben::before { background: var(--schreiben); }
-    .card.quiz::before { background: var(--quiz); }
 
     .card:hover {
       transform: translateY(-10px);
@@ -192,7 +190,6 @@
     .hoeren .badge { color: #56d364; background: rgba(35, 134, 54, 0.15); }
     .sprechen .badge { color: #e3b341; background: rgba(210, 153, 34, 0.15); }
     .schreiben .badge { color: #f85149; background: rgba(229, 83, 75, 0.15); }
-    .quiz .badge { color: #56d364; background: rgba(46, 160, 67, 0.15); }
 
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -252,17 +249,7 @@
 <body>
 
   <header>
-<style>
-  .guide-icon-btn {
-    position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;
-  }
-  @media (max-width: 768px) {
-    .guide-icon-btn {
-      top: 0.2rem;
-    }
-  }
-</style>
-<div class="guide-icon-btn" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
+<div style="position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
       <div class="user-menu-container">
         {% if session.username %}
         <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
@@ -286,16 +273,10 @@
     <nav>
       <ul>
         <li><a href="/grammar">Grammatik</a></li>
-        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/lesen">Lesen</a></li>
-        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/hoeren">Hören</a></li>
-        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/sprechen">Sprechen</a></li>
-        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/schreiben">Schreiben</a></li>
-        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
-        <li><a href="/tutor">Tutor</a></li>
       </ul>
     </nav>
   </header>
@@ -338,13 +319,6 @@
         <h2>Schreiben</h2>
         <p>Schreibe Texte, E-Mails und Aufsätze. Erhalte sofortige Korrekturen zu Syntax und Wortschatz.</p>
         <span class="badge">In Kürze</span>
-      </a>
-
-      <a href="/tutor" class="card quiz">
-        <div class="card-icon">🤖</div>
-        <h2>KI Tutor</h2>
-        <p>Frag nach Übungen, Grammatik-Erklärungen oder Übersetzungen zu beliebigen Themen.</p>
-        <span class="badge">Neu!</span>
       </a>
     </div>
   </main>
@@ -444,10 +418,6 @@
         <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
           <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
           <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR level.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(125, 133, 144, 0.1); border-left: 4px solid #7d8590; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">🤖 KI Tutor (Tutor)</h4>
-          <p>Chat with a personal AI tutor to explain grammar, translate phrases, or generate custom exercises for any topic.</p>
         </div>
       </div>
 

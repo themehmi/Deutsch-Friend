@@ -2,1332 +2,1382 @@
 <html lang="de">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Deutsch Friend - Sprechen</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap');
-
-    :root {
-      --bg-color: #0d1117;
-      --card-bg: #161b22;
-      --border: #30363d;
-      --text: #c9d1d9;
-      --sub: #8b949e;
-      --primary: #238636;
-      /* Green theme for Sprechen */
-      --hover: rgba(35, 134, 54, 0.1);
-      --sidebar-bg: #010409;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Outfit', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    header {
-      position: relative;
-      padding: 1rem 2rem;
-      background: var(--sidebar-bg);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1rem;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .logo span {
-      color: var(--primary);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .nav-links a {
-      color: var(--sub);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: #fff;
-    }
-
-    .nav-links a.active {
-      color: var(--primary);
-    }
-
-    .layout-container {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: 280px;
-      background: var(--sidebar-bg);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      padding: 1.5rem 0;
-      transition: all 0.3s ease;
-    }
-
-    .sidebar.hidden {
-      margin-left: -280px;
-    }
-
-    .sidebar-section {
-      margin-bottom: 1rem;
-    }
-
-    .sidebar-title {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--sub);
-      padding: 0.8rem 1.5rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1rem;
-      align-items: center;
-      transition: color 0.2s;
-    }
-
-    .sidebar-title:hover {
-      color: #fff;
-    }
-
-    .sidebar-title::after {
-      content: '▼';
-      font-size: 0.6rem;
-      transition: transform 0.3s;
-    }
-
-    .sidebar-title.collapsed::after {
-      transform: rotate(-90deg);
-    }
-
-    .sidebar-menu {
-      list-style: none;
-      max-height: 500px;
-      overflow: hidden;
-      transition: max-height 0.3s ease-in-out;
-    }
-
-    .sidebar-menu.collapsed {
-      max-height: 0;
-    }
-
-    .sidebar-menu li a {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1rem;
-      padding: 0.8rem 1.5rem;
-      color: var(--text);
-      text-decoration: none;
-      transition: all 0.2s;
-      border-left: 3px solid transparent;
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-
-    .sidebar-menu li a:hover {
-      background: var(--hover);
-    }
-
-    .sidebar-menu li a.active {
-      background: var(--hover);
-      color: var(--primary);
-      border-left-color: var(--primary);
-      font-weight: 500;
-    }
-
-    /* MAIN CONTENT */
-    .main-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 2rem;
-      background: var(--bg-color);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .content-header {
-      margin-bottom: 2rem;
-    }
-
-    .header-text h1 {
-      font-size: 2rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-      font-weight: 700;
-    }
-
-    .header-text p {
-      color: var(--sub);
-      font-size: 1rem;
-    }
-
-    /* CHAT UI */
-    .chat-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      max-height: calc(100vh - 180px);
-    }
-
-    .chat-messages {
-      flex: 1;
-      padding: 1.5rem;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .message {
-      max-width: 80%;
-      padding: 1rem;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      line-height: 1.5;
-      font-size: 0.95rem;
-    }
-
-    .message.ai {
-      background: var(--sidebar-bg);
-      border: 1px solid var(--border);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-    }
-
-    .message.user {
-      background: var(--primary);
-      color: #fff;
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
-
-    .message.correction {
-      background: rgba(210, 168, 255, 0.1);
-      border: 1px solid #d2a8ff;
-      color: #d2a8ff;
-      font-size: 0.85rem;
-      margin-top: -0.5rem;
-    }
-
-    .chat-container.hide-text .message.ai span,
-    .chat-container.hide-text .message.user,
-    .chat-container.hide-text .message.correction span {
-      filter: blur(5px);
-      opacity: 0.7;
-      transition: filter 0.3s, opacity 0.3s;
-      cursor: pointer;
-    }
-    
-    .chat-container.hide-text .message.ai span:hover,
-    .chat-container.hide-text .message.user:hover,
-    .chat-container.hide-text .message.correction span:hover {
-      filter: blur(0);
-      opacity: 1;
-    }
-
-    .chat-input-area {
-      padding: 1.5rem;
-      background: var(--sidebar-bg);
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .record-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      font-size: 1.8rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
-      /* Prevent long-press copy/context menu on touch screens */
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
-    }
-
-    .record-btn:active {
-      transform: scale(0.95);
-    }
-
-    .record-btn.recording {
-      background: #e5534b;
-      /* Red when recording */
-      box-shadow: 0 0 20px rgba(229, 83, 75, 0.6);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    .status-text {
-      color: var(--sub);
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        position: absolute;
-        z-index: 1000;
-        height: 100%;
-        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
-      }
-
-      .main-content {
-        padding: 1rem;
-      }
-
-      .btn {
-        width: 100%;
-        justify-content: center;
-        align-self: stretch !important;
-      }
-
-      .audio-controls {
-        flex-direction: column;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .logo {
-        font-size: 1.2rem;
-      }
-
-      .nav-links {
-        gap: 0.8rem;
-      }
-
-      .nav-links a {
-        font-size: 0.9rem;
-      }
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg-color, #0d1117);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--border, #30363d);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--sub, #8b949e);
-    }
-
-    .close-sidebar-btn {
-      background: none;
-      border: none;
-      color: var(--sub);
-      font-size: 1.2rem;
-      cursor: pointer;
-      align-self: flex-start;
-      margin-left: 1.5rem;
-      margin-bottom: 1rem;
-      transition: color 0.2s;
-    }
-
-      {
-      color: var(--primary);
-    }
-
-    @media (max-width: 768px) {
-      .close-sidebar-btn {
-        display: block;
-      }
-    }
-
-    .open-sidebar-btn {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-left: none;
-      border-radius: 0 8px 8px 0;
-      color: var(--sub);
-      padding: 1.5rem 0.5rem;
-      cursor: pointer;
-      z-index: 999;
-      display: none;
-      transition: color 0.2s, background 0.2s;
-    }
-
-    .open-sidebar-btn:hover {
-      color: var(--primary);
-      background: var(--hover);
-    }
-
-    .sidebar.hidden+.open-sidebar-btn {
-      display: block;
-    }
-
-    .user-menu-container {
-      position: absolute;
-      left: 1.5rem;
-      top: 1.2rem;
-      z-index: 100;
-    }
-
-    .toggle-btn {
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .user-dropdown {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.5rem 0;
-      margin-top: 0.5rem;
-      width: 120px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    }
-
-    .user-dropdown a {
-      display: block;
-      padding: 0.5rem 1rem;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 0.9rem;
-      text-align: left;
-    }
-
-    .user-dropdown a:hover {
-      background: var(--hover);
-      color: var(--primary);
-    }
-
-    /* Dictionary Widget */
-    .dict-widget {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-    }
-
-    .dict-toggle-btn {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      background: var(--primary, #3b82f6);
-      color: #fff;
-      border: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-      transition: transform 0.2s, background 0.2s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .dict-toggle-btn:hover {
-      transform: scale(1.08);
-      background: #1f6feb;
-    }
-
-    .dict-box {
-      width: 320px;
-      height: 420px;
-      background: var(--card-bg, #161b22);
-      border: 1px solid var(--border, #30363d);
-      border-radius: 12px;
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-      overflow: hidden;
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.3s, transform 0.3s;
-    }
-
-    .dict-widget.closed .dict-box {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(20px);
-      position: absolute;
-      bottom: 100%;
-      right: 0;
-    }
-
-    .dict-widget.closed .dict-toggle-btn {
-      display: flex;
-    }
-
-    .dict-widget:not(.closed) .dict-toggle-btn {
-      display: none;
-    }
-
-    .dict-header {
-      background: var(--primary, #3b82f6);
-      color: #fff;
-      padding: 12px 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    .dict-content {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .dict-input-area {
-      padding: 10px;
-      border-top: 1px solid var(--border, #30363d);
-      display: flex;
-      gap: 8px;
-      background: var(--bg-color, #0d1117);
-    }
-
-    .dict-input-area input {
-      flex: 1;
-      background: var(--card-bg, #161b22);
-      border: 1px solid var(--border, #30363d);
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 20px;
-      outline: none;
-      font-size: 0.95rem;
-    }
-
-    .dict-input-area input:focus {
-      border-color: var(--primary, #3b82f6);
-    }
-
-    .dict-input-area button {
-      background: var(--primary, #3b82f6);
-      border: none;
-      color: #fff;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: background 0.2s;
-    }
-
-    .dict-input-area button:hover {
-      background: #1f6feb;
-    }
-
-    .dict-msg {
-      padding: 10px 14px;
-      border-radius: 15px;
-      max-width: 85%;
-      font-size: 0.95rem;
-      line-height: 1.4;
-      word-wrap: break-word;
-    }
-
-    .dict-msg.user {
-      background: var(--primary, #3b82f6);
-      color: #fff;
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
-
-    .dict-msg.bot {
-      background: var(--border, #30363d);
-      color: var(--text, #c9d1d9);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Deutsch Friend - Sprechen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --sub: #8b949e;
+            --primary: #238636;
+            /* Green theme for Sprechen */
+            --hover: rgba(35, 134, 54, 0.1);
+            --sidebar-bg: #010409;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            position: relative;
+            padding: 1rem 2rem;
+            background: var(--sidebar-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--sub);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .layout-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            margin-left: -280px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sub);
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .sidebar-title:hover {
+            color: #fff;
+        }
+
+        .sidebar-title::after {
+            content: '▼';
+            font-size: 0.6rem;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-title.collapsed::after {
+            transform: rotate(-90deg);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        .sidebar-menu.collapsed {
+            max-height: 0;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.8rem 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-menu li a:hover {
+            background: var(--hover);
+        }
+
+        .sidebar-menu li a.active {
+            background: var(--hover);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .header-text h1 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header-text p {
+            color: var(--sub);
+            font-size: 1rem;
+        }
+
+        /* CHAT UI */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            max-height: calc(100vh - 180px);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .message.ai {
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user {
+            background: var(--primary);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.correction {
+            background: rgba(210, 168, 255, 0.1);
+            border: 1px solid #d2a8ff;
+            color: #d2a8ff;
+            font-size: 0.85rem;
+            margin-top: -0.5rem;
+        }
+
+        .chat-container.hide-text .message.ai span,
+        .chat-container.hide-text .message.user,
+        .chat-container.hide-text .message.correction span {
+            filter: blur(5px);
+            opacity: 0.7;
+            transition: filter 0.3s, opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .chat-container.hide-text .message.ai span:hover,
+        .chat-container.hide-text .message.user:hover,
+        .chat-container.hide-text .message.correction span:hover {
+            filter: blur(0);
+            opacity: 1;
+        }
+
+        .chat-input-area {
+            padding: 1.5rem;
+            background: var(--sidebar-bg);
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .record-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+            /* Prevent long-press copy/context menu on touch screens */
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .record-btn:active {
+            transform: scale(0.95);
+        }
+
+        .record-btn.recording {
+            background: #e5534b;
+            /* Red when recording */
+            box-shadow: 0 0 20px rgba(229, 83, 75, 0.6);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .status-text {
+            color: var(--sub);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                z-index: 1000;
+                height: 100%;
+                box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+                align-self: stretch !important;
+            }
+
+            .audio-controls {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color, #0d1117);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border, #30363d);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--sub, #8b949e);
+        }
+
+        .close-sidebar-btn {
+            background: none;
+            border: none;
+            color: var(--sub);
+            font-size: 1.2rem;
+            cursor: pointer;
+            align-self: flex-start;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            transition: color 0.2s;
+        }
+
+            {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .close-sidebar-btn {
+                display: block;
+            }
+        }
+
+        .open-sidebar-btn {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            color: var(--sub);
+            padding: 1.5rem 0.5rem;
+            cursor: pointer;
+            z-index: 999;
+            display: none;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .open-sidebar-btn:hover {
+            color: var(--primary);
+            background: var(--hover);
+        }
+
+        .sidebar.hidden+.open-sidebar-btn {
+            display: block;
+        }
+
+        .user-menu-container {
+            position: absolute;
+            left: 1.5rem;
+            top: 2.6rem;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            width: 120px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .user-dropdown a:hover {
+            background: var(--hover);
+            color: var(--primary);
+        }
+
+        /* Dictionary Widget */
+        .dict-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .dict-toggle-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dict-toggle-btn:hover {
+            transform: scale(1.08);
+            background: #1f6feb;
+        }
+
+        .dict-box {
+            width: 320px;
+            height: 420px;
+            background: var(--card-bg, #161b22);
+            border: 1px solid var(--border, #30363d);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dict-widget.closed .dict-box {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+        }
+
+        .dict-widget.closed .dict-toggle-btn {
+            display: flex;
+        }
+
+        .dict-widget:not(.closed) .dict-toggle-btn {
+            display: none;
+        }
+
+        .dict-header {
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .dict-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dict-input-area {
+            padding: 10px;
+            border-top: 1px solid var(--border, #30363d);
+            display: flex;
+            gap: 8px;
+            background: var(--bg-color, #0d1117);
+        }
+
+        .dict-input-area input {
+            flex: 1;
+            background: var(--card-bg, #161b22);
+            border: 1px solid var(--border, #30363d);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .dict-input-area input:focus {
+            border-color: var(--primary, #3b82f6);
+        }
+
+        .dict-input-area button {
+            background: var(--primary, #3b82f6);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .dict-input-area button:hover {
+            background: #1f6feb;
+        }
+
+        .dict-msg {
+            padding: 10px 14px;
+            border-radius: 15px;
+            max-width: 85%;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .dict-msg.user {
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .dict-msg.bot {
+            background: var(--border, #30363d);
+            color: var(--text, #c9d1d9);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+    </style>
 
 
 </head>
 
 <body>
 
-  <header>
-<style>
-  .guide-icon-btn {
-    position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;
-  }
-  @media (max-width: 768px) {
-    .guide-icon-btn {
-      top: 0.2rem;
-    }
-  }
-</style>
-<div class="guide-icon-btn" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
-    <div class="logo-container">
-      <div class="user-menu-container">
-        {% if session.username %}
-        <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
-          <div style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
-            {{ session.username[0] }}
-          </div>
-          <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
-        </div>
-        <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
-          <a href="/logout">Logout</a>
-        </div>
-        {% else %}
-        <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
-        <div class="user-dropdown" id="user-dropdown">
-          <a href="/login">Login</a>
-          <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-          <a href="/signup">Sign Up</a>
-        </div>
-        {% endif %}
-      </div>
+    <header>
+        <style>
+            .guide-icon-btn {
+                position: absolute;
+                right: 1.5rem;
+                top: 2.6rem;
+                transform: translateY(-50%);
+                z-index: 100;
+                cursor: pointer;
+                font-size: 1.8rem;
+                transition: transform 0.2s;
+                display: flex;
+                align-items: center;
+            }
 
-      <a href="/" class="logo">Deutsch <span>Friend</span></a>
-    </div>
-    <div class="nav-links">
-      <a href="/grammar">Grammatik</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-      <a href="/lesen">Lesen</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-      <a href="/hoeren">Hören</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-      <a href="/sprechen" class="active">Sprechen</a>
-      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
-      <a href="/schreiben">Schreiben</a>
-    </div>
-  </header>
-
-  <div class="layout-container">
-    <aside class="sidebar" id="sidebar">
-      <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
-      <div class="sidebar-section">
-        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Szenarien</div>
-        <ul class="sidebar-menu collapsed">
-          <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
-            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
-            <select id="preset-level-select" style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
-              <option value="A1" selected>A1</option>
-              <option value="A2">A2</option>
-              <option value="B1">B1</option>
-              <option value="B2">B2</option>
-            </select>
-          </li>
-          <li><a onclick="startScenario('party')" id="link-party">Eine Party planen</a></li>
-          <li><a onclick="startScenario('problem')" id="link-problem">Ein Problem lösen</a></li>
-          <li><a onclick="startScenario('meinung')" id="link-meinung">Diskussion: Meinung äußern</a></li>
-          <li><a onclick="startScenario('restaurant')" id="link-restaurant">Im Restaurant</a></li>
-        </ul>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Freies Gespräch</div>
-        <ul class="sidebar-menu collapsed">
-          <li><a onclick="startScenario('free')" id="link-free">Einfacher Chat</a></li>
-        </ul>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-title" onclick="toggleDropdown(this)">Eigenes Thema</div>
-        <ul class="sidebar-menu">
-          <li style="padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
-            <label style="font-size: 0.85rem; color: var(--sub);">Thema:</label>
-            <input type="text" id="custom-scenario" placeholder="z.B. Im Supermarkt"
-              style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
-            <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
-            <select id="level-select"
-              style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
-              <option value="A1" selected>A1</option>
-              <option value="A2">A2</option>
-              <option value="B1">B1</option>
-              <option value="B2">B2</option>
-            </select>
-            <button class="btn btn-primary"
-              style="padding: 0.4rem; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; justify-content: center;"
-              onclick="setCustomTopic()">Thema setzen</button>
-          </li>
-        </ul>
-      </div>
-    </aside>
-    <button class="open-sidebar-btn" onclick="toggleSidebar()" title="Menü öffnen">▶</button>
-
-    <main class="main-content">
-      <div class="content-header">
-        <div class="header-text">
-          <h1 id="page-title">Eigenes Thema</h1>
-          <p id="page-sub">Sprich mit dem AI-Lehrer. Setze zuerst ein Thema in der Seitenleiste.</p>
-        </div>
-      </div>
-
-      <div class="chat-container">
-        <div class="chat-messages" id="chat-messages">
-          <div class="message ai">Lass uns anfangen! (Setze zuerst ein Thema in der Seitenleiste / Set a topic from Sidebar first)</div>
-        </div>
-
-        <div class="chat-input-area">
-          <div style="display: flex; gap: 1rem; margin-bottom: 0.5rem; align-items: center; justify-content: center;">
-            <span style="color: var(--sub); font-size: 0.85rem;">Sprache / Language:</span>
-            <select id="mic-lang"
-              style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
-              <option value="de" selected>Deutsch</option>
-              <option value="en">English</option>
-              <option value="">Auto-Detect</option>
-            </select>
             
-            <label style="color: var(--sub); font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem; margin-left: 1rem; cursor: pointer;">
-              <input type="checkbox" id="toggle-transcript" checked onchange="document.querySelector('.chat-container').classList.toggle('hide-text', !this.checked)">
-              Transkript anzeigen
-            </label>
-          </div>
-          <div class="status-text" id="status-text">Tippe auf den Mikrofon-Button, um zu sprechen.</div>
-          <button class="record-btn" id="record-btn" onclick="toggleRecording()">🎙️</button>
+        </style>
+        <div class="guide-icon-btn" onclick="toggleGuideModal()" title="App Guide"
+            onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
+        <div class="logo-container">
+            <div class="user-menu-container">
+                {% if session.username %}
+                <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
+                    <div
+                        style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
+                        {{ session.username[0] }}
+                    </div>
+                    <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
+                </div>
+                <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
+                    <a href="/logout">Logout</a>
+                </div>
+                {% else %}
+                <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
+                <div class="user-dropdown" id="user-dropdown">
+                    <a href="/login">Login</a>
+                    <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
+                    <a href="/signup">Sign Up</a>
+                </div>
+                {% endif %}
+            </div>
+
+            <a href="/" class="logo">Deutsch <span>Friend</span></a>
         </div>
-      </div>
-    </main>
-  </div>
+        <div class="nav-links">
+            <a href="/grammar">Grammatik</a>
+            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
+            <a href="/lesen">Lesen</a>
+            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
+            <a href="/hoeren">Hören</a>
+            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
+            <a href="/sprechen" class="active">Sprechen</a>
+            <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
+            <a href="/schreiben">Schreiben</a>
+        </div>
+    </header>
 
-  <script>
-    if (window.innerWidth <= 768) {
-      document.getElementById('sidebar').classList.add('hidden');
-    }
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('hidden');
-    }
+    <div class="layout-container">
+        <aside class="sidebar" id="sidebar">
+            <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
+            <div class="sidebar-section">
+                <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Szenarien</div>
+                <ul class="sidebar-menu collapsed">
+                    <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
+                        <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+                        <select id="preset-level-select"
+                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
+                            <option value="A1" selected>A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                        </select>
+                    </li>
+                    <li><a onclick="startScenario('party')" id="link-party">Eine Party planen</a></li>
+                    <li><a onclick="startScenario('problem')" id="link-problem">Ein Problem lösen</a></li>
+                    <li><a onclick="startScenario('meinung')" id="link-meinung">Diskussion: Meinung äußern</a></li>
+                    <li><a onclick="startScenario('restaurant')" id="link-restaurant">Im Restaurant</a></li>
+                </ul>
+            </div>
 
-    function toggleDropdown(element) {
-      document.querySelectorAll('.sidebar-title').forEach(title => {
-        if (title !== element && !title.classList.contains('collapsed')) {
-          title.classList.add('collapsed');
-          if (title.nextElementSibling) title.nextElementSibling.classList.add('collapsed');
+            <div class="sidebar-section">
+                <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Freies Gespräch</div>
+                <ul class="sidebar-menu collapsed">
+                    <li><a onclick="startScenario('free')" id="link-free">Einfacher Chat</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="toggleDropdown(this)">Eigenes Thema</div>
+                <ul class="sidebar-menu">
+                    <li style="padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-size: 0.85rem; color: var(--sub);">Thema:</label>
+                        <input type="text" id="custom-scenario" placeholder="z.B. Im Supermarkt"
+                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+                        <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+                        <select id="level-select"
+                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+                            <option value="A1" selected>A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                        </select>
+                        <button class="btn btn-primary"
+                            style="padding: 0.4rem; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; justify-content: center;"
+                            onclick="setCustomTopic()">Thema setzen</button>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <button class="open-sidebar-btn" onclick="toggleSidebar()" title="Menü öffnen">▶</button>
+
+        <main class="main-content">
+            <div class="content-header">
+                <div class="header-text">
+                    <h1 id="page-title">Eigenes Thema</h1>
+                    <p id="page-sub">Sprich mit dem AI-Lehrer. Setze zuerst ein Thema in der Seitenleiste.</p>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message ai">Lass uns anfangen! (Setze zuerst ein Thema in der Seitenleiste / Set a topic
+                        from Sidebar first)</div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div
+                        style="display: flex; gap: 1rem; margin-bottom: 0.5rem; align-items: center; justify-content: center;">
+                        <span style="color: var(--sub); font-size: 0.85rem;">Sprache / Language:</span>
+                        <select id="mic-lang"
+                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.2rem 0.5rem; border-radius: 4px; font-family: 'Inter', sans-serif;">
+                            <option value="de" selected>Deutsch</option>
+                            <option value="en">English</option>
+                            <option value="">Auto-Detect</option>
+                        </select>
+
+                        <label
+                            style="color: var(--sub); font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem; margin-left: 1rem; cursor: pointer;">
+                            <input type="checkbox" id="toggle-transcript" checked
+                                onchange="document.querySelector('.chat-container').classList.toggle('hide-text', !this.checked)">
+                            Transkript anzeigen
+                        </label>
+                    </div>
+                    <div class="status-text" id="status-text">Tippe auf den Mikrofon-Button, um zu sprechen.</div>
+                    <button class="record-btn" id="record-btn" onclick="toggleRecording()">🎙️</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('sidebar').classList.add('hidden');
         }
-      });
-      element.classList.toggle('collapsed');
-      const menu = element.nextElementSibling;
-      if (menu) menu.classList.toggle('collapsed');
-    }
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('hidden');
+        }
 
-    const scenarios = {
-      party: {
-        title: "Eine Party planen",
-        system: "You are a German conversation partner. The user is practicing for the Goethe B1 exam (Teil 2: Gemeinsam etwas planen). You are planning a surprise party for a mutual friend named Anna. Keep your responses short (1-2 sentences). Always end by asking a question. If the user speaks in English, asks for help in English, or asks you to change the subject, you MUST comply and answer them in English. Otherwise, speak strictly in B1 level German."
-      },
-      problem: {
-        title: "Ein Problem lösen",
-        system: "You are a German conversation partner for a B1 exam. You and the user bought a new TV together for your shared apartment, but it is broken. You need to discuss what to do. Keep your responses short. Always ask a follow-up question. If the user speaks in English or asks for help, respond in English. Otherwise, speak strictly in B1 level German."
-      },
-      meinung: {
-        title: "Diskussion: Meinung äußern",
-        system: "You are a German conversation partner. The user is practicing expressing opinions (B1 level). The topic is: 'Sollten Autos in der Innenstadt verboten werden?'. State your opinion and ask the user for theirs. Disagree politely. Keep responses short. If the user speaks in English or asks for help, respond in English. Otherwise, reply in German."
-      },
-      restaurant: {
-        title: "Im Restaurant",
-        system: "You are a friendly German waiter. The user is the customer. Ask what they want to order, answer questions, and handle the bill. Keep responses short. If the user speaks to you in English, respond in English to help them. Otherwise, speak in A2/B1 level German."
-      },
-      free: {
-        title: "Einfacher Chat",
-        system: "You are a friendly German teacher. Have a casual conversation with the user in German. If they make a grammar mistake, gently point it out in English, then continue in German. If the user speaks English or asks a question in English, answer them in English."
-      }
-    };
+        function toggleDropdown(element) {
+            document.querySelectorAll('.sidebar-title').forEach(title => {
+                if (title !== element && !title.classList.contains('collapsed')) {
+                    title.classList.add('collapsed');
+                    if (title.nextElementSibling) title.nextElementSibling.classList.add('collapsed');
+                }
+            });
+            element.classList.toggle('collapsed');
+            const menu = element.nextElementSibling;
+            if (menu) menu.classList.toggle('collapsed');
+        }
 
-    function setCustomTopic() {
-      const val = document.getElementById('custom-scenario').value.trim();
-      const level = document.getElementById('level-select').value;
-      if (!val) {
-        alert("Bitte gib ein Thema ein.");
-        return;
-      }
-      currentScenario = 'custom';
-      scenarios['custom'] = {
-        title: "Thema: " + val + " (" + level + ")",
-        system: "You are a friendly German conversation partner. The user wants to practice the following scenario/topic: '" + val + "'. Start the conversation appropriately. Keep your responses short (1-2 sentences). The language level should be strictly " + level + ". Always end by asking a question to keep the conversation going. If the user speaks in English or asks for help, respond in English. Otherwise, speak in German."
-      };
+        const scenarios = {
+            party: {
+                title: "Eine Party planen",
+                system: "You are a German conversation partner. The user is practicing for the Goethe B1 exam (Teil 2: Gemeinsam etwas planen). You are planning a surprise party for a mutual friend named Anna. Keep your responses short (1-2 sentences). Always end by asking a question. If the user speaks in English, asks for help in English, or asks you to change the subject, you MUST comply and answer them in English. Otherwise, speak strictly in B1 level German."
+            },
+            problem: {
+                title: "Ein Problem lösen",
+                system: "You are a German conversation partner for a B1 exam. You and the user bought a new TV together for your shared apartment, but it is broken. You need to discuss what to do. Keep your responses short. Always ask a follow-up question. If the user speaks in English or asks for help, respond in English. Otherwise, speak strictly in B1 level German."
+            },
+            meinung: {
+                title: "Diskussion: Meinung äußern",
+                system: "You are a German conversation partner. The user is practicing expressing opinions (B1 level). The topic is: 'Sollten Autos in der Innenstadt verboten werden?'. State your opinion and ask the user for theirs. Disagree politely. Keep responses short. If the user speaks in English or asks for help, respond in English. Otherwise, reply in German."
+            },
+            restaurant: {
+                title: "Im Restaurant",
+                system: "You are a friendly German waiter. The user is the customer. Ask what they want to order, answer questions, and handle the bill. Keep responses short. If the user speaks to you in English, respond in English to help them. Otherwise, speak in A2/B1 level German."
+            },
+            free: {
+                title: "Einfacher Chat",
+                system: "You are a friendly German teacher. Have a casual conversation with the user in German. If they make a grammar mistake, gently point it out in English, then continue in German. If the user speaks English or asks a question in English, answer them in English."
+            }
+        };
 
-      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-      document.getElementById('page-title').innerText = scenarios['custom'].title;
+        function setCustomTopic() {
+            const val = document.getElementById('custom-scenario').value.trim();
+            const level = document.getElementById('level-select').value;
+            if (!val) {
+                alert("Bitte gib ein Thema ein.");
+                return;
+            }
+            currentScenario = 'custom';
+            scenarios['custom'] = {
+                title: "Thema: " + val + " (" + level + ")",
+                system: "You are a friendly German conversation partner. The user wants to practice the following scenario/topic: '" + val + "'. Start the conversation appropriately. Keep your responses short (1-2 sentences). The language level should be strictly " + level + ". Always end by asking a question to keep the conversation going. If the user speaks in English or asks for help, respond in English. Otherwise, speak in German."
+            };
 
-      chatHistory = [];
-      const messagesDiv = document.getElementById('chat-messages');
-      messagesDiv.innerHTML = '<div class="message ai">Lass uns über "' + val + '" sprechen! (Tippe auf das Mikrofon, um zu beginnen)</div>';
-    }
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            document.getElementById('page-title').innerText = scenarios['custom'].title;
 
-    let currentScenario = 'custom';
-    let chatHistory = [];
+            chatHistory = [];
+            const messagesDiv = document.getElementById('chat-messages');
+            messagesDiv.innerHTML = '<div class="message ai">Lass uns über "' + val + '" sprechen! (Tippe auf das Mikrofon, um zu beginnen)</div>';
+        }
 
-    let mediaRecorder;
-    let audioChunks = [];
-    let isRecording = false;
+        let currentScenario = 'custom';
+        let chatHistory = [];
 
-    function startScenario(key) {
-      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
-      document.getElementById('link-' + key).classList.add('active');
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
 
-      const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'B1';
-      currentScenario = key;
-      document.getElementById('page-title').innerText = scenarios[key].title + " (" + level + ")";
+        function startScenario(key) {
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+            document.getElementById('link-' + key).classList.add('active');
 
-      // Reset Chat
-      chatHistory = [];
-      document.getElementById('chat-messages').innerHTML = '';
+            const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'B1';
+            currentScenario = key;
+            document.getElementById('page-title').innerText = scenarios[key].title + " (" + level + ")";
 
-      // AI starts the conversation
-      appendMessage("ai", "Lass uns anfangen! (Send a voice message to begin)");
-    }
+            // Reset Chat
+            chatHistory = [];
+            document.getElementById('chat-messages').innerHTML = '';
 
-    function appendMessage(role, text) {
-      const msgs = document.getElementById('chat-messages');
-      const div = document.createElement('div');
-      div.className = 'message ' + role;
+            // AI starts the conversation
+            appendMessage("ai", "Lass uns anfangen! (Send a voice message to begin)");
+        }
 
-      if (role === 'ai') {
-        const textSpan = document.createElement('span');
-        textSpan.innerText = text;
-        const btn = document.createElement('button');
-        btn.innerText = '🔊';
-        btn.style.background = 'none';
-        btn.style.border = 'none';
-        btn.style.cursor = 'pointer';
-        btn.style.marginLeft = '10px';
-        btn.style.fontSize = '1rem';
-        btn.title = "Vorlesen";
-        btn.onclick = () => speakGerman(text);
+        function appendMessage(role, text) {
+            const msgs = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = 'message ' + role;
 
-        div.appendChild(textSpan);
-        div.appendChild(btn);
-      } else {
-        div.innerText = text;
-      }
+            if (role === 'ai') {
+                const textSpan = document.createElement('span');
+                textSpan.innerText = text;
+                const btn = document.createElement('button');
+                btn.innerText = '🔊';
+                btn.style.background = 'none';
+                btn.style.border = 'none';
+                btn.style.cursor = 'pointer';
+                btn.style.marginLeft = '10px';
+                btn.style.fontSize = '1rem';
+                btn.title = "Vorlesen";
+                btn.onclick = () => speakGerman(text);
 
-      msgs.appendChild(div);
-      msgs.scrollTop = msgs.scrollHeight;
-      return div;
-    }
+                div.appendChild(textSpan);
+                div.appendChild(btn);
+            } else {
+                div.innerText = text;
+            }
 
-    let voices = [];
-    let audioUnlocked = false;
+            msgs.appendChild(div);
+            msgs.scrollTop = msgs.scrollHeight;
+            return div;
+        }
 
-    function loadVoices() {
-      if ('speechSynthesis' in window) {
-        voices = window.speechSynthesis.getVoices();
-      }
-    }
+        let voices = [];
+        let audioUnlocked = false;
 
-    if ('speechSynthesis' in window) {
-      loadVoices();
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-    }
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                voices = window.speechSynthesis.getVoices();
+            }
+        }
 
-    function unlockAudio() {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(' ');
-        utterance.volume = 0.01;
-        window.speechSynthesis.speak(utterance);
-      }
-    }
-
-    // TTS (Text to Speech)
-    let currentUtterance = null; // Global to prevent garbage collection on iOS
-
-    function speakGerman(text, customRate) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-
-        // Small delay to allow cancel() to process on mobile browsers before speaking
-        setTimeout(() => {
-          currentUtterance = new SpeechSynthesisUtterance(text);
-          currentUtterance.lang = 'de-DE';
-          currentUtterance.rate = customRate || 0.9;
-
-          if (voices.length === 0) {
+        if ('speechSynthesis' in window) {
             loadVoices();
-          }
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
 
-          // Try to find a German voice
-          const deVoice = voices.find(v => v.lang.startsWith('de') || v.lang === 'de_DE' || v.lang === 'de-DE');
-          if (deVoice) currentUtterance.voice = deVoice;
+        function unlockAudio() {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(' ');
+                utterance.volume = 0.01;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
 
-          window.speechSynthesis.speak(currentUtterance);
-        }, 50);
-      }
-    }
+        // TTS (Text to Speech)
+        let currentUtterance = null; // Global to prevent garbage collection on iOS
 
-    // STT (Microphone Recording)
-    let recordStartTime = 0;
-    let cancelNextProcessing = false;
+        function speakGerman(text, customRate) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
 
-    function toggleRecording() {
-      if (isRecording) {
-        stopRecording();
-      } else {
-        startRecording();
-      }
-    }
+                // Small delay to allow cancel() to process on mobile browsers before speaking
+                setTimeout(() => {
+                    currentUtterance = new SpeechSynthesisUtterance(text);
+                    currentUtterance.lang = 'de-DE';
+                    currentUtterance.rate = customRate || 0.9;
 
-    async function startRecording() {
-      if (isRecording) return;
-      if (currentScenario === 'custom' && !scenarios['custom']) {
-        alert("Bitte setze zuerst ein Thema in der Seitenleiste.\n\nSet a topic from the sidebar first.");
-        return;
-      }
-      unlockAudio();
+                    if (voices.length === 0) {
+                        loadVoices();
+                    }
 
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
+                    // Try to find a German voice
+                    const deVoice = voices.find(v => v.lang.startsWith('de') || v.lang === 'de_DE' || v.lang === 'de-DE');
+                    if (deVoice) currentUtterance.voice = deVoice;
 
-        mediaRecorder.ondataavailable = event => {
-          audioChunks.push(event.data);
-        };
+                    window.speechSynthesis.speak(currentUtterance);
+                }, 50);
+            }
+        }
 
-        mediaRecorder.onstop = async () => {
-          if (cancelNextProcessing) return;
-          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-          await processAudio(audioBlob);
-        };
+        // STT (Microphone Recording)
+        let recordStartTime = 0;
+        let cancelNextProcessing = false;
 
-        mediaRecorder.start();
-        isRecording = true;
-        recordStartTime = Date.now();
-        cancelNextProcessing = false;
-        document.getElementById('record-btn').classList.add('recording');
-        document.getElementById('status-text').innerText = "Aufnahme läuft... (Tippe erneut zum Senden)";
-      } catch (err) {
-        alert("Mikrofon-Zugriff verweigert: " + err.message);
-      }
-    }
+        function toggleRecording() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        }
 
-    function stopRecording() {
-      if (!isRecording || !mediaRecorder) return;
-      
-      // Call unlockAudio on stop to renew the iOS Safari speech gesture token
-      // right before the async API call begins
-      unlockAudio();
+        async function startRecording() {
+            if (isRecording) return;
+            if (currentScenario === 'custom' && !scenarios['custom']) {
+                alert("Bitte setze zuerst ein Thema in der Seitenleiste.\n\nSet a topic from the sidebar first.");
+                return;
+            }
+            unlockAudio();
 
-      if (Date.now() - recordStartTime < 800) {
-        cancelNextProcessing = true;
-        document.getElementById('status-text').innerText = "Aufnahme zu kurz. Tippe erneut.";
-      } else {
-        document.getElementById('status-text').innerText = "Audio wird verarbeitet...";
-      }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
 
-      mediaRecorder.stop();
-      isRecording = false;
-      document.getElementById('record-btn').classList.remove('recording');
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
 
-      // Stop all tracks to release mic
-      mediaRecorder.stream.getTracks().forEach(track => track.stop());
-    }
+                mediaRecorder.onstop = async () => {
+                    if (cancelNextProcessing) return;
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    await processAudio(audioBlob);
+                };
 
-    async function processAudio(blob) {
-      // 1. Send Audio to Groq Whisper via Flask Backend
-      const formData = new FormData();
-      formData.append('audio', blob, 'audio.webm');
-      formData.append('language', document.getElementById('mic-lang').value);
+                mediaRecorder.start();
+                isRecording = true;
+                recordStartTime = Date.now();
+                cancelNextProcessing = false;
+                document.getElementById('record-btn').classList.add('recording');
+                document.getElementById('status-text').innerText = "Aufnahme läuft... (Tippe erneut zum Senden)";
+            } catch (err) {
+                alert("Mikrofon-Zugriff verweigert: " + err.message);
+            }
+        }
 
-      try {
-        const transRes = await fetch('/api/transcribe', {
-          method: 'POST',
-          body: formData
+        function stopRecording() {
+            if (!isRecording || !mediaRecorder) return;
+
+            // Call unlockAudio on stop to renew the iOS Safari speech gesture token
+            // right before the async API call begins
+            unlockAudio();
+
+            if (Date.now() - recordStartTime < 800) {
+                cancelNextProcessing = true;
+                document.getElementById('status-text').innerText = "Aufnahme zu kurz. Tippe erneut.";
+            } else {
+                document.getElementById('status-text').innerText = "Audio wird verarbeitet...";
+            }
+
+            mediaRecorder.stop();
+            isRecording = false;
+            document.getElementById('record-btn').classList.remove('recording');
+
+            // Stop all tracks to release mic
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        }
+
+        async function processAudio(blob) {
+            // 1. Send Audio to Groq Whisper via Flask Backend
+            const formData = new FormData();
+            formData.append('audio', blob, 'audio.webm');
+            formData.append('language', document.getElementById('mic-lang').value);
+
+            try {
+                const transRes = await fetch('/api/transcribe', {
+                    method: 'POST',
+                    body: formData
+                });
+                const transData = await transRes.json();
+
+                if (transData.error) throw new Error(transData.error);
+                if (!transData.text || transData.text.trim() === '') {
+                    document.getElementById('status-text').innerText = "Ich konnte nichts hören. Bitte nochmal versuchen.";
+                    return;
+                }
+
+                const userText = transData.text;
+                const userMsgDiv = appendMessage('user', userText);
+                chatHistory.push({ "role": "user", "content": userText });
+
+                // 2. Run grammar check AND AI chat reply in parallel
+                document.getElementById('status-text').innerText = "AI tippt...";
+
+                let activeSystemPrompt = scenarios[currentScenario].system;
+                if (currentScenario !== 'custom') {
+                    const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'B1';
+                    activeSystemPrompt += ` Please strictly adapt your vocabulary, grammar, and corrections to the ${level} CEFR language level.`;
+                }
+
+                const [chatRes, corrRes] = await Promise.all([
+                    fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            system: activeSystemPrompt,
+                            messages: chatHistory
+                        })
+                    }),
+                    fetch('/api/check_speech', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            text: userText,
+                            system: activeSystemPrompt
+                        })
+                    })
+                ]);
+
+                // 3. Show grammar correction bubble (if any mistakes found)
+                const corrData = await corrRes.json();
+                if (corrData.correction) {
+                    const msgs = document.getElementById('chat-messages');
+                    const corrDiv = document.createElement('div');
+                    corrDiv.className = 'message correction';
+                    corrDiv.innerHTML = corrData.correction;
+                    // Insert correction right after the user's message
+                    userMsgDiv.insertAdjacentElement('afterend', corrDiv);
+                    msgs.scrollTop = msgs.scrollHeight;
+                }
+
+                // 4. Show AI conversational reply
+                const chatData = await chatRes.json();
+                if (chatData.error) throw new Error(chatData.error);
+
+                const aiText = chatData.reply;
+                appendMessage('ai', aiText);
+                chatHistory.push({ "role": "assistant", "content": aiText });
+
+                // 5. Play AI audio
+                speakGerman(aiText);
+
+                document.getElementById('status-text').innerText = "Tippe auf den Mikrofon-Button, um zu sprechen.";
+
+            } catch (err) {
+                alert("Fehler: " + err.message);
+                document.getElementById('status-text').innerText = "Fehler aufgetreten.";
+            }
+        }
+
+        // Force voices to load on some browsers
+        window.speechSynthesis.onvoiceschanged = () => { };
+
+        // Register touch events with passive:false so preventDefault() works,
+        // preventing the browser's long-press copy/context-menu on touch screens.
+        const recordBtn = document.getElementById('record-btn');
+        recordBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            toggleRecording();
+        }, { passive: false });
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+        document.addEventListener('click', function (event) {
+            const container = document.querySelector('.user-menu-container');
+            const dropdown = document.getElementById('user-dropdown');
+            if (container && !container.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
         });
-        const transData = await transRes.json();
 
-        if (transData.error) throw new Error(transData.error);
-        if (!transData.text || transData.text.trim() === '') {
-          document.getElementById('status-text').innerText = "Ich konnte nichts hören. Bitte nochmal versuchen.";
-          return;
+        function toggleDict() {
+            document.getElementById('dict-widget').classList.toggle('closed');
         }
+        async function translateWord() {
+            const input = document.getElementById('dict-input');
+            const word = input.value.trim();
+            if (!word) return;
+            const content = document.getElementById('dict-content');
 
-        const userText = transData.text;
-        const userMsgDiv = appendMessage('user', userText);
-        chatHistory.push({ "role": "user", "content": userText });
+            const userMsg = document.createElement('div');
+            userMsg.className = 'dict-msg user';
+            userMsg.textContent = word;
+            content.appendChild(userMsg);
 
-        // 2. Run grammar check AND AI chat reply in parallel
-        document.getElementById('status-text').innerText = "AI tippt...";
-        
-        let activeSystemPrompt = scenarios[currentScenario].system;
-        if (currentScenario !== 'custom') {
-          const level = document.getElementById('preset-level-select') ? document.getElementById('preset-level-select').value : 'B1';
-          activeSystemPrompt += ` Please strictly adapt your vocabulary, grammar, and corrections to the ${level} CEFR language level.`;
+            input.value = '';
+            content.scrollTop = content.scrollHeight;
+
+            const botMsg = document.createElement('div');
+            botMsg.className = 'dict-msg bot';
+            botMsg.textContent = '...';
+            content.appendChild(botMsg);
+            content.scrollTop = content.scrollHeight;
+
+            try {
+                const res = await fetch('/api/dictionary', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ word: word })
+                });
+                const data = await res.json();
+                if (data.error) {
+                    botMsg.textContent = "Error: " + data.error;
+                } else {
+                    botMsg.textContent = data.translation;
+                }
+            } catch (e) {
+                botMsg.textContent = "Verbindungsfehler";
+            }
+            content.scrollTop = content.scrollHeight;
         }
-        
-        const [chatRes, corrRes] = await Promise.all([
-          fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              system: activeSystemPrompt,
-              messages: chatHistory
-            })
-          }),
-          fetch('/api/check_speech', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              text: userText,
-              system: activeSystemPrompt
-            })
-          })
-        ]);
-
-        // 3. Show grammar correction bubble (if any mistakes found)
-        const corrData = await corrRes.json();
-        if (corrData.correction) {
-          const msgs = document.getElementById('chat-messages');
-          const corrDiv = document.createElement('div');
-          corrDiv.className = 'message correction';
-          corrDiv.innerHTML = corrData.correction;
-          // Insert correction right after the user's message
-          userMsgDiv.insertAdjacentElement('afterend', corrDiv);
-          msgs.scrollTop = msgs.scrollHeight;
-        }
-
-        // 4. Show AI conversational reply
-        const chatData = await chatRes.json();
-        if (chatData.error) throw new Error(chatData.error);
-
-        const aiText = chatData.reply;
-        appendMessage('ai', aiText);
-        chatHistory.push({ "role": "assistant", "content": aiText });
-
-        // 5. Play AI audio
-        speakGerman(aiText);
-
-        document.getElementById('status-text').innerText = "Tippe auf den Mikrofon-Button, um zu sprechen.";
-
-      } catch (err) {
-        alert("Fehler: " + err.message);
-        document.getElementById('status-text').innerText = "Fehler aufgetreten.";
-      }
-    }
-
-    // Force voices to load on some browsers
-    window.speechSynthesis.onvoiceschanged = () => { };
-
-    // Register touch events with passive:false so preventDefault() works,
-    // preventing the browser's long-press copy/context-menu on touch screens.
-    const recordBtn = document.getElementById('record-btn');
-    recordBtn.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      toggleRecording();
-    }, { passive: false });
-
-    function toggleUserMenu() {
-      const dropdown = document.getElementById('user-dropdown');
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-    document.addEventListener('click', function (event) {
-      const container = document.querySelector('.user-menu-container');
-      const dropdown = document.getElementById('user-dropdown');
-      if (container && !container.contains(event.target)) {
-        dropdown.style.display = 'none';
-      }
-    });
-
-    function toggleDict() {
-      document.getElementById('dict-widget').classList.toggle('closed');
-    }
-    async function translateWord() {
-      const input = document.getElementById('dict-input');
-      const word = input.value.trim();
-      if (!word) return;
-      const content = document.getElementById('dict-content');
-
-      const userMsg = document.createElement('div');
-      userMsg.className = 'dict-msg user';
-      userMsg.textContent = word;
-      content.appendChild(userMsg);
-
-      input.value = '';
-      content.scrollTop = content.scrollHeight;
-
-      const botMsg = document.createElement('div');
-      botMsg.className = 'dict-msg bot';
-      botMsg.textContent = '...';
-      content.appendChild(botMsg);
-      content.scrollTop = content.scrollHeight;
-
-      try {
-        const res = await fetch('/api/dictionary', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ word: word })
-        });
-        const data = await res.json();
-        if (data.error) {
-          botMsg.textContent = "Error: " + data.error;
-        } else {
-          botMsg.textContent = data.translation;
-        }
-      } catch (e) {
-        botMsg.textContent = "Verbindungsfehler";
-      }
-      content.scrollTop = content.scrollHeight;
-    }
-  </script>
+    </script>
 
 
 
-  <!-- Dictionary Widget -->
-  <div id="dict-widget" class="dict-widget closed">
-    <div class="dict-box">
-      <div class="dict-header">
-        <span>📚 Wörterbuch</span>
-        <button onclick="toggleDict()"
-          style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.5rem;line-height:1;">×</button>
-      </div>
-      <div class="dict-content" id="dict-content">
-        <p style="color:var(--sub);font-size:0.85rem;text-align:center;">Tippe ein Wort auf Deutsch oder Englisch ein.
-        </p>
-      </div>
-      <div class="dict-input-area">
-        <input type="text" id="dict-input" placeholder="Übersetzen..."
-          onkeypress="if(event.key === 'Enter') translateWord()">
-        <button onclick="translateWord()">➔</button>
-      </div>
+    <!-- Dictionary Widget -->
+    <div id="dict-widget" class="dict-widget closed">
+        <div class="dict-box">
+            <div class="dict-header">
+                <span>📚 Wörterbuch</span>
+                <button onclick="toggleDict()"
+                    style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.5rem;line-height:1;">×</button>
+            </div>
+            <div class="dict-content" id="dict-content">
+                <p style="color:var(--sub);font-size:0.85rem;text-align:center;">Tippe ein Wort auf Deutsch oder
+                    Englisch ein.
+                </p>
+            </div>
+            <div class="dict-input-area">
+                <input type="text" id="dict-input" placeholder="Übersetzen..."
+                    onkeypress="if(event.key === 'Enter') translateWord()">
+                <button onclick="translateWord()">➔</button>
+            </div>
+        </div>
+        <button class="dict-toggle-btn" onclick="toggleDict()" title="Wörterbuch">📚</button>
     </div>
-    <button class="dict-toggle-btn" onclick="toggleDict()" title="Wörterbuch">📚</button>
-  </div>
 
-<script>
-  // Automatically save and restore all dropdown choices from cloud only
-  document.addEventListener('DOMContentLoaded', async () => {
-    let cloudPrefs = {};
-    const isLoggedIn = {{ 'true' if session.get('username') else 'false' }};
-    
-    if (isLoggedIn) {
-      try {
-        const res = await fetch('/api/get_preferences');
-        if (res.ok) {
-          cloudPrefs = await res.json();
-        }
-      } catch (e) { console.error(e); }
-    }
+    <script>
+        // Automatically save and restore all dropdown choices from cloud only
+        document.addEventListener('DOMContentLoaded', async () => {
+            let cloudPrefs = {};
+            const isLoggedIn = {{ 'true' if session.get('username') else 'false'
+        }};
 
-    document.querySelectorAll('select').forEach(el => {
-      if (!el.id) return;
-      
-      if (cloudPrefs[el.id]) {
-        el.value = cloudPrefs[el.id];
-      }
-      
-      el.addEventListener('change', () => {
         if (isLoggedIn) {
-          fetch('/api/save_preference', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({key: el.id, value: el.value})
-          }).catch(console.error);
+            try {
+                const res = await fetch('/api/get_preferences');
+                if (res.ok) {
+                    cloudPrefs = await res.json();
+                }
+            } catch (e) { console.error(e); }
         }
-      });
-    });
+
+        document.querySelectorAll('select').forEach(el => {
+            if (!el.id) return;
+
+            if (cloudPrefs[el.id]) {
+                el.value = cloudPrefs[el.id];
+            }
+
+            el.addEventListener('change', () => {
+                if (isLoggedIn) {
+                    fetch('/api/save_preference', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: el.id, value: el.value })
+                    }).catch(console.error);
+                }
+            });
+        });
   });
-</script>
+    </script>
 
-<!-- Guide Modal v3 -->
-<div id="app-guide-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
-  <div style="background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; width: 90%; max-width: 700px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.8); animation: fadeIn 0.3s ease-out; overflow: hidden;">
-    
-    <div style="padding: 1.5rem; border-bottom: 1px solid var(--border, #30363d); display: flex; justify-content: space-between; align-items: center; background: var(--primary, #58a6ff); color: #fff;">
-      <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">📖 Deutsch Friend Guide</h2>
-      <button onclick="toggleGuideModal()" style="background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;">×</button>
+    <!-- Guide Modal v3 -->
+    <div id="app-guide-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+        <div
+            style="background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; width: 90%; max-width: 700px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.8); animation: fadeIn 0.3s ease-out; overflow: hidden;">
+
+            <div
+                style="padding: 1.5rem; border-bottom: 1px solid var(--border, #30363d); display: flex; justify-content: space-between; align-items: center; background: var(--primary, #58a6ff); color: #fff;">
+                <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">📖 Deutsch
+                    Friend Guide</h2>
+                <button onclick="toggleGuideModal()"
+                    style="background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;">×</button>
+            </div>
+
+            <!-- Tabs Header -->
+            <div style="display: flex; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border, #30363d);">
+                <button id="tab-btn-features" onclick="switchGuideTab('features')"
+                    style="flex: 1; padding: 1rem; background: var(--hover, #21262d); border: none; color: var(--primary, #58a6ff); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--primary, #58a6ff); transition: all 0.2s; font-size: 1rem;">Features
+                    Overview</button>
+                <button id="tab-btn-tutorial" onclick="switchGuideTab('tutorial')"
+                    style="flex: 1; padding: 1rem; background: transparent; border: none; color: var(--sub, #8b949e); font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; font-size: 1rem;">Step-by-Step
+                    Tutorial</button>
+            </div>
+
+            <div
+                style="padding: 1.5rem; overflow-y: auto; color: var(--text-main, #c9d1d9); font-size: 0.95rem; line-height: 1.6; flex: 1;">
+
+                <!-- Features Tab -->
+                <div id="guide-tab-features" style="display: block;">
+                    <h3 style="color: var(--primary, #58a6ff); margin-bottom: 0.5rem;">Welcome to Deutsch Friend!</h3>
+                    <p style="margin-bottom: 1.2rem;">Your ultimate AI companion for mastering the German language.
+                        Here's what you can do:</p>
+
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid var(--primary, #58a6ff); border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">📚 Grammatik (Grammar)</h4>
+                        <p>Learn cases and fixed prepositions through hundreds of examples.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(247, 120, 186, 0.1); border-left: 4px solid #f778ba; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">📖 Lesen (Reading)</h4>
+                        <p>Read authentic German texts customized to your level (A1-B2) and answer comprehension
+                            questions.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">🎧 Hören (Listening)</h4>
+                        <p>Listen to generated audio scenarios. Type out the transcript and let the AI grade your
+                            accuracy.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(210, 153, 34, 0.1); border-left: 4px solid #d29922; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">🗣️ Sprechen (Speaking)</h4>
+                        <p>Record your voice to practice speaking. The AI will analyze your pronunciation and grammar in
+                            real-time.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
+                        <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR
+                            level.</p>
+                    </div>
+                </div>
+
+                <!-- Tutorial Tab -->
+                <div id="guide-tab-tutorial" style="display: none;">
+                    <h3 style="color: var(--primary, #58a6ff); margin-bottom: 1rem;">Full App Tutorial</h3>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 1: Set Up Your Account</h4>
+                        <p>Start by clicking <b>"Sign Up"</b> in the top left menu. Creating an account allows the app
+                            to securely save your preferences (like your preferred learning level) directly to the
+                            cloud. Once logged in, you'll see your profile icon in the top left corner!</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 2: Navigation & The Sidebar Arrow</h4>
+                        <p>Look for the <b>▶ or ◀ arrow</b> on the left side of the screen on any dashboard page.
+                            Clicking this arrow will open or collapse the side menu. This sidebar contains options,
+                            settings, and topic choices to customize your learning.</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 3: Choose Your Level</h4>
+                        <p>Using the opened side menu on the Reading or Listening dashboard, select your CEFR target
+                            level (A1, A2, B1, or B2). Your choice will be synced automatically across all devices!</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 4: Practice Daily Core Skills</h4>
+                        <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><b>Input (Lesen & Hören):</b> Generate a reading text or
+                                listening audio. Try to understand the context first without translating everything.
+                                Then, answer the comprehension questions.</li>
+                            <li style="margin-bottom: 0.5rem;"><b>Output (Schreiben & Sprechen):</b> Choose a topic or
+                                prompt. When writing, focus on grammar and let the AI grade you. When speaking, use the
+                                mic to record your sentence and instantly see if you were grammatically correct and
+                                on-topic!</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 5: Use the Dictionary Widget</h4>
+                        <p>Stuck on a word? Don't leave the app! Click the <b>📚 floating dictionary</b> icon in the
+                            bottom right of any page. Type in an English or German word to get translations and verb
+                            conjugations instantly.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
+    <script>
+        function toggleGuideModal() {
+            const modal = document.getElementById('app-guide-modal');
+            if (modal.style.display === 'none' || modal.style.display === '') {
+                modal.style.display = 'flex';
+            } else {
+                modal.style.display = 'none';
+            }
+        }
 
-    <!-- Tabs Header -->
-    <div style="display: flex; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border, #30363d);">
-      <button id="tab-btn-features" onclick="switchGuideTab('features')" style="flex: 1; padding: 1rem; background: var(--hover, #21262d); border: none; color: var(--primary, #58a6ff); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--primary, #58a6ff); transition: all 0.2s; font-size: 1rem;">Features Overview</button>
-      <button id="tab-btn-tutorial" onclick="switchGuideTab('tutorial')" style="flex: 1; padding: 1rem; background: transparent; border: none; color: var(--sub, #8b949e); font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; font-size: 1rem;">Step-by-Step Tutorial</button>
-    </div>
+        function switchGuideTab(tab) {
+            const featuresTab = document.getElementById('guide-tab-features');
+            const tutorialTab = document.getElementById('guide-tab-tutorial');
+            const featuresBtn = document.getElementById('tab-btn-features');
+            const tutorialBtn = document.getElementById('tab-btn-tutorial');
 
-    <div style="padding: 1.5rem; overflow-y: auto; color: var(--text-main, #c9d1d9); font-size: 0.95rem; line-height: 1.6; flex: 1;">
-      
-      <!-- Features Tab -->
-      <div id="guide-tab-features" style="display: block;">
-        <h3 style="color: var(--primary, #58a6ff); margin-bottom: 0.5rem;">Welcome to Deutsch Friend!</h3>
-        <p style="margin-bottom: 1.2rem;">Your ultimate AI companion for mastering the German language. Here's what you can do:</p>
-        
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid var(--primary, #58a6ff); border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">📚 Grammatik (Grammar)</h4>
-          <p>Learn cases and fixed prepositions through hundreds of examples.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(247, 120, 186, 0.1); border-left: 4px solid #f778ba; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">📖 Lesen (Reading)</h4>
-          <p>Read authentic German texts customized to your level (A1-B2) and answer comprehension questions.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">🎧 Hören (Listening)</h4>
-          <p>Listen to generated audio scenarios. Type out the transcript and let the AI grade your accuracy.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(210, 153, 34, 0.1); border-left: 4px solid #d29922; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">🗣️ Sprechen (Speaking)</h4>
-          <p>Record your voice to practice speaking. The AI will analyze your pronunciation and grammar in real-time.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
-          <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR level.</p>
-        </div>
-      </div>
+            if (tab === 'features') {
+                featuresTab.style.display = 'block';
+                tutorialTab.style.display = 'none';
+                featuresBtn.style.background = 'var(--hover, #21262d)';
+                featuresBtn.style.color = 'var(--primary, #58a6ff)';
+                featuresBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
 
-      <!-- Tutorial Tab -->
-      <div id="guide-tab-tutorial" style="display: none;">
-        <h3 style="color: var(--primary, #58a6ff); margin-bottom: 1rem;">Full App Tutorial</h3>
-        
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 1: Set Up Your Account</h4>
-          <p>Start by clicking <b>"Sign Up"</b> in the top left menu. Creating an account allows the app to securely save your preferences (like your preferred learning level) directly to the cloud. Once logged in, you'll see your profile icon in the top left corner!</p>
-        </div>
+                tutorialBtn.style.background = 'transparent';
+                tutorialBtn.style.color = 'var(--sub, #8b949e)';
+                tutorialBtn.style.borderBottom = '3px solid transparent';
+            } else {
+                featuresTab.style.display = 'none';
+                tutorialTab.style.display = 'block';
+                tutorialBtn.style.background = 'var(--hover, #21262d)';
+                tutorialBtn.style.color = 'var(--primary, #58a6ff)';
+                tutorialBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
 
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 2: Navigation & The Sidebar Arrow</h4>
-          <p>Look for the <b>▶ or ◀ arrow</b> on the left side of the screen on any dashboard page. Clicking this arrow will open or collapse the side menu. This sidebar contains options, settings, and topic choices to customize your learning.</p>
-        </div>
-
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 3: Choose Your Level</h4>
-          <p>Using the opened side menu on the Reading or Listening dashboard, select your CEFR target level (A1, A2, B1, or B2). Your choice will be synced automatically across all devices!</p>
-        </div>
-        
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 4: Practice Daily Core Skills</h4>
-          <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
-            <li style="margin-bottom: 0.5rem;"><b>Input (Lesen & Hören):</b> Generate a reading text or listening audio. Try to understand the context first without translating everything. Then, answer the comprehension questions.</li>
-            <li style="margin-bottom: 0.5rem;"><b>Output (Schreiben & Sprechen):</b> Choose a topic or prompt. When writing, focus on grammar and let the AI grade you. When speaking, use the mic to record your sentence and instantly see if you were grammatically correct and on-topic!</li>
-          </ul>
-        </div>
-
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 5: Use the Dictionary Widget</h4>
-          <p>Stuck on a word? Don't leave the app! Click the <b>📚 floating dictionary</b> icon in the bottom right of any page. Type in an English or German word to get translations and verb conjugations instantly.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-<script>
-  function toggleGuideModal() {
-    const modal = document.getElementById('app-guide-modal');
-    if (modal.style.display === 'none' || modal.style.display === '') {
-      modal.style.display = 'flex';
-    } else {
-      modal.style.display = 'none';
-    }
-  }
-
-  function switchGuideTab(tab) {
-    const featuresTab = document.getElementById('guide-tab-features');
-    const tutorialTab = document.getElementById('guide-tab-tutorial');
-    const featuresBtn = document.getElementById('tab-btn-features');
-    const tutorialBtn = document.getElementById('tab-btn-tutorial');
-
-    if (tab === 'features') {
-      featuresTab.style.display = 'block';
-      tutorialTab.style.display = 'none';
-      featuresBtn.style.background = 'var(--hover, #21262d)';
-      featuresBtn.style.color = 'var(--primary, #58a6ff)';
-      featuresBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
-      
-      tutorialBtn.style.background = 'transparent';
-      tutorialBtn.style.color = 'var(--sub, #8b949e)';
-      tutorialBtn.style.borderBottom = '3px solid transparent';
-    } else {
-      featuresTab.style.display = 'none';
-      tutorialTab.style.display = 'block';
-      tutorialBtn.style.background = 'var(--hover, #21262d)';
-      tutorialBtn.style.color = 'var(--primary, #58a6ff)';
-      tutorialBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
-      
-      featuresBtn.style.background = 'transparent';
-      featuresBtn.style.color = 'var(--sub, #8b949e)';
-      featuresBtn.style.borderBottom = '3px solid transparent';
-    }
-  }
-</script>
+                featuresBtn.style.background = 'transparent';
+                featuresBtn.style.color = 'var(--sub, #8b949e)';
+                featuresBtn.style.borderBottom = '3px solid transparent';
+            }
+        }
+    </script>
 </body>
 
 </html>

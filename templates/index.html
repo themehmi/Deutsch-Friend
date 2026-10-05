@@ -1,501 +1,791 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deutsch Friend - Willkommen</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deutsch Friend - Willkommen</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap');
 
-    :root {
-      --bg-color: #0d1117;
-      --text-main: #c9d1d9;
-      --primary: #58a6ff;
-      --card-bg: #161b22;
-      --card-border: #30363d;
-      
-      --grammatik: #8957e5;
-      --hoeren: #a855f7;
-      --sprechen: #d29922;
-      --schreiben: #e5534b;
-    }
+        :root {
+            --bg-color: #0d1117;
+            --text-main: #c9d1d9;
+            --primary: #58a6ff;
+            --card-bg: #161b22;
+            --card-border: #30363d;
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+            --grammatik: #8957e5;
+            --hoeren: #a855f7;
+            --sprechen: #d29922;
+            --schreiben: #e5534b;
+        }
 
-    body {
-      font-family: 'Outfit', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    header {
-      padding: 2rem 5%;
-      display: flex;
-      flex-direction: column; justify-content: center; gap: 1rem;
-      align-items: center;
-      border-bottom: 1px solid var(--card-border);
-      background: rgba(13, 17, 23, 0.8);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .logo span {
-      color: var(--primary);
-    }
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    nav ul { display: flex; gap: 1.5rem; list-style: none; flex-wrap: wrap; justify-content: center; }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    nav a {
-      color: var(--text-main);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-      font-size: 1.1rem;
-    }
+        .logo span {
+            color: var(--primary);
+        }
 
-    nav a:hover {
-      color: var(--primary);
-    }
+        nav ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    .hero {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 4rem 5%;
-      text-align: center;
-    }
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
 
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 4rem;
-      color: #fff;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #58a6ff, #8957e5);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: fadeIn 1s ease-out;
-    }
+        nav a:hover {
+            color: var(--primary);
+        }
 
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin-bottom: 4rem;
-      color: #8b949e;
-      line-height: 1.6;
-      animation: fadeIn 1.2s ease-out;
-    }
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 5%;
+            text-align: center;
+        }
 
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      width: 100%;
-      max-width: 1200px;
-      animation: slideUp 1s ease-out;
-    }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #58a6ff, #8957e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 1s ease-out;
+        }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 2.5rem 2rem;
-      text-align: left;
-      text-decoration: none;
-      color: var(--text-main);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 4rem;
+            color: #8b949e;
+            line-height: 1.6;
+            animation: fadeIn 1.2s ease-out;
+        }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: var(--card-border);
-      transition: all 0.4s ease;
-    }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            animation: slideUp 1s ease-out;
+        }
 
-    .card.grammatik::before { background: var(--grammatik); }
-    .card.lesen::before { background: #f778ba; }
-    .card.hoeren::before { background: var(--hoeren); }
-    .card.sprechen::before { background: var(--sprechen); }
-    .card.schreiben::before { background: var(--schreiben); }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            text-align: left;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
 
-    .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      border-color: rgba(255,255,255,0.1);
-    }
-    
-    .card:hover::before {
-      height: 100%;
-      opacity: 0.05;
-    }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-border);
+            transition: all 0.4s ease;
+        }
 
-    .card-icon {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
+        .card.grammatik::before {
+            background: var(--grammatik);
+        }
 
-    .card h2 {
-      color: #fff;
-      font-size: 1.8rem;
-      font-family: 'Playfair Display', serif;
-    }
+        .card.lesen::before {
+            background: #f778ba;
+        }
 
-    .card p {
-      color: #8b949e;
-      font-size: 1rem;
-      line-height: 1.5;
-    }
+        .card.hoeren::before {
+            background: var(--hoeren);
+        }
 
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      background: rgba(255,255,255,0.1);
-      margin-top: auto;
-      align-self: flex-start;
-    }
-    
-    .grammatik .badge { color: #d2a8ff; background: rgba(137, 87, 229, 0.15); }
-    .hoeren .badge { color: #56d364; background: rgba(35, 134, 54, 0.15); }
-    .sprechen .badge { color: #e3b341; background: rgba(210, 153, 34, 0.15); }
-    .schreiben .badge { color: #f85149; background: rgba(229, 83, 75, 0.15); }
+        .card.sprechen::before {
+            background: var(--sprechen);
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+        .card.schreiben::before {
+            background: var(--schreiben);
+        }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
 
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 2.8rem; }
-      header { flex-direction: column; gap: 1rem; }
-      nav ul { flex-wrap: wrap; justify-content: center; }
-    }
-      /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg-color, #0d1117); }
-    ::-webkit-scrollbar-thumb { background: var(--border, #30363d); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--sub, #8b949e); }
+        .card:hover::before {
+            height: 100%;
+            opacity: 0.05;
+        }
 
-    .user-menu-container { position: absolute; left: 1.5rem; top: 1.2rem; z-index: 100; }
-    .toggle-btn { background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
-    .user-dropdown { display: none; position: absolute; top: 100%; left: 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0; margin-top: 0.5rem; width: 120px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-    .user-dropdown a { display: block; padding: 0.5rem 1rem; color: var(--text); text-decoration: none; font-size: 0.9rem; text-align: left; }
-    .user-dropdown a:hover { background: var(--hover); color: var(--primary); }
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
 
-    /* Dictionary Widget */
-    .dict-widget { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end; }
-    .dict-toggle-btn { width: 55px; height: 55px; border-radius: 50%; background: var(--primary, #3b82f6); color: #fff; border: none; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: transform 0.2s, background 0.2s; display: flex; justify-content: center; align-items: center; }
-    .dict-toggle-btn:hover { transform: scale(1.08); background: #1f6feb; }
-    .dict-box { width: 320px; height: 420px; background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; margin-bottom: 15px; display: flex; flex-direction: column; box-shadow: 0 8px 24px rgba(0,0,0,0.6); overflow: hidden; opacity: 1; transform: translateY(0); transition: opacity 0.3s, transform 0.3s; }
-    .dict-widget.closed .dict-box { opacity: 0; pointer-events: none; transform: translateY(20px); position: absolute; bottom: 100%; right: 0; }
-    .dict-widget.closed .dict-toggle-btn { display: flex; }
-    .dict-widget:not(.closed) .dict-toggle-btn { display: none; }
-    .dict-header { background: var(--primary, #3b82f6); color: #fff; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1.1rem; }
-    .dict-content { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-    .dict-input-area { padding: 10px; border-top: 1px solid var(--border, #30363d); display: flex; gap: 8px; background: var(--bg-color, #0d1117); }
-    .dict-input-area input { flex: 1; background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); color: #fff; padding: 10px 15px; border-radius: 20px; outline: none; font-size: 0.95rem; }
-    .dict-input-area input:focus { border-color: var(--primary, #3b82f6); }
-    .dict-input-area button { background: var(--primary, #3b82f6); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; justify-content: center; align-items: center; transition: background 0.2s; }
-    .dict-input-area button:hover { background: #1f6feb; }
-    .dict-msg { padding: 10px 14px; border-radius: 15px; max-width: 85%; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
-    .dict-msg.user { background: var(--primary, #3b82f6); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
-    .dict-msg.bot { background: var(--border, #30363d); color: var(--text, #c9d1d9); align-self: flex-start; border-bottom-left-radius: 4px; }
-@media (max-width: 768px) {
-      .logo {
-        font-size: 1.2rem !important;
-      }
-    }
-  </style>
+        .card h2 {
+            color: #fff;
+            font-size: 1.8rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .card p {
+            color: #8b949e;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+            align-self: flex-start;
+        }
+
+        .grammatik .badge {
+            color: #d2a8ff;
+            background: rgba(137, 87, 229, 0.15);
+        }
+
+        .hoeren .badge {
+            color: #56d364;
+            background: rgba(35, 134, 54, 0.15);
+        }
+
+        .sprechen .badge {
+            color: #e3b341;
+            background: rgba(210, 153, 34, 0.15);
+        }
+
+        .schreiben .badge {
+            color: #f85149;
+            background: rgba(229, 83, 75, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color, #0d1117);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border, #30363d);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--sub, #8b949e);
+        }
+
+        .user-menu-container {
+            position: absolute;
+            left: 1.5rem;
+            top: 2.6rem;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            width: 120px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .user-dropdown a:hover {
+            background: var(--hover);
+            color: var(--primary);
+        }
+
+        /* Dictionary Widget */
+        .dict-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .dict-toggle-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dict-toggle-btn:hover {
+            transform: scale(1.08);
+            background: #1f6feb;
+        }
+
+        .dict-box {
+            width: 320px;
+            height: 420px;
+            background: var(--card-bg, #161b22);
+            border: 1px solid var(--border, #30363d);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dict-widget.closed .dict-box {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+        }
+
+        .dict-widget.closed .dict-toggle-btn {
+            display: flex;
+        }
+
+        .dict-widget:not(.closed) .dict-toggle-btn {
+            display: none;
+        }
+
+        .dict-header {
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .dict-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dict-input-area {
+            padding: 10px;
+            border-top: 1px solid var(--border, #30363d);
+            display: flex;
+            gap: 8px;
+            background: var(--bg-color, #0d1117);
+        }
+
+        .dict-input-area input {
+            flex: 1;
+            background: var(--card-bg, #161b22);
+            border: 1px solid var(--border, #30363d);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .dict-input-area input:focus {
+            border-color: var(--primary, #3b82f6);
+        }
+
+        .dict-input-area button {
+            background: var(--primary, #3b82f6);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .dict-input-area button:hover {
+            background: #1f6feb;
+        }
+
+        .dict-msg {
+            padding: 10px 14px;
+            border-radius: 15px;
+            max-width: 85%;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .dict-msg.user {
+            background: var(--primary, #3b82f6);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .dict-msg.bot {
+            background: var(--border, #30363d);
+            color: var(--text, #c9d1d9);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.2rem !important;
+            }
+        }
+    </style>
 
 
 
 </head>
+
 <body>
 
-  <header>
-<div style="position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
-      <div class="user-menu-container">
-        {% if session.username %}
-        <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
-          <div style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
-            {{ session.username[0] }}
-          </div>
-          <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
+    <header>
+        <div style="position: absolute; right: 1.5rem; top: 2.6rem; transform: translateY(-50%); z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s; display: flex; align-items: center;"
+            onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'"
+            onmouseout="this.style.transform='scale(1)'">📖</div>
+        <div class="user-menu-container">
+            {% if session.username %}
+            <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
+                <div
+                    style="width: 28px; height: 28px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; text-transform: uppercase;">
+                    {{ session.username[0] }}
+                </div>
+                <span style="font-weight: 500; font-size: 0.85rem; color: #fff;">{{ session.username }}</span>
+            </div>
+            <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
+                <a href="/logout">Logout</a>
+            </div>
+            {% else %}
+            <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
+            <div class="user-dropdown" id="user-dropdown">
+                <a href="/login">Login</a>
+                <a href="/signup">Sign Up</a>
+            </div>
+            {% endif %}
         </div>
-        <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
-          <a href="/logout">Logout</a>
+        <a href="#" class="logo">Deutsch<span>Friend</span></a>
+        <nav>
+            <ul>
+                <li><a href="/grammar">Grammatik</a></li>
+                <li><a href="/lesen">Lesen</a></li>
+                <li><a href="/hoeren">Hören</a></li>
+                <li><a href="/sprechen">Sprechen</a></li>
+                <li><a href="/schreiben">Schreiben</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <h1>Meistere die deutsche Sprache</h1>
+        <p>Interaktive Übungen, Grammatik-Guides und umfassende Beispiele, um dein Deutsch auf das nächste Level zu
+            bringen.</p>
+
+        <div class="grid-container">
+            <a href="/grammar" class="card grammatik">
+                <div class="card-icon">📚</div>
+                <h2>Grammatik</h2>
+                <p>Lerne die Fälle (Nominativ, Akkusativ, Dativ) und Verben mit festen Präpositionen durch hunderte
+                    Beispiele.</p>
+                <span class="badge">700 Beispiele</span>
+            </a>
+
+            <a href="/lesen" class="card lesen">
+                <div class="card-icon">📖</div>
+                <h2>Lesen</h2>
+                <p>Lies authentische Texte und beantworte Fragen zum Leseverstehen.</p>
+                <span class="badge">Neu!</span>
+            </a>
+
+            <a href="/hoeren" class="card hoeren">
+                <div class="card-icon">🎧</div>
+                <h2>Hören</h2>
+                <p>Verbessere dein Hörverstehen mit authentischen Dialogen, Podcasts und interaktiven Tests.</p>
+                <span class="badge">Neu!</span>
+            </a>
+
+            <a href="/sprechen" class="card sprechen">
+                <div class="card-icon">🗣️</div>
+                <h2>Sprechen</h2>
+                <p>Übe die Aussprache und flüssiges Sprechen mit Sprachaufnahme und KI-Feedback.</p>
+                <span class="badge">In Kürze</span>
+            </a>
+
+            <a href="/schreiben" class="card schreiben">
+                <div class="card-icon">✍️</div>
+                <h2>Schreiben</h2>
+                <p>Schreibe Texte, E-Mails und Aufsätze. Erhalte sofortige Korrekturen zu Syntax und Wortschatz.</p>
+                <span class="badge">In Kürze</span>
+            </a>
         </div>
-        {% else %}
-        <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
-        <div class="user-dropdown" id="user-dropdown">
-          <a href="/login">Login</a>
-          <a href="/signup">Sign Up</a>
+    </main>
+
+
+    <!-- Dictionary Widget -->
+    <div id="dict-widget" class="dict-widget closed">
+        <div class="dict-box">
+            <div class="dict-header">
+                <span>📚 Wörterbuch</span>
+                <button onclick="toggleDict()"
+                    style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.5rem;line-height:1;">×</button>
+            </div>
+            <div class="dict-content" id="dict-content">
+                <p style="color:var(--sub);font-size:0.85rem;text-align:center;">Tippe ein Wort auf Deutsch oder
+                    Englisch ein.</p>
+            </div>
+            <div class="dict-input-area">
+                <input type="text" id="dict-input" placeholder="Übersetzen..."
+                    onkeypress="if(event.key === 'Enter') translateWord()">
+                <button onclick="translateWord()">➔</button>
+            </div>
         </div>
-        {% endif %}
-      </div>
-    <a href="#" class="logo">Deutsch<span>Friend</span></a>
-    <nav>
-      <ul>
-        <li><a href="/grammar">Grammatik</a></li>
-        <li><a href="/lesen">Lesen</a></li>
-        <li><a href="/hoeren">Hören</a></li>
-        <li><a href="/sprechen">Sprechen</a></li>
-        <li><a href="/schreiben">Schreiben</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main class="hero">
-    <h1>Meistere die deutsche Sprache</h1>
-    <p>Interaktive Übungen, Grammatik-Guides und umfassende Beispiele, um dein Deutsch auf das nächste Level zu bringen.</p>
-    
-    <div class="grid-container">
-      <a href="/grammar" class="card grammatik">
-        <div class="card-icon">📚</div>
-        <h2>Grammatik</h2>
-        <p>Lerne die Fälle (Nominativ, Akkusativ, Dativ) und Verben mit festen Präpositionen durch hunderte Beispiele.</p>
-        <span class="badge">700 Beispiele</span>
-      </a>
-
-      <a href="/lesen" class="card lesen">
-        <div class="card-icon">📖</div>
-        <h2>Lesen</h2>
-        <p>Lies authentische Texte und beantworte Fragen zum Leseverstehen.</p>
-        <span class="badge">Neu!</span>
-      </a>
-
-      <a href="/hoeren" class="card hoeren">
-        <div class="card-icon">🎧</div>
-        <h2>Hören</h2>
-        <p>Verbessere dein Hörverstehen mit authentischen Dialogen, Podcasts und interaktiven Tests.</p>
-        <span class="badge">Neu!</span>
-      </a>
-
-      <a href="/sprechen" class="card sprechen">
-        <div class="card-icon">🗣️</div>
-        <h2>Sprechen</h2>
-        <p>Übe die Aussprache und flüssiges Sprechen mit Sprachaufnahme und KI-Feedback.</p>
-        <span class="badge">In Kürze</span>
-      </a>
-
-      <a href="/schreiben" class="card schreiben">
-        <div class="card-icon">✍️</div>
-        <h2>Schreiben</h2>
-        <p>Schreibe Texte, E-Mails und Aufsätze. Erhalte sofortige Korrekturen zu Syntax und Wortschatz.</p>
-        <span class="badge">In Kürze</span>
-      </a>
+        <button class="dict-toggle-btn" onclick="toggleDict()" title="Wörterbuch">📚</button>
     </div>
-  </main>
 
+    <script>
+        // Automatically save and restore all dropdown choices from cloud only
+        document.addEventListener('DOMContentLoaded', async () => {
+            let cloudPrefs = {};
+            const isLoggedIn = {{ 'true' if session.get('username') else 'false'
+        }};
 
-  <!-- Dictionary Widget -->
-  <div id="dict-widget" class="dict-widget closed">
-    <div class="dict-box">
-      <div class="dict-header">
-        <span>📚 Wörterbuch</span>
-        <button onclick="toggleDict()" style="background:none;border:none;color:#fff;cursor:pointer;font-size:1.5rem;line-height:1;">×</button>
-      </div>
-      <div class="dict-content" id="dict-content">
-        <p style="color:var(--sub);font-size:0.85rem;text-align:center;">Tippe ein Wort auf Deutsch oder Englisch ein.</p>
-      </div>
-      <div class="dict-input-area">
-        <input type="text" id="dict-input" placeholder="Übersetzen..." onkeypress="if(event.key === 'Enter') translateWord()">
-        <button onclick="translateWord()">➔</button>
-      </div>
-    </div>
-    <button class="dict-toggle-btn" onclick="toggleDict()" title="Wörterbuch">📚</button>
-  </div>
-
-<script>
-  // Automatically save and restore all dropdown choices from cloud only
-  document.addEventListener('DOMContentLoaded', async () => {
-    let cloudPrefs = {};
-    const isLoggedIn = {{ 'true' if session.get('username') else 'false' }};
-    
-    if (isLoggedIn) {
-      try {
-        const res = await fetch('/api/get_preferences');
-        if (res.ok) {
-          cloudPrefs = await res.json();
-        }
-      } catch (e) { console.error(e); }
-    }
-
-    document.querySelectorAll('select').forEach(el => {
-      if (!el.id) return;
-      
-      if (cloudPrefs[el.id]) {
-        el.value = cloudPrefs[el.id];
-      }
-      
-      el.addEventListener('change', () => {
         if (isLoggedIn) {
-          fetch('/api/save_preference', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({key: el.id, value: el.value})
-          }).catch(console.error);
+            try {
+                const res = await fetch('/api/get_preferences');
+                if (res.ok) {
+                    cloudPrefs = await res.json();
+                }
+            } catch (e) { console.error(e); }
         }
-      });
-    });
+
+        document.querySelectorAll('select').forEach(el => {
+            if (!el.id) return;
+
+            if (cloudPrefs[el.id]) {
+                el.value = cloudPrefs[el.id];
+            }
+
+            el.addEventListener('change', () => {
+                if (isLoggedIn) {
+                    fetch('/api/save_preference', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: el.id, value: el.value })
+                    }).catch(console.error);
+                }
+            });
+        });
   });
-</script>
+    </script>
 
-<!-- Guide Modal v3 -->
-<div id="app-guide-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
-  <div style="background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; width: 90%; max-width: 700px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.8); animation: fadeIn 0.3s ease-out; overflow: hidden;">
-    
-    <div style="padding: 1.5rem; border-bottom: 1px solid var(--border, #30363d); display: flex; justify-content: space-between; align-items: center; background: var(--primary, #58a6ff); color: #fff;">
-      <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">📖 Deutsch Friend Guide</h2>
-      <button onclick="toggleGuideModal()" style="background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;">×</button>
+    <!-- Guide Modal v3 -->
+    <div id="app-guide-modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+        <div
+            style="background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; width: 90%; max-width: 700px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.8); animation: fadeIn 0.3s ease-out; overflow: hidden;">
+
+            <div
+                style="padding: 1.5rem; border-bottom: 1px solid var(--border, #30363d); display: flex; justify-content: space-between; align-items: center; background: var(--primary, #58a6ff); color: #fff;">
+                <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">📖 Deutsch
+                    Friend Guide</h2>
+                <button onclick="toggleGuideModal()"
+                    style="background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;">×</button>
+            </div>
+
+            <!-- Tabs Header -->
+            <div style="display: flex; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border, #30363d);">
+                <button id="tab-btn-features" onclick="switchGuideTab('features')"
+                    style="flex: 1; padding: 1rem; background: var(--hover, #21262d); border: none; color: var(--primary, #58a6ff); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--primary, #58a6ff); transition: all 0.2s; font-size: 1rem;">Features
+                    Overview</button>
+                <button id="tab-btn-tutorial" onclick="switchGuideTab('tutorial')"
+                    style="flex: 1; padding: 1rem; background: transparent; border: none; color: var(--sub, #8b949e); font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; font-size: 1rem;">Step-by-Step
+                    Tutorial</button>
+            </div>
+
+            <div
+                style="padding: 1.5rem; overflow-y: auto; color: var(--text-main, #c9d1d9); font-size: 0.95rem; line-height: 1.6; flex: 1;">
+
+                <!-- Features Tab -->
+                <div id="guide-tab-features" style="display: block;">
+                    <h3 style="color: var(--primary, #58a6ff); margin-bottom: 0.5rem;">Welcome to Deutsch Friend!</h3>
+                    <p style="margin-bottom: 1.2rem;">Your ultimate AI companion for mastering the German language.
+                        Here's what you can do:</p>
+
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid var(--primary, #58a6ff); border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">📚 Grammatik (Grammar)</h4>
+                        <p>Learn cases and fixed prepositions through hundreds of examples.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(247, 120, 186, 0.1); border-left: 4px solid #f778ba; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">📖 Lesen (Reading)</h4>
+                        <p>Read authentic German texts customized to your level (A1-B2) and answer comprehension
+                            questions.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">🎧 Hören (Listening)</h4>
+                        <p>Listen to generated audio scenarios. Type out the transcript and let the AI grade your
+                            accuracy.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(210, 153, 34, 0.1); border-left: 4px solid #d29922; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">🗣️ Sprechen (Speaking)</h4>
+                        <p>Record your voice to practice speaking. The AI will analyze your pronunciation and grammar in
+                            real-time.</p>
+                    </div>
+                    <div
+                        style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
+                        <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
+                        <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR
+                            level.</p>
+                    </div>
+                </div>
+
+                <!-- Tutorial Tab -->
+                <div id="guide-tab-tutorial" style="display: none;">
+                    <h3 style="color: var(--primary, #58a6ff); margin-bottom: 1rem;">Full App Tutorial</h3>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 1: Set Up Your Account</h4>
+                        <p>Start by clicking <b>"Sign Up"</b> in the top left menu. Creating an account allows the app
+                            to securely save your preferences (like your preferred learning level) directly to the
+                            cloud. Once logged in, you'll see your profile icon in the top left corner!</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 2: Navigation & The Sidebar Arrow</h4>
+                        <p>Look for the <b>▶ or ◀ arrow</b> on the left side of the screen on any dashboard page.
+                            Clicking this arrow will open or collapse the side menu. This sidebar contains options,
+                            settings, and topic choices to customize your learning.</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 3: Choose Your Level</h4>
+                        <p>Using the opened side menu on the Reading or Listening dashboard, select your CEFR target
+                            level (A1, A2, B1, or B2). Your choice will be synced automatically across all devices!</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 4: Practice Daily Core Skills</h4>
+                        <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><b>Input (Lesen & Hören):</b> Generate a reading text or
+                                listening audio. Try to understand the context first without translating everything.
+                                Then, answer the comprehension questions.</li>
+                            <li style="margin-bottom: 0.5rem;"><b>Output (Schreiben & Sprechen):</b> Choose a topic or
+                                prompt. When writing, focus on grammar and let the AI grade you. When speaking, use the
+                                mic to record your sentence and instantly see if you were grammatically correct and
+                                on-topic!</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 5: Use the Dictionary Widget</h4>
+                        <p>Stuck on a word? Don't leave the app! Click the <b>📚 floating dictionary</b> icon in the
+                            bottom right of any page. Type in an English or German word to get translations and verb
+                            conjugations instantly.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
+    <script>
+        function toggleGuideModal() {
+            const modal = document.getElementById('app-guide-modal');
+            if (modal.style.display === 'none' || modal.style.display === '') {
+                modal.style.display = 'flex';
+            } else {
+                modal.style.display = 'none';
+            }
+        }
 
-    <!-- Tabs Header -->
-    <div style="display: flex; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border, #30363d);">
-      <button id="tab-btn-features" onclick="switchGuideTab('features')" style="flex: 1; padding: 1rem; background: var(--hover, #21262d); border: none; color: var(--primary, #58a6ff); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--primary, #58a6ff); transition: all 0.2s; font-size: 1rem;">Features Overview</button>
-      <button id="tab-btn-tutorial" onclick="switchGuideTab('tutorial')" style="flex: 1; padding: 1rem; background: transparent; border: none; color: var(--sub, #8b949e); font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; font-size: 1rem;">Step-by-Step Tutorial</button>
-    </div>
+        function switchGuideTab(tab) {
+            const featuresTab = document.getElementById('guide-tab-features');
+            const tutorialTab = document.getElementById('guide-tab-tutorial');
+            const featuresBtn = document.getElementById('tab-btn-features');
+            const tutorialBtn = document.getElementById('tab-btn-tutorial');
 
-    <div style="padding: 1.5rem; overflow-y: auto; color: var(--text-main, #c9d1d9); font-size: 0.95rem; line-height: 1.6; flex: 1;">
-      
-      <!-- Features Tab -->
-      <div id="guide-tab-features" style="display: block;">
-        <h3 style="color: var(--primary, #58a6ff); margin-bottom: 0.5rem;">Welcome to Deutsch Friend!</h3>
-        <p style="margin-bottom: 1.2rem;">Your ultimate AI companion for mastering the German language. Here's what you can do:</p>
-        
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid var(--primary, #58a6ff); border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">📚 Grammatik (Grammar)</h4>
-          <p>Learn cases and fixed prepositions through hundreds of examples.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(247, 120, 186, 0.1); border-left: 4px solid #f778ba; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">📖 Lesen (Reading)</h4>
-          <p>Read authentic German texts customized to your level (A1-B2) and answer comprehension questions.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">🎧 Hören (Listening)</h4>
-          <p>Listen to generated audio scenarios. Type out the transcript and let the AI grade your accuracy.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(210, 153, 34, 0.1); border-left: 4px solid #d29922; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">🗣️ Sprechen (Speaking)</h4>
-          <p>Record your voice to practice speaking. The AI will analyze your pronunciation and grammar in real-time.</p>
-        </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
-          <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
-          <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR level.</p>
-        </div>
-      </div>
+            if (tab === 'features') {
+                featuresTab.style.display = 'block';
+                tutorialTab.style.display = 'none';
+                featuresBtn.style.background = 'var(--hover, #21262d)';
+                featuresBtn.style.color = 'var(--primary, #58a6ff)';
+                featuresBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
 
-      <!-- Tutorial Tab -->
-      <div id="guide-tab-tutorial" style="display: none;">
-        <h3 style="color: var(--primary, #58a6ff); margin-bottom: 1rem;">Full App Tutorial</h3>
-        
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 1: Set Up Your Account</h4>
-          <p>Start by clicking <b>"Sign Up"</b> in the top left menu. Creating an account allows the app to securely save your preferences (like your preferred learning level) directly to the cloud. Once logged in, you'll see your profile icon in the top left corner!</p>
-        </div>
+                tutorialBtn.style.background = 'transparent';
+                tutorialBtn.style.color = 'var(--sub, #8b949e)';
+                tutorialBtn.style.borderBottom = '3px solid transparent';
+            } else {
+                featuresTab.style.display = 'none';
+                tutorialTab.style.display = 'block';
+                tutorialBtn.style.background = 'var(--hover, #21262d)';
+                tutorialBtn.style.color = 'var(--primary, #58a6ff)';
+                tutorialBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
 
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 2: Navigation & The Sidebar Arrow</h4>
-          <p>Look for the <b>▶ or ◀ arrow</b> on the left side of the screen on any dashboard page. Clicking this arrow will open or collapse the side menu. This sidebar contains options, settings, and topic choices to customize your learning.</p>
-        </div>
-
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 3: Choose Your Level</h4>
-          <p>Using the opened side menu on the Reading or Listening dashboard, select your CEFR target level (A1, A2, B1, or B2). Your choice will be synced automatically across all devices!</p>
-        </div>
-        
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 4: Practice Daily Core Skills</h4>
-          <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
-            <li style="margin-bottom: 0.5rem;"><b>Input (Lesen & Hören):</b> Generate a reading text or listening audio. Try to understand the context first without translating everything. Then, answer the comprehension questions.</li>
-            <li style="margin-bottom: 0.5rem;"><b>Output (Schreiben & Sprechen):</b> Choose a topic or prompt. When writing, focus on grammar and let the AI grade you. When speaking, use the mic to record your sentence and instantly see if you were grammatically correct and on-topic!</li>
-          </ul>
-        </div>
-
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 5: Use the Dictionary Widget</h4>
-          <p>Stuck on a word? Don't leave the app! Click the <b>📚 floating dictionary</b> icon in the bottom right of any page. Type in an English or German word to get translations and verb conjugations instantly.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-<script>
-  function toggleGuideModal() {
-    const modal = document.getElementById('app-guide-modal');
-    if (modal.style.display === 'none' || modal.style.display === '') {
-      modal.style.display = 'flex';
-    } else {
-      modal.style.display = 'none';
-    }
-  }
-
-  function switchGuideTab(tab) {
-    const featuresTab = document.getElementById('guide-tab-features');
-    const tutorialTab = document.getElementById('guide-tab-tutorial');
-    const featuresBtn = document.getElementById('tab-btn-features');
-    const tutorialBtn = document.getElementById('tab-btn-tutorial');
-
-    if (tab === 'features') {
-      featuresTab.style.display = 'block';
-      tutorialTab.style.display = 'none';
-      featuresBtn.style.background = 'var(--hover, #21262d)';
-      featuresBtn.style.color = 'var(--primary, #58a6ff)';
-      featuresBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
-      
-      tutorialBtn.style.background = 'transparent';
-      tutorialBtn.style.color = 'var(--sub, #8b949e)';
-      tutorialBtn.style.borderBottom = '3px solid transparent';
-    } else {
-      featuresTab.style.display = 'none';
-      tutorialTab.style.display = 'block';
-      tutorialBtn.style.background = 'var(--hover, #21262d)';
-      tutorialBtn.style.color = 'var(--primary, #58a6ff)';
-      tutorialBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
-      
-      featuresBtn.style.background = 'transparent';
-      featuresBtn.style.color = 'var(--sub, #8b949e)';
-      featuresBtn.style.borderBottom = '3px solid transparent';
-    }
-  }
-</script>
+                featuresBtn.style.background = 'transparent';
+                featuresBtn.style.color = 'var(--sub, #8b949e)';
+                featuresBtn.style.borderBottom = '3px solid transparent';
+            }
+        }
+    </script>
 </body>
 
 </html>
@@ -506,75 +796,74 @@
 
 <script>
     function toggleUserMenu() {
-      const dropdown = document.getElementById('user-dropdown');
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        const dropdown = document.getElementById('user-dropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
-    document.addEventListener('click', function(event) {
-      const container = document.querySelector('.user-menu-container');
-      const dropdown = document.getElementById('user-dropdown');
-      if (container && !container.contains(event.target)) {
-        dropdown.style.display = 'none';
-      }
+    document.addEventListener('click', function (event) {
+        const container = document.querySelector('.user-menu-container');
+        const dropdown = document.getElementById('user-dropdown');
+        if (container && !container.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
     });
 
     function toggleDict() {
-      document.getElementById('dict-widget').classList.toggle('closed');
+        document.getElementById('dict-widget').classList.toggle('closed');
     }
     async function translateWord() {
-      const input = document.getElementById('dict-input');
-      const word = input.value.trim();
-      if (!word) return;
-      const content = document.getElementById('dict-content');
-      
-      const userMsg = document.createElement('div');
-      userMsg.className = 'dict-msg user';
-      userMsg.textContent = word;
-      content.appendChild(userMsg);
-      
-      input.value = '';
-      content.scrollTop = content.scrollHeight;
-      
-      const botMsg = document.createElement('div');
-      botMsg.className = 'dict-msg bot';
-      botMsg.textContent = '...';
-      content.appendChild(botMsg);
-      content.scrollTop = content.scrollHeight;
-      
-      try {
-        const res = await fetch('/api/dictionary', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({word: word})
-        });
-        const data = await res.json();
-        if (data.error) {
-          botMsg.textContent = "Error: " + data.error;
-        } else {
-          botMsg.textContent = data.translation;
+        const input = document.getElementById('dict-input');
+        const word = input.value.trim();
+        if (!word) return;
+        const content = document.getElementById('dict-content');
+
+        const userMsg = document.createElement('div');
+        userMsg.className = 'dict-msg user';
+        userMsg.textContent = word;
+        content.appendChild(userMsg);
+
+        input.value = '';
+        content.scrollTop = content.scrollHeight;
+
+        const botMsg = document.createElement('div');
+        botMsg.className = 'dict-msg bot';
+        botMsg.textContent = '...';
+        content.appendChild(botMsg);
+        content.scrollTop = content.scrollHeight;
+
+        try {
+            const res = await fetch('/api/dictionary', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ word: word })
+            });
+            const data = await res.json();
+            if (data.error) {
+                botMsg.textContent = "Error: " + data.error;
+            } else {
+                botMsg.textContent = data.translation;
+            }
+        } catch (e) {
+            botMsg.textContent = "Verbindungsfehler";
         }
-      } catch (e) {
-        botMsg.textContent = "Verbindungsfehler";
-      }
-      content.scrollTop = content.scrollHeight;
+        content.scrollTop = content.scrollHeight;
     }
 </script>
 
 {% if show_tutorial %}
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const modal = document.getElementById('app-guide-modal');
-      if (modal && (modal.style.display === 'none' || modal.style.display === '')) {
-        toggleGuideModal();
-      }
-      if (typeof switchGuideTab === 'function') {
-        switchGuideTab('tutorial');
-      }
-    }, 500);
-  });
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            const modal = document.getElementById('app-guide-modal');
+            if (modal && (modal.style.display === 'none' || modal.style.display === '')) {
+                toggleGuideModal();
+            }
+            if (typeof switchGuideTab === 'function') {
+                switchGuideTab('tutorial');
+            }
+        }, 500);
+    });
 </script>
 {% endif %}
 </body>
+
 </html>
-
-

@@ -49,6 +49,8 @@
             position: relative;
             flex-shrink: 0;
             z-index: 100;
+            transition: margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: margin-top;
         }
 
         .logo {
@@ -6372,6 +6374,282 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="verb-card">
+                    <div class="verb-title">Possessivpronomen – Nominativ</div>
+                    <div class="verb-en">Who owns it? The subject's possessive (mein Bruder, dein Auto...)</div>
+                    <div style="overflow-x:auto; margin-top:1rem;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; min-width:520px;">
+                            <thead>
+                                <tr style="background:rgba(88,166,255,0.08);">
+                                    <th style="padding:8px 12px; text-align:left; color:var(--sub); font-weight:600; border-bottom:2px solid var(--border);">Pronomen</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#58a6ff; border-bottom:2px solid var(--border);">Maskulin</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#ff7b72; border-bottom:2px solid var(--border);">Feminin</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#e3b341; border-bottom:2px solid var(--border);">Neutrum</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#3fb950; border-bottom:2px solid var(--border);">Plural</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">ich</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">mein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">meine</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">mein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">meine</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">du</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">dein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">deine</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">dein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">deine</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">er/es</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">sein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">seine</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">sein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">seine</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">sie (she)</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihr</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihre</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihr</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihre</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">wir</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">unser</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">unsere</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">unser</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">unsere</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">ihr (you pl.)</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">euer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">eure</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">euer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">eure</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">sie/Sie</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihr / Ihr</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihre / Ihre</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihr / Ihr</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihre / Ihre</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="verb-card">
+                    <div class="verb-title">Possessivpronomen – Akkusativ</div>
+                    <div class="verb-en">Direct object possession – Maskulin gets -en, rest same as Nominativ</div>
+                    <div style="overflow-x:auto; margin-top:1rem;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; min-width:520px;">
+                            <thead>
+                                <tr style="background:rgba(227,179,65,0.08);">
+                                    <th style="padding:8px 12px; text-align:left; color:var(--sub); font-weight:600; border-bottom:2px solid var(--border);">Pronomen</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#58a6ff; border-bottom:2px solid var(--border);">Maskulin <span style="color:#e3b341;font-size:0.8em;">(-en!)</span></th>
+                                    <th style="padding:8px 12px; text-align:center; color:#ff7b72; border-bottom:2px solid var(--border);">Feminin</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#e3b341; border-bottom:2px solid var(--border);">Neutrum</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#3fb950; border-bottom:2px solid var(--border);">Plural</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">ich</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#e3b341; font-weight:bold;">meinen</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">meine</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">mein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">meine</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">du</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#e3b341; font-weight:bold;">deinen</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">deine</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">dein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">deine</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">er/es</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#e3b341; font-weight:bold;">seinen</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">seine</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">sein</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">seine</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">sie (she)</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#e3b341; font-weight:bold;">ihren</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihre</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihr</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihre</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">wir</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#e3b341; font-weight:bold;">unseren</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">unsere</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">unser</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">unsere</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">ihr (you pl.)</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#e3b341; font-weight:bold;">euren</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">eure</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">euer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">eure</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">sie/Sie</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#e3b341; font-weight:bold;">ihren / Ihren</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihre / Ihre</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihr / Ihr</td>
+                                    <td style="padding:7px 12px; text-align:center; color:var(--text); font-weight:bold;">ihre / Ihre</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="verb-card">
+                    <div class="verb-title">Possessivpronomen – Dativ</div>
+                    <div class="verb-en">Indirect object possession – all genders get endings (-em, -er, -em, -en)</div>
+                    <div style="overflow-x:auto; margin-top:1rem;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; min-width:520px;">
+                            <thead>
+                                <tr style="background:rgba(255,123,114,0.08);">
+                                    <th style="padding:8px 12px; text-align:left; color:var(--sub); font-weight:600; border-bottom:2px solid var(--border);">Pronomen</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#58a6ff; border-bottom:2px solid var(--border);">Maskulin <span style="color:#ff7b72;font-size:0.8em;">(-em)</span></th>
+                                    <th style="padding:8px 12px; text-align:center; color:#ff7b72; border-bottom:2px solid var(--border);">Feminin <span style="color:#ff7b72;font-size:0.8em;">(-er)</span></th>
+                                    <th style="padding:8px 12px; text-align:center; color:#e3b341; border-bottom:2px solid var(--border);">Neutrum <span style="color:#ff7b72;font-size:0.8em;">(-em)</span></th>
+                                    <th style="padding:8px 12px; text-align:center; color:#3fb950; border-bottom:2px solid var(--border);">Plural <span style="color:#ff7b72;font-size:0.8em;">(-en)</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">ich</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">meinem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">meiner</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">meinem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">meinen</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">du</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">deinem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">deiner</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">deinem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">deinen</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">er/es</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">seinem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">seiner</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">seinem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">seinen</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">sie (she)</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">ihrem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">ihrer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">ihrem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">ihren</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">wir</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">unserem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">unserer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">unserem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">unseren</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">ihr (you pl.)</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">eurem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">eurer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">eurem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">euren</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">sie/Sie</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">ihrem / Ihrem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">ihrer / Ihrer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">ihrem / Ihrem</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#ff7b72; font-weight:bold;">ihren / Ihren</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="verb-card">
+                    <div class="verb-title">Possessivpronomen – Genitiv</div>
+                    <div class="verb-en">Of-possession – rare in speech but used in formal writing (-es, -er, -es, -er)</div>
+                    <div style="overflow-x:auto; margin-top:1rem;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.9rem; min-width:520px;">
+                            <thead>
+                                <tr style="background:rgba(63,185,80,0.08);">
+                                    <th style="padding:8px 12px; text-align:left; color:var(--sub); font-weight:600; border-bottom:2px solid var(--border);">Pronomen</th>
+                                    <th style="padding:8px 12px; text-align:center; color:#58a6ff; border-bottom:2px solid var(--border);">Maskulin <span style="color:#3fb950;font-size:0.8em;">(-es)</span></th>
+                                    <th style="padding:8px 12px; text-align:center; color:#ff7b72; border-bottom:2px solid var(--border);">Feminin <span style="color:#3fb950;font-size:0.8em;">(-er)</span></th>
+                                    <th style="padding:8px 12px; text-align:center; color:#e3b341; border-bottom:2px solid var(--border);">Neutrum <span style="color:#3fb950;font-size:0.8em;">(-es)</span></th>
+                                    <th style="padding:8px 12px; text-align:center; color:#3fb950; border-bottom:2px solid var(--border);">Plural <span style="color:#3fb950;font-size:0.8em;">(-er)</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">ich</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">meines</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">meiner</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">meines</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">meiner</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">du</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">deines</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">deiner</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">deines</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">deiner</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">er/es</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">seines</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">seiner</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">seines</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">seiner</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">sie (she)</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">ihres</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">ihrer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">ihres</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">ihrer</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">wir</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">unseres</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">unserer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">unseres</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">unserer</td>
+                                </tr>
+                                <tr style="border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02);">
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">ihr (you pl.)</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">eures</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">eurer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">eures</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">eurer</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:7px 12px; color:var(--sub); font-weight:500;">sie/Sie</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">ihres / Ihres</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">ihrer / Ihrer</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">ihres / Ihres</td>
+                                    <td style="padding:7px 12px; text-align:center; color:#3fb950; font-weight:bold;">ihrer / Ihrer</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         `,
 
@@ -6912,23 +7190,29 @@
     </script>
 
     <script>
-        // Manual header toggle
+        // Manual header toggle — height cached once to prevent mobile jitter
+        let _headerHeight = null;
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.querySelector('header');
+            if (header) _headerHeight = header.offsetHeight;
+        });
+
         function toggleHeader() {
             const header = document.querySelector('header');
             const icon = document.getElementById('header-toggle-icon');
-            
-            if (!header.style.transition) {
-                header.style.transition = 'margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-            }
-            
+            if (!header) return;
+
+            // Use cached height to avoid mobile viewport fluctuation
+            const h = _headerHeight || header.offsetHeight;
+
             if (header.classList.contains('header-hidden')) {
                 header.classList.remove('header-hidden');
                 header.style.marginTop = '0px';
-                icon.textContent = '▲';
+                icon.textContent = '\u25b2';
             } else {
                 header.classList.add('header-hidden');
-                header.style.marginTop = `-${header.offsetHeight}px`;
-                icon.textContent = '▼';
+                header.style.marginTop = '-' + h + 'px';
+                icon.textContent = '\u25bc';
             }
         }
     </script>

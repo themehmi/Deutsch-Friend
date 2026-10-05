@@ -53,6 +53,8 @@
       position: relative;
       flex-shrink: 0;
       z-index: 100;
+      transition: margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: margin-top;
     }
 
     .logo {
@@ -1628,61 +1630,31 @@
       }
     }
   </script>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    // Manual header toggle — height cached once to prevent mobile jitter
+    let _headerHeight = null;
+    document.addEventListener('DOMContentLoaded', function () {
       const header = document.querySelector('header');
-      const mainContent = document.querySelector('.main-content');
-
-      let lastScrollY = 0;
-
-      if (header) {
-        header.style.transition = 'margin-top 0.3s ease-in-out, top 0.3s ease-in-out';
-      }
-
-      function handleScroll(currentScrollY) {
-        if (!header) return;
-        if (currentScrollY > lastScrollY && currentScrollY > 50) {
-          if (mainContent) {
-            header.style.marginTop = '-' + header.offsetHeight + 'px';
-          } else {
-            header.style.top = '-' + header.offsetHeight + 'px';
-          }
-        } else {
-          if (mainContent) {
-            header.style.marginTop = '0px';
-          } else {
-            header.style.top = '0px';
-          }
-        }
-        lastScrollY = currentScrollY;
-      }
-
-      if (mainContent) {
-        mainContent.addEventListener('scroll', () => handleScroll(mainContent.scrollTop));
-      } else {
-        window.addEventListener('scroll', () => handleScroll(window.scrollY));
-      }
+      if (header) _headerHeight = header.offsetHeight;
     });
-  </script>
 
-  <script>
-    // Manual header toggle
     function toggleHeader() {
       const header = document.querySelector('header');
       const icon = document.getElementById('header-toggle-icon');
-      
-      if (!header.style.transition) {
-        header.style.transition = 'margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
-      }
-      
+      if (!header) return;
+
+      // Use cached height to avoid mobile viewport fluctuation
+      const h = _headerHeight || header.offsetHeight;
+
       if (header.classList.contains('header-hidden')) {
         header.classList.remove('header-hidden');
         header.style.marginTop = '0px';
-        icon.textContent = '▲';
+        icon.textContent = '\u25b2';
       } else {
         header.classList.add('header-hidden');
-        header.style.marginTop = `-${header.offsetHeight}px`;
-        icon.textContent = '▼';
+        header.style.marginTop = '-' + h + 'px';
+        icon.textContent = '\u25bc';
       }
     }
   </script>

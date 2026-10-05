@@ -243,13 +243,26 @@
 <body>
 
   <header>
-    <div class="user-menu-container">
-      <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
-      <div class="user-dropdown" id="user-dropdown">
-        <a href="/login">Login</a>
-        <a href="/signup">Sign Up</a>
+<div style="position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
+      <div class="user-menu-container">
+        {% if session.username %}
+        <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
+          <div style="width: 35px; height: 35px; background: var(--primary, #58a6ff); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; text-transform: uppercase;">
+            {{ session.username[0] }}
+          </div>
+          <span style="font-weight: 500; font-size: 1rem; color: #fff;">{{ session.username }}</span>
+        </div>
+        <div class="user-dropdown" id="user-dropdown" style="margin-top: 10px;">
+          <a href="/logout">Logout</a>
+        </div>
+        {% else %}
+        <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
+        <div class="user-dropdown" id="user-dropdown">
+          <a href="/login">Login</a>
+          <a href="/signup">Sign Up</a>
+        </div>
+        {% endif %}
       </div>
-    </div>
     <a href="#" class="logo">Deutsch<span>Friend</span></a>
     <nav>
       <ul>
@@ -322,6 +335,161 @@
     </div>
     <button class="dict-toggle-btn" onclick="toggleDict()" title="Wörterbuch">📚</button>
   </div>
+
+<script>
+  // Automatically save and restore all dropdown choices from cloud only
+  document.addEventListener('DOMContentLoaded', async () => {
+    let cloudPrefs = {};
+    const isLoggedIn = {{ 'true' if session.get('username') else 'false' }};
+    
+    if (isLoggedIn) {
+      try {
+        const res = await fetch('/api/get_preferences');
+        if (res.ok) {
+          cloudPrefs = await res.json();
+        }
+      } catch (e) { console.error(e); }
+    }
+
+    document.querySelectorAll('select').forEach(el => {
+      if (!el.id) return;
+      
+      if (cloudPrefs[el.id]) {
+        el.value = cloudPrefs[el.id];
+      }
+      
+      el.addEventListener('change', () => {
+        if (isLoggedIn) {
+          fetch('/api/save_preference', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({key: el.id, value: el.value})
+          }).catch(console.error);
+        }
+      });
+    });
+  });
+</script>
+
+<!-- Guide Modal v3 -->
+<div id="app-guide-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+  <div style="background: var(--card-bg, #161b22); border: 1px solid var(--border, #30363d); border-radius: 12px; width: 90%; max-width: 700px; max-height: 85vh; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.8); animation: fadeIn 0.3s ease-out; overflow: hidden;">
+    
+    <div style="padding: 1.5rem; border-bottom: 1px solid var(--border, #30363d); display: flex; justify-content: space-between; align-items: center; background: var(--primary, #58a6ff); color: #fff;">
+      <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 10px;">📖 Deutsch Friend Guide</h2>
+      <button onclick="toggleGuideModal()" style="background: none; border: none; color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;">×</button>
+    </div>
+
+    <!-- Tabs Header -->
+    <div style="display: flex; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border, #30363d);">
+      <button id="tab-btn-features" onclick="switchGuideTab('features')" style="flex: 1; padding: 1rem; background: var(--hover, #21262d); border: none; color: var(--primary, #58a6ff); font-weight: 600; cursor: pointer; border-bottom: 3px solid var(--primary, #58a6ff); transition: all 0.2s; font-size: 1rem;">Features Overview</button>
+      <button id="tab-btn-tutorial" onclick="switchGuideTab('tutorial')" style="flex: 1; padding: 1rem; background: transparent; border: none; color: var(--sub, #8b949e); font-weight: 600; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; font-size: 1rem;">Step-by-Step Tutorial</button>
+    </div>
+
+    <div style="padding: 1.5rem; overflow-y: auto; color: var(--text-main, #c9d1d9); font-size: 0.95rem; line-height: 1.6; flex: 1;">
+      
+      <!-- Features Tab -->
+      <div id="guide-tab-features" style="display: block;">
+        <h3 style="color: var(--primary, #58a6ff); margin-bottom: 0.5rem;">Welcome to Deutsch Friend!</h3>
+        <p style="margin-bottom: 1.2rem;">Your ultimate AI companion for mastering the German language. Here's what you can do:</p>
+        
+        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid var(--primary, #58a6ff); border-radius: 4px;">
+          <h4 style="margin-bottom: 0.3rem; color: #fff;">📚 Grammatik (Grammar)</h4>
+          <p>Learn cases and fixed prepositions through hundreds of examples.</p>
+        </div>
+        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(247, 120, 186, 0.1); border-left: 4px solid #f778ba; border-radius: 4px;">
+          <h4 style="margin-bottom: 0.3rem; color: #fff;">📖 Lesen (Reading)</h4>
+          <p>Read authentic German texts customized to your level (A1-B2) and answer comprehension questions.</p>
+        </div>
+        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; border-radius: 4px;">
+          <h4 style="margin-bottom: 0.3rem; color: #fff;">🎧 Hören (Listening)</h4>
+          <p>Listen to generated audio scenarios. Type out the transcript and let the AI grade your accuracy.</p>
+        </div>
+        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(210, 153, 34, 0.1); border-left: 4px solid #d29922; border-radius: 4px;">
+          <h4 style="margin-bottom: 0.3rem; color: #fff;">🗣️ Sprechen (Speaking)</h4>
+          <p>Record your voice to practice speaking. The AI will analyze your pronunciation and grammar in real-time.</p>
+        </div>
+        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(229, 83, 75, 0.1); border-left: 4px solid #e5534b; border-radius: 4px;">
+          <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
+          <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR level.</p>
+        </div>
+      </div>
+
+      <!-- Tutorial Tab -->
+      <div id="guide-tab-tutorial" style="display: none;">
+        <h3 style="color: var(--primary, #58a6ff); margin-bottom: 1rem;">Full App Tutorial</h3>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 1: Set Up Your Account</h4>
+          <p>Start by clicking <b>"Sign Up"</b> in the top left menu. Creating an account allows the app to securely save your preferences (like your preferred learning level) directly to the cloud. Once logged in, you'll see your profile icon in the top left corner!</p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 2: Navigation & The Sidebar Arrow</h4>
+          <p>Look for the <b>▶ or ◀ arrow</b> on the left side of the screen on any dashboard page. Clicking this arrow will open or collapse the side menu. This sidebar contains options, settings, and topic choices to customize your learning.</p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 3: Choose Your Level</h4>
+          <p>Using the opened side menu on the Reading or Listening dashboard, select your CEFR target level (A1, A2, B1, or B2). Your choice will be synced automatically across all devices!</p>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 4: Practice Daily Core Skills</h4>
+          <ul style="padding-left: 1.5rem; margin-top: 0.5rem;">
+            <li style="margin-bottom: 0.5rem;"><b>Input (Lesen & Hören):</b> Generate a reading text or listening audio. Try to understand the context first without translating everything. Then, answer the comprehension questions.</li>
+            <li style="margin-bottom: 0.5rem;"><b>Output (Schreiben & Sprechen):</b> Choose a topic or prompt. When writing, focus on grammar and let the AI grade you. When speaking, use the mic to record your sentence and instantly see if you were grammatically correct and on-topic!</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="color: #fff; margin-bottom: 0.5rem;">Step 5: Use the Dictionary Widget</h4>
+          <p>Stuck on a word? Don't leave the app! Click the <b>📚 floating dictionary</b> icon in the bottom right of any page. Type in an English or German word to get translations and verb conjugations instantly.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+  function toggleGuideModal() {
+    const modal = document.getElementById('app-guide-modal');
+    if (modal.style.display === 'none' || modal.style.display === '') {
+      modal.style.display = 'flex';
+    } else {
+      modal.style.display = 'none';
+    }
+  }
+
+  function switchGuideTab(tab) {
+    const featuresTab = document.getElementById('guide-tab-features');
+    const tutorialTab = document.getElementById('guide-tab-tutorial');
+    const featuresBtn = document.getElementById('tab-btn-features');
+    const tutorialBtn = document.getElementById('tab-btn-tutorial');
+
+    if (tab === 'features') {
+      featuresTab.style.display = 'block';
+      tutorialTab.style.display = 'none';
+      featuresBtn.style.background = 'var(--hover, #21262d)';
+      featuresBtn.style.color = 'var(--primary, #58a6ff)';
+      featuresBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
+      
+      tutorialBtn.style.background = 'transparent';
+      tutorialBtn.style.color = 'var(--sub, #8b949e)';
+      tutorialBtn.style.borderBottom = '3px solid transparent';
+    } else {
+      featuresTab.style.display = 'none';
+      tutorialTab.style.display = 'block';
+      tutorialBtn.style.background = 'var(--hover, #21262d)';
+      tutorialBtn.style.color = 'var(--primary, #58a6ff)';
+      tutorialBtn.style.borderBottom = '3px solid var(--primary, #58a6ff)';
+      
+      featuresBtn.style.background = 'transparent';
+      featuresBtn.style.color = 'var(--sub, #8b949e)';
+      featuresBtn.style.borderBottom = '3px solid transparent';
+    }
+  }
+</script>
 </body>
 
 </html>
@@ -384,5 +552,23 @@
       content.scrollTop = content.scrollHeight;
     }
 </script>
+
+{% if show_tutorial %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const modal = document.getElementById('app-guide-modal');
+      if (modal && (modal.style.display === 'none' || modal.style.display === '')) {
+        toggleGuideModal();
+      }
+      if (typeof switchGuideTab === 'function') {
+        switchGuideTab('tutorial');
+      }
+    }, 500);
+  });
+</script>
+{% endif %}
+</body>
+</html>
 
 

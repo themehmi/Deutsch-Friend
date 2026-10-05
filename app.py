@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
+import pymongo
+from werkzeug.security import generate_password_hash, check_password_hash
 import urllib.request
 import urllib.error
 import json
+import re
 import os
 import requests
 from dotenv import load_dotenv
@@ -9,10 +12,100 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 
 app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY', 'my_secret_key_123')
+
+MONGO_URI = os.getenv('MongoDB')
+if MONGO_URI:
+    client = pymongo.MongoClient(MONGO_URI)
+    db = client.get_database('deutsch_app')
+    users_collection = db.users
+    try:
+        users_collection.create_index("username", unique=True)
+        users_collection.create_index("email", unique=True)
+    except Exception as e:
+        print("Warning: Could not create unique indexes:", e)
+else:
+    users_collection = None
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    show_tutorial = session.pop('show_tutorial', False)
+    return render_template('index.html', show_tutorial=show_tutorial)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip().lower()
+        email = request.form.get('email', '').strip().lower()
+        password = request.form.get('password')
+        
+        if users_collection is None:
+            flash('Database connection failed.')
+            return redirect(url_for('signup'))
+            
+        email_regex = r'^[^\s@]+@[^\s@]+\.[^\s@]+$'
+        if not re.match(email_regex, email):
+            flash('Invalid email address format.')
+            return redirect(url_for('signup'))
+            
+        if len(password) < 8:
+            flash('Password must be at least 8 characters long.')
+            return redirect(url_for('signup'))
+            
+        if users_collection.find_one({'username': username}):
+            flash('Username already exists.')
+            return redirect(url_for('signup'))
+            
+        if users_collection.find_one({'email': email}):
+            flash('Email already registered.')
+            return redirect(url_for('signup'))
+        
+        hashed_password = generate_password_hash(password)
+        users_collection.insert_one({'username': username, 'email': email, 'password': hashed_password, 'is_first_login': True})
+        
+        flash('Successfully registered. Please log in.')
+        return redirect(url_for('login'))
+        
+    return render_template('signup.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username_or_email = request.form.get('username', '').strip().lower()
+        password = request.form.get('password')
+        
+        if users_collection is None:
+            flash('Database connection failed.')
+            return redirect(url_for('login'))
+            
+        user = users_collection.find_one({
+            '$or': [
+                {'username': username_or_email},
+                {'email': username_or_email}
+            ]
+        })
+        
+        if user and check_password_hash(user['password'], password):
+            session.permanent = True
+            session['username'] = user['username']
+            
+            if user.get('is_first_login', False):
+                session['show_tutorial'] = True
+                users_collection.update_one({'_id': user['_id']}, {'$set': {'is_first_login': False}})
+                
+            return redirect(url_for('home'))
+        else:
+            flash('Invalid username or password.')
+            return redirect(url_for('login'))
+            
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('home'))
 
 @app.route('/grammar')
 def grammar():
@@ -33,6 +126,33 @@ def hoeren():
 @app.route('/lesen')
 def lesen():
     return render_template('lesen_dashboard.html')
+
+@app.route('/api/save_preference', methods=['POST'])
+def save_preference():
+    if 'username' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+        
+    data = request.json
+    key = data.get('key')
+    value = data.get('value')
+    
+    if key and value and users_collection is not None:
+        users_collection.update_one(
+            {'username': session['username']},
+            {'$set': {f'preferences.{key}': value}}
+        )
+        return jsonify({"success": True})
+    return jsonify({"error": "Invalid data"}), 400
+
+@app.route('/api/get_preferences', methods=['GET'])
+def get_preferences():
+    if 'username' not in session or users_collection is None:
+        return jsonify({})
+        
+    user = users_collection.find_one({'username': session['username']})
+    if user and 'preferences' in user:
+        return jsonify(user['preferences'])
+    return jsonify({})
 
 @app.route('/api/check_text', methods=['POST'])
 def check_text():

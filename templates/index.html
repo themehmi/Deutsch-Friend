@@ -252,7 +252,17 @@
 <body>
 
   <header>
-<div style="position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
+<style>
+  .guide-icon-btn {
+    position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;
+  }
+  @media (max-width: 768px) {
+    .guide-icon-btn {
+      top: 0.2rem;
+    }
+  }
+</style>
+<div class="guide-icon-btn" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
       <div class="user-menu-container">
         {% if session.username %}
         <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;" onclick="toggleUserMenu()">
@@ -276,10 +286,15 @@
     <nav>
       <ul>
         <li><a href="/grammar">Grammatik</a></li>
+        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/lesen">Lesen</a></li>
+        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/hoeren">Hören</a></li>
+        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/sprechen">Sprechen</a></li>
+        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/schreiben">Schreiben</a></li>
+        <li style="color:var(--border, #30363d); pointer-events:none;">|</li>
         <li><a href="/quiz">Tutor</a></li>
       </ul>
     </nav>

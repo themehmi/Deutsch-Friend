@@ -659,7 +659,17 @@
 <body>
 
   <header>
-<div style="position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
+<style>
+  .guide-icon-btn {
+    position: absolute; right: 1.5rem; top: 1.2rem; z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s;
+  }
+  @media (max-width: 768px) {
+    .guide-icon-btn {
+      top: 0.2rem;
+    }
+  }
+</style>
+<div class="guide-icon-btn" onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📖</div>
     <div class="logo-container">
       <div class="user-menu-container">
         {% if session.username %}
@@ -676,6 +686,7 @@
         <button class="toggle-btn" onclick="toggleUserMenu()">☰</button>
         <div class="user-dropdown" id="user-dropdown">
           <a href="/login">Login</a>
+          <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
           <a href="/signup">Sign Up</a>
         </div>
         {% endif %}
@@ -685,10 +696,15 @@
     </div>
     <div class="nav-links">
       <a href="/grammar">Grammatik</a>
+      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
       <a href="/lesen">Lesen</a>
+      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
       <a href="/hoeren">Hören</a>
+      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
       <a href="/sprechen">Sprechen</a>
+      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
       <a href="/schreiben" class="active">Schreiben</a>
+      <span style="color:var(--border, #30363d); pointer-events:none; margin: 0 -0.2rem;">|</span>
       <a href="/quiz">Tutor</a>
     </div>
   </header>

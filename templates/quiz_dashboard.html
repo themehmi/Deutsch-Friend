@@ -14,9 +14,9 @@
       --border: #30363d;
       --text: #c9d1d9;
       --sub: #8b949e;
-      --primary: #2ea043;
-      /* Green theme for Quiz */
-      --hover: rgba(46, 160, 67, 0.1);
+      --primary: #7d8590;
+      /* Grey theme for Tutor */
+      --hover: rgba(125, 133, 144, 0.1);
       --sidebar-bg: #010409;
     }
 
@@ -670,7 +670,7 @@
       </div>
 
       <div id="chat-messages" style="flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; background: var(--bg-color);">
-        <div class="chat-message bot" style="background: rgba(46, 160, 67, 0.1); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; line-height: 1.6; align-self: flex-start; max-width: 90%;">
+        <div class="chat-message bot" style="background: var(--hover); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; line-height: 1.6; align-self: flex-start; max-width: 90%;">
           Hello! I am your personal German tutor. What would you like to learn or practice today?<br><br>
           <i>Tip: "Explain the Dative case", "Create 10 exercises for Prepositions", or "How do I say 'I am hungry'?".</i>
         </div>
@@ -708,7 +708,7 @@
       btn.innerText = "⏳...";
 
       const botDiv = document.createElement('div');
-      botDiv.style = "align-self: flex-start; background: rgba(46, 160, 67, 0.1); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; max-width: 90%; line-height: 1.6; font-size: 1rem;";
+      botDiv.style = "align-self: flex-start; background: var(--hover); border-left: 4px solid var(--primary); padding: 1.2rem; border-radius: 8px; max-width: 90%; line-height: 1.6; font-size: 1rem;";
       botDiv.innerHTML = "Thinking... (Please wait)";
       chatMessages.appendChild(botDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -890,7 +890,7 @@
           <h4 style="margin-bottom: 0.3rem; color: #fff;">✍️ Schreiben (Writing)</h4>
           <p>Write emails or essays based on AI prompts and receive instant grammar corrections and a CEFR level.</p>
         </div>
-        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(46, 160, 67, 0.1); border-left: 4px solid #2ea043; border-radius: 4px;">
+        <div style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(125, 133, 144, 0.1); border-left: 4px solid #7d8590; border-radius: 4px;">
           <h4 style="margin-bottom: 0.3rem; color: #fff;">🤖 KI Tutor (Tutor)</h4>
           <p>Chat with a personal AI tutor to explain grammar, translate phrases, or generate custom exercises for any topic.</p>
         </div>

@@ -6,7 +6,7 @@
     <title>Deutsch Friend - Sprechen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Inter:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
 
         :root {
             --bg-color: #0d1117;
@@ -35,6 +35,7 @@
             height: 100vh;
             overflow: hidden;
         }
+
         header {
             padding: 2rem 5%;
             display: flex;
@@ -632,6 +633,32 @@
             align-self: flex-start;
             border-bottom-left-radius: 4px;
         }
+
+        .header-toggle-btn {
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 24px;
+            background: var(--sidebar-bg, #010409);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            color: var(--sub);
+            transition: color 0.3s, background 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+        }
+        .header-toggle-btn:hover {
+            color: #fff;
+            background: var(--border);
+        }
     </style>
 
 
@@ -641,7 +668,8 @@
 
     <header>
         <div style="position: absolute; right: 1.5rem; top: 2.6rem; transform: translateY(-50%); z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s; display: flex; align-items: center;"
-            onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
+            onclick="toggleGuideModal()" title="App Guide"
+            onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
             onmouseout="this.style.transform='translateY(-50%) scale(1)'">📖</div>
         <div class="user-menu-container">
             {% if session.username %}
@@ -671,6 +699,9 @@
             <a href="/sprechen" class="active">Sprechen</a>
             <a href="/schreiben">Schreiben</a>
         </nav>
+        <div class="header-toggle-btn" onclick="toggleHeader()" title="Navigation umschalten">
+            <span id="header-toggle-icon">▲</span>
+        </div>
     </header>
 
     <div class="layout-container">
@@ -1356,68 +1387,65 @@
             }
         }
     </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const header = document.querySelector('header');
-        const mainContent = document.querySelector('.main-content');
-        
-        let lastScrollY = 0;
-        
-        if (header) {
-            header.style.transition = 'margin-top 0.3s ease-in-out, top 0.3s ease-in-out';
-        }
-        
-        function handleScroll(currentScrollY) {
-            if (!header) return;
-            if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                if (mainContent) {
-                    header.style.marginTop = '-' + header.offsetHeight + 'px';
-                } else {
-                    header.style.top = '-' + header.offsetHeight + 'px';
-                }
-            } else {
-                if (mainContent) {
-                    header.style.marginTop = '0px';
-                } else {
-                    header.style.top = '0px';
-                }
-            }
-            lastScrollY = currentScrollY;
-        }
-
-        if (mainContent) {
-            mainContent.addEventListener('scroll', () => handleScroll(mainContent.scrollTop));
-        } else {
-            window.addEventListener('scroll', () => handleScroll(window.scrollY));
-        }
-    });
-</script>
-
     <script>
-        // Auto-hide header on scroll down
-        document.addEventListener('DOMContentLoaded', () => {
-            let lastScroll = 0;
-            const mainContent = document.querySelector('.main-content');
+        document.addEventListener("DOMContentLoaded", function () {
             const header = document.querySelector('header');
-            
-            if (mainContent && header) {
-                header.style.transition = 'margin-top 0.3s ease-in-out';
-                mainContent.addEventListener('scroll', () => {
-                    const currentScroll = mainContent.scrollTop;
-                    if (currentScroll > lastScroll && currentScroll > 50) {
-                        // Scroll down - hide header
-                        header.style.marginTop = `-${header.offsetHeight}px`;
+            const mainContent = document.querySelector('.main-content');
+
+            let lastScrollY = 0;
+
+            if (header) {
+                header.style.transition = 'margin-top 0.3s ease-in-out, top 0.3s ease-in-out';
+            }
+
+            function handleScroll(currentScrollY) {
+                if (!header) return;
+                if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                    if (mainContent) {
+                        header.style.marginTop = '-' + header.offsetHeight + 'px';
                     } else {
-                        // Scroll up - show header
-                        header.style.marginTop = '0px';
+                        header.style.top = '-' + header.offsetHeight + 'px';
                     }
-                    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
-                });
+                } else {
+                    if (mainContent) {
+                        header.style.marginTop = '0px';
+                    } else {
+                        header.style.top = '0px';
+                    }
+                }
+                lastScrollY = currentScrollY;
+            }
+
+            if (mainContent) {
+                mainContent.addEventListener('scroll', () => handleScroll(mainContent.scrollTop));
+            } else {
+                window.addEventListener('scroll', () => handleScroll(window.scrollY));
             }
         });
+    </script>
+
+    <script>
+        // Manual header toggle
+        function toggleHeader() {
+            const header = document.querySelector('header');
+            const icon = document.getElementById('header-toggle-icon');
+            
+            if (!header.style.transition) {
+                header.style.transition = 'margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+            
+            if (header.classList.contains('header-hidden')) {
+                header.classList.remove('header-hidden');
+                header.style.marginTop = '0px';
+                icon.textContent = '▲';
+            } else {
+                header.classList.add('header-hidden');
+                header.style.marginTop = `-${header.offsetHeight}px`;
+                icon.textContent = '▼';
+            }
+        }
     </script>
 </body>
 
 
 </html>
-

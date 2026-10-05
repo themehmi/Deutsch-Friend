@@ -499,7 +499,8 @@
 
     <header>
         <div style="position: absolute; right: 1.5rem; top: 2.6rem; transform: translateY(-50%); z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s; display: flex; align-items: center;"
-            onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
+            onclick="toggleGuideModal()" title="App Guide"
+            onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
             onmouseout="this.style.transform='translateY(-50%) scale(1)'">📖</div>
         <div class="user-menu-container">
             {% if session.username %}
@@ -792,7 +793,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             let lastScroll = 0;
             const header = document.querySelector('header');
-            
+
             if (header) {
                 header.style.transition = 'margin-top 0.3s ease-in-out';
                 window.addEventListener('scroll', () => {
@@ -887,26 +888,26 @@
 </script>
 {% endif %}
 
-    <script>
-        // Auto-hide header on scroll down
-        document.addEventListener('DOMContentLoaded', () => {
-            let lastScroll = 0;
-            const header = document.querySelector('header');
-            
-            if (header) {
-                header.style.transition = 'margin-top 0.3s ease-in-out';
-                window.addEventListener('scroll', () => {
-                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                    if (currentScroll > lastScroll && currentScroll > 50) {
-                        header.style.marginTop = `-${header.offsetHeight}px`;
-                    } else {
-                        header.style.marginTop = '0px';
-                    }
-                    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
-                });
-            }
-        });
-    </script>
+<script>
+    // Auto-hide header on scroll down
+    document.addEventListener('DOMContentLoaded', () => {
+        let lastScroll = 0;
+        const header = document.querySelector('header');
+
+        if (header) {
+            header.style.transition = 'margin-top 0.3s ease-in-out';
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                if (currentScroll > lastScroll && currentScroll > 50) {
+                    header.style.marginTop = `-${header.offsetHeight}px`;
+                } else {
+                    header.style.marginTop = '0px';
+                }
+                lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+            });
+        }
+    });
+</script>
 </body>
 
 

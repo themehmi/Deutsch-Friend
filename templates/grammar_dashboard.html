@@ -13,9 +13,9 @@
             --sidebar-bg: #010409;
             --card-bg: #161b22;
             --border: #30363d;
-            --primary: #8957e5;
-            /* Purple theme for Grammatik */
-            --hover: rgba(137, 87, 229, 0.1);
+            --primary: #58a6ff;
+            /* Blue theme for Grammatik */
+            --hover: rgba(88, 166, 255, 0.1);
             --text: #c9d1d9;
             --sub: #8b949e;
         }
@@ -437,7 +437,7 @@
             transition: color 0.2s;
         }
 
-            .close-sidebar-btn:hover {
+        .close-sidebar-btn:hover {
             color: var(--primary);
         }
 
@@ -668,6 +668,32 @@
             align-self: flex-start;
             border-bottom-left-radius: 4px;
         }
+
+        .header-toggle-btn {
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 24px;
+            background: var(--sidebar-bg, #010409);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            color: var(--sub);
+            transition: color 0.3s, background 0.3s;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+        }
+        .header-toggle-btn:hover {
+            color: #fff;
+            background: var(--border);
+        }
     </style>
 
 
@@ -677,7 +703,8 @@
 
     <header>
         <div style="position: absolute; right: 1.5rem; top: 2.6rem; transform: translateY(-50%); z-index: 100; cursor: pointer; font-size: 1.8rem; transition: transform 0.2s; display: flex; align-items: center;"
-            onclick="toggleGuideModal()" title="App Guide" onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
+            onclick="toggleGuideModal()" title="App Guide"
+            onmouseover="this.style.transform='translateY(-50%) scale(1.1)'"
             onmouseout="this.style.transform='translateY(-50%) scale(1)'">📖</div>
         <div class="user-menu-container">
             {% if session.username %}
@@ -707,6 +734,9 @@
             <a href="/sprechen">Sprechen</a>
             <a href="/schreiben">Schreiben</a>
         </nav>
+        <div class="header-toggle-btn" onclick="toggleHeader()" title="Navigation umschalten">
+            <span id="header-toggle-icon">▲</span>
+        </div>
     </header>
 
     <div class="layout-container">
@@ -6882,27 +6912,25 @@
     </script>
 
     <script>
-        // Auto-hide header on scroll down
-        document.addEventListener('DOMContentLoaded', () => {
-            let lastScroll = 0;
-            const mainContent = document.querySelector('.main-content');
+        // Manual header toggle
+        function toggleHeader() {
             const header = document.querySelector('header');
+            const icon = document.getElementById('header-toggle-icon');
             
-            if (mainContent && header) {
-                header.style.transition = 'margin-top 0.3s ease-in-out';
-                mainContent.addEventListener('scroll', () => {
-                    const currentScroll = mainContent.scrollTop;
-                    if (currentScroll > lastScroll && currentScroll > 50) {
-                        // Scroll down - hide header
-                        header.style.marginTop = `-${header.offsetHeight}px`;
-                    } else {
-                        // Scroll up - show header
-                        header.style.marginTop = '0px';
-                    }
-                    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
-                });
+            if (!header.style.transition) {
+                header.style.transition = 'margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             }
-        });
+            
+            if (header.classList.contains('header-hidden')) {
+                header.classList.remove('header-hidden');
+                header.style.marginTop = '0px';
+                icon.textContent = '▲';
+            } else {
+                header.classList.add('header-hidden');
+                header.style.marginTop = `-${header.offsetHeight}px`;
+                icon.textContent = '▼';
+            }
+        }
     </script>
 </body>
 

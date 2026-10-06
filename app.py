@@ -281,7 +281,7 @@ def chat():
         "model": "qwen/qwen3.8-27b",
         "messages": payload_messages,
         "temperature": 0.5,
-        "max_tokens": 256
+        "max_tokens": 1024
     }
     
     try:

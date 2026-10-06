@@ -788,26 +788,7 @@
         }
     </script>
 
-    <script>
-        // Auto-hide header on scroll down
-        document.addEventListener('DOMContentLoaded', () => {
-            let lastScroll = 0;
-            const header = document.querySelector('header');
 
-            if (header) {
-                header.style.transition = 'margin-top 0.3s ease-in-out';
-                window.addEventListener('scroll', () => {
-                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                    if (currentScroll > lastScroll && currentScroll > 50) {
-                        header.style.marginTop = `-${header.offsetHeight}px`;
-                    } else {
-                        header.style.marginTop = '0px';
-                    }
-                    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
-                });
-            }
-        });
-    </script>
 </body>
 
 
@@ -888,26 +869,7 @@
 </script>
 {% endif %}
 
-<script>
-    // Auto-hide header on scroll down
-    document.addEventListener('DOMContentLoaded', () => {
-        let lastScroll = 0;
-        const header = document.querySelector('header');
 
-        if (header) {
-            header.style.transition = 'margin-top 0.3s ease-in-out';
-            window.addEventListener('scroll', () => {
-                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                if (currentScroll > lastScroll && currentScroll > 50) {
-                    header.style.marginTop = `-${header.offsetHeight}px`;
-                } else {
-                    header.style.marginTop = '0px';
-                }
-                lastScroll = currentScroll <= 0 ? 0 : currentScroll;
-            });
-        }
-    });
-</script>
 </body>
 
 

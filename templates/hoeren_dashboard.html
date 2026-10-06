@@ -693,25 +693,6 @@
     <div class="layout-container">
         <aside class="sidebar" id="sidebar">
             <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
-            <div class="sidebar-section">
-                <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Diktat</div>
-                <ul class="sidebar-menu collapsed">
-                    <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
-                        <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
-                        <select id="preset-level-select"
-                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
-                            <option value="A1" selected>A1</option>
-                            <option value="A2">A2</option>
-                            <option value="B1">B1</option>
-                            <option value="B2">B2</option>
-                        </select>
-                    </li>
-                    <li><a onclick="setTopic('bahnhof')" id="link-bahnhof">Bahnhof Durchsage</a></li>
-                    <li><a onclick="setTopic('wetter')" id="link-wetter">Wetterbericht</a></li>
-                    <li><a onclick="setTopic('nachrichten')" id="link-nachrichten">Nachrichten</a></li>
-                    <li><a onclick="setTopic('alltag')" id="link-alltag">Alltag & Freunde</a></li>
-                </ul>
-            </div>
 
             <div class="sidebar-section">
                 <div class="sidebar-title" onclick="toggleDropdown(this)">Eigenes Szenario</div>
@@ -732,6 +713,25 @@
                             style="padding: 0.4rem; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; justify-content: center;"
                             onclick="setCustomTopic()">Szenario setzen</button>
                     </li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Diktat</div>
+                <ul class="sidebar-menu collapsed">
+                    <li style="padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border);">
+                        <label style="font-size: 0.85rem; color: var(--sub);">Niveau:</label>
+                        <select id="preset-level-select"
+                            style="background: var(--bg-color); color: #fff; border: 1px solid var(--border); padding: 0.4rem; border-radius: 4px; font-family: 'Inter', sans-serif; width: 100%; margin-top: 0.3rem;">
+                            <option value="A1" selected>A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                            <option value="B2">B2</option>
+                        </select>
+                    </li>
+                    <li><a onclick="setTopic('bahnhof')" id="link-bahnhof">Bahnhof Durchsage</a></li>
+                    <li><a onclick="setTopic('wetter')" id="link-wetter">Wetterbericht</a></li>
+                    <li><a onclick="setTopic('nachrichten')" id="link-nachrichten">Nachrichten</a></li>
+                    <li><a onclick="setTopic('alltag')" id="link-alltag">Alltag & Freunde</a></li>
                 </ul>
             </div>
         </aside>

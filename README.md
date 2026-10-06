@@ -1,10 +1,9 @@
-# Deutsch-Friend — Complete Project Documentation
+# Deutsch-Friend — Developer & User Documentation
 
-> An AI-powered German practice platform built with Flask, MongoDB and the Groq API.
-> Practise **Schreiben, Sprechen, Hören and Lesen**, drill grammar, and look up words with full verb conjugations — all at your own CEFR level.
+> An AI-powered German learning web app. Practise **Schreiben** (writing), **Sprechen** (speaking), **Hören** (listening) and **Lesen** (reading), look up words in a smart dictionary, and keep your account and preferences saved between sessions.
 
-**Repository:** <https://github.com/themehmi/Deutsch-Friend>
-**Author:** [@themehmi](https://github.com/themehmi)
+**Live demo:** <https://deutsch-friend.vercel.app>
+**Source:** <https://github.com/themehmi/Deutsch-Friend>
 
 ---
 
@@ -12,651 +11,647 @@
 
 1. [Overview](#1-overview)
 2. [Feature Overview](#2-feature-overview)
-3. [What's New](#3-whats-new)
-4. [Tech Stack](#4-tech-stack)
-5. [Architecture](#5-architecture)
-6. [Repository Layout](#6-repository-layout)
-7. [Installation & Setup](#7-installation--setup)
-8. [Configuration Reference](#8-configuration-reference)
-9. [Authentication & Sessions](#9-authentication--sessions)
-10. [Database Schema](#10-database-schema)
-11. [Page Routes](#11-page-routes)
-12. [API Reference](#12-api-reference)
-13. [AI Prompt Design](#13-ai-prompt-design)
-14. [User Journeys](#14-user-journeys)
-15. [Error Handling](#15-error-handling)
-16. [Security Review & Hardening Checklist](#16-security-review--hardening-checklist)
-17. [Deployment](#17-deployment)
-18. [Troubleshooting](#18-troubleshooting)
-19. [Extending the App](#19-extending-the-app)
-20. [Roadmap Ideas](#20-roadmap-ideas)
+3. [Tech Stack](#3-tech-stack)
+4. [Architecture](#4-architecture)
+5. [Project Structure](#5-project-structure)
+6. [Installation & Setup](#6-installation--setup)
+7. [Configuration](#7-configuration)
+8. [Authentication & Accounts](#8-authentication--accounts)
+9. [Page Routes](#9-page-routes)
+10. [API Reference](#10-api-reference)
+11. [Data Model](#11-data-model)
+12. [User Guide](#12-user-guide)
+13. [Error Handling](#13-error-handling)
+14. [Security Considerations](#14-security-considerations)
+15. [Known Limitations](#15-known-limitations)
+16. [Deployment](#16-deployment)
+17. [Extending the App](#17-extending-the-app)
+18. [Roadmap Ideas](#18-roadmap-ideas)
 
 ---
 
 ## 1. Overview
 
-Deutsch-Friend is a single-file Flask application (`app.py`) that acts as the backend for a set of HTML dashboards. The server has three jobs:
+Deutsch-Friend is a Flask application that pairs a classic server-rendered web UI with large-language-model features served through the [Groq API](https://console.groq.com/). It targets learners preparing for German exams and everyday communication, and covers all four exam skills plus grammar and vocabulary support.
 
-1. **Serve pages** — login, signup, a home screen, and one dashboard per skill.
-2. **Manage users** — registration, login, sessions, a first-login tutorial flag, and saved preferences, all stored in MongoDB.
-3. **Proxy AI requests** — build task-specific prompts and forward them to the Groq API (LLM chat completions and Whisper speech-to-text), returning small JSON responses to the browser.
+What makes it different from a static course site:
 
-The server keeps **no conversation state** — chat history lives in the browser and is sent with each request.
+- **Everything is generated on demand.** Writing tasks, listening scripts and reading texts are created fresh by an LLM, so practice material never runs out.
+- **CEFR-aware.** Listening and reading exercises can be adapted to a chosen CEFR level (A1 and up).
+- **Instant, explained feedback.** Written and spoken German is corrected with explanations in English.
+- **Accounts and persistence.** Users sign up, log in, and have their preferences stored in MongoDB.
 
 ---
 
 ## 2. Feature Overview
 
-| Area | What the learner can do | Backed by |
-|---|---|---|
-| **Accounts** | Sign up, log in with username *or* email, log out, see a one-time tutorial after the first login | MongoDB + Flask sessions |
-| **Preferences** | Persist UI/learning settings per user and reload them later | `/api/save_preference`, `/api/get_preferences` |
-| **Schreiben (Writing)** | Generate an exam-style writing task, write an answer, receive corrections, a corrected text and a CEFR estimate | `/api/generate_scenario`, `/api/check_text` |
-| **Sprechen (Speaking)** | Record speech, get a transcription, role-play with an AI partner, and receive instant grammar/on-topic feedback on each spoken sentence | `/api/transcribe`, `/api/chat`, `/api/check_speech` |
-| **Hören (Listening)** | Generate short German audio scripts (train station, weather, news, daily life, or custom) at a chosen CEFR level | `/api/generate_listen` |
-| **Lesen (Reading)** | Generate reading texts (email, blog, news, story, or custom) with three comprehension questions, at a chosen CEFR level | `/api/generate_lesen` |
-| **Grammar** | Dedicated grammar dashboard | `/grammar` page |
-| **Dictionary** | German ⇄ English lookup with articles and automatic verb forms | `/api/dictionary` |
+| Area | Feature | Highlights |
+| --- | --- | --- |
+| **Accounts** | Sign up / log in / log out | Username or email login, hashed passwords, first-login tutorial flag |
+| **Preferences** | Per-user key/value settings | Saved to and loaded from MongoDB |
+| **Schreiben** | Writing task generator | Exam-style task in German with English translation and 3–4 required points |
+| **Schreiben** | Writing corrector | Error explanations in English, corrected text, estimated CEFR level, HTML output |
+| **Sprechen** | Speech-to-text | Whisper large-v3, tuned for German/English code-switching, optional language hint |
+| **Sprechen** | Role-play chat partner | Stateless chat endpoint driven by a client-supplied system prompt |
+| **Sprechen** | Spoken-sentence checker | Checks grammar **and** whether the sentence fits the scenario; returns a short correction or nothing if correct |
+| **Hören** | Listening script generator | Presets (train station, weather, news, daily life) or a custom scenario, adjustable CEFR level |
+| **Lesen** | Reading exercise generator | Text types (email, blog, news, story) or custom topic, plus 3 German comprehension questions, adjustable CEFR level |
+| **Wörterbuch** | AI dictionary | German⇄English, articles for nouns, verb forms resolved to the infinitive with Partizip II, Präteritum, Futur I and Futur II |
+| **Grammar** | Grammar dashboard | Dedicated page (`/grammar`) |
 
 ---
 
-## 3. What's New
+## 3. Tech Stack
 
-This documentation describes the **current** state of the code. Compared with the earlier, backend-only version of the app, the following are new:
-
-- **User accounts** — `/signup`, `/login` and `/logout` with hashed passwords (Werkzeug), email-format validation, an 8-character minimum password, and unique username/email enforcement.
-- **MongoDB persistence** — users are stored in the `deutsch_app` database (`users` collection) via `pymongo`; unique indexes are created on startup.
-- **Login by username or email** — one input field accepts either.
-- **Protected home page** — `/` redirects anonymous visitors to `/login`.
-- **First-login tutorial** — new users get `is_first_login: true`; the first successful login sets a session flag so `index.html` can show a tutorial once.
-- **Per-user preferences** — a key/value store under `preferences.*` on the user document.
-- **CEFR level selection** — Hören and Lesen endpoints accept a `level` field (default `A1`) that is appended to the generation prompt.
-- **Live speech checking** — new `/api/check_speech` endpoint validates a spoken sentence against the current role-play scenario, returning either nothing (correct) or a short HTML correction.
-- **Updated dependencies** — `pymongo` and `dnspython` (needed for `mongodb+srv://` connection strings) were added.
-- **Updated model** — all LLM calls use `qwen/qwen3.8-27b` through Groq.
+| Layer | Technology | Purpose |
+| --- | --- | --- |
+| Web framework | **Flask 3.0.3** | Routing, sessions, templating, JSON APIs |
+| Config | **python-dotenv 1.0.1** | Loads secrets from `.env` (values override existing environment variables) |
+| Database | **MongoDB** via **pymongo** (+ **dnspython** for `mongodb+srv://` URIs) | User accounts and preferences |
+| Password security | **Werkzeug** (`generate_password_hash`, `check_password_hash`) | Salted password hashing |
+| HTTP clients | **requests**, plus `urllib` in two endpoints | Calls to Groq |
+| AI – text | Groq chat completions, model `qwen/qwen3.8-27b` | Generation, correction, chat, dictionary |
+| AI – speech | Groq transcription, model `whisper-large-v3` | Speech-to-text |
+| Frontend | Jinja2 templates (HTML/CSS/JS) | One page per skill |
 
 ---
 
-## 4. Tech Stack
+## 4. Architecture
 
-| Layer | Technology | Notes |
-|---|---|---|
-| Web framework | **Flask 3.0.3** | Routing, sessions, Jinja2 templates |
-| Config | **python-dotenv 1.0.1** | `load_dotenv(override=True)` — `.env` wins over OS variables |
-| Database | **MongoDB** via **pymongo** | `dnspython` enables Atlas `mongodb+srv://` URIs |
-| Password hashing | **Werkzeug** (`generate_password_hash`, `check_password_hash`) | Installed as a Flask dependency |
-| HTTP clients | **requests** and **urllib** | `urllib` is used by `check_text` and `generate_scenario`; everything else uses `requests` |
-| LLM | **Groq** chat completions, model `qwen/qwen3.8-27b` | Hard-coded in each endpoint |
-| Speech-to-text | **Groq** `whisper-large-v3` | Audio transcription endpoint |
-| Frontend | Jinja2 HTML templates + browser JavaScript | Located in `templates/` |
-
-`requirements.txt`:
-
-```text
-Flask==3.0.3
-python-dotenv==1.0.1
-requests
-pymongo
-dnspython
+```
+┌──────────────┐  pages / forms   ┌───────────────────┐   HTTPS + Bearer key   ┌─────────────┐
+│   Browser    │ ◄──────────────► │   Flask (app.py)  │ ─────────────────────► │  Groq API   │
+│  (templates  │  fetch() JSON    │  routes + prompts │ ◄───────────────────── │ LLM/Whisper │
+│   + JS)      │ ───────────────► │                   │          JSON          └─────────────┘
+└──────────────┘                  └─────────┬─────────┘
+                                            │ pymongo
+                                            ▼
+                                  ┌───────────────────┐
+                                  │  MongoDB          │
+                                  │  db: deutsch_app  │
+                                  │  coll: users      │
+                                  └───────────────────┘
 ```
 
+**Request lifecycle**
+
+1. The browser requests a page route (`/`, `/schreiben`, …) and Flask renders a Jinja2 template.
+2. Page JavaScript calls an `/api/...` route using `fetch` (JSON, or multipart for audio).
+3. Flask builds a task-specific system prompt, attaches the Groq API key and forwards the request.
+4. The model output is trimmed and returned to the browser as a small JSON object.
+5. Account-related data (users, preferences) is read from and written to MongoDB; login state lives in a signed Flask session cookie.
+
+The server holds **no conversation state**. Chat history is kept by the client and sent in full with every `/api/chat` request.
+
 ---
 
-## 5. Architecture
+## 5. Project Structure
 
-```text
-┌───────────────┐   pages (HTML)    ┌─────────────────┐   Bearer key    ┌─────────────┐
-│    Browser    │ ◄──────────────── │    Flask app    │ ──────────────► │  Groq API   │
-│  (templates)  │ ── fetch (JSON) ► │     app.py      │ ◄────────────── │ LLM/Whisper │
-└───────────────┘                   └────────┬────────┘      JSON       └─────────────┘
-                                             │
-                                             ▼
-                                   ┌───────────────────┐
-                                   │ MongoDB           │
-                                   │ db: deutsch_app   │
-                                   │ coll: users       │
-                                   └───────────────────┘
 ```
-
-**Request lifecycle for an AI feature**
-
-1. The browser loads a dashboard route (for example `/lesen`).
-2. Page JavaScript calls an `/api/...` endpoint with JSON (or `multipart/form-data` for audio).
-3. Flask selects a system prompt, injects the CEFR level and parameters, and calls Groq with the server's `API_KEY`.
-4. Flask trims the model output and returns a compact JSON object.
-5. The page renders the result (some endpoints return HTML fragments meant to be injected directly).
-
-**Graceful degradation:** if the `MongoDB` variable is not set, `users_collection` is `None`. Account pages still render, but signup/login show *"Database connection failed."* and the preference endpoints return empty/failed responses.
-
----
-
-## 6. Repository Layout
-
-```text
 Deutsch-Friend/
-├── app.py              # Entire backend: pages, auth, preferences, AI endpoints
-├── requirements.txt    # Python dependencies
-├── README.md           # Project readme
-└── templates/          # Jinja2 pages
-    ├── index.html              # Home (receives show_tutorial flag)
-    ├── login.html              # Login form
-    ├── signup.html             # Registration form
-    ├── grammar_dashboard.html
-    ├── schreiben_dashboard.html
-    ├── sprechen_dashboard.html
-    ├── hoeren_dashboard.html
-    └── lesen_dashboard.html
+├── app.py              # Entire backend: auth, page routes, AI API routes
+├── requirements.txt    # Flask, python-dotenv, requests, pymongo, dnspython
+├── templates/          # Jinja2 pages
+│   ├── index.html                # Home / dashboard (supports first-login tutorial)
+│   ├── login.html                # Login form
+│   ├── signup.html               # Registration form
+│   ├── grammar_dashboard.html    # Grammar
+│   ├── schreiben_dashboard.html  # Writing
+│   ├── sprechen_dashboard.html   # Speaking
+│   ├── hoeren_dashboard.html     # Listening
+│   └── lesen_dashboard.html      # Reading
+└── README.md
 ```
 
-> The template file names are taken from the `render_template(...)` calls in `app.py`. Their internal markup and JavaScript are not described here.
+> The template file names above are the ones `app.py` renders. Their internal HTML/JS was not reviewed for this document, so frontend behaviour is described only where the backend makes it clear.
 
 ---
 
-## 7. Installation & Setup
+## 6. Installation & Setup
 
 ### Prerequisites
 
-- Python 3.9+
-- A [Groq](https://console.groq.com/) API key
-- A MongoDB database (local, or a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster)
+- Python 3.9 or newer
+- A [Groq API key](https://console.groq.com/keys)
+- A MongoDB database (e.g. a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster) and its connection string
 
 ### Steps
 
 ```bash
-# 1. Clone the repository
+# 1. Clone
 git clone https://github.com/themehmi/Deutsch-Friend.git
 cd Deutsch-Friend
 
-# 2. Create and activate a virtual environment
+# 2. Create a virtual environment
 python -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\activate
 
 # 3. Install dependencies
 pip install -r requirements.txt
+
+# 4. Create a .env file (see Configuration)
+
+# 5. Run
+python app.py
 ```
+
+The development server starts at **http://127.0.0.1:5000** with debug mode on.
+
+---
+
+## 7. Configuration
 
 Create a `.env` file in the project root:
 
 ```env
 API_KEY=your_groq_api_key
 MongoDB=mongodb+srv://<user>:<password>@<cluster>/?retryWrites=true&w=majority
-SECRET_KEY=replace_with_a_long_random_string
+SECRET_KEY=a-long-random-string
 ```
 
-Generate a strong secret key with:
+| Variable | Required | Description |
+| --- | --- | --- |
+| `API_KEY` | Yes | Groq API key used for text generation and transcription |
+| `MongoDB` | Yes | MongoDB connection URI. **The variable name is case-sensitive and is literally `MongoDB`** |
+| `SECRET_KEY` | Strongly recommended | Signs the Flask session cookie. If unset, a hard-coded default is used, which is unsafe outside local development |
 
-```bash
-python -c "import secrets; print(secrets.token_hex(32))"
-```
+Notes:
 
-Run the app:
-
-```bash
-python app.py
-```
-
-Open <http://127.0.0.1:5000>. You will be redirected to `/login` — create an account at `/signup` first.
+- `load_dotenv(override=True)` means `.env` values win over variables already set in your shell.
+- Without `MongoDB`, the app still starts, but signup and login report "Database connection failed", and because the home page requires a login, the app is effectively unusable.
+- On startup the app tries to create **unique indexes** on `username` and `email`. If that fails, it prints a warning and continues.
 
 ---
 
-## 8. Configuration Reference
+## 8. Authentication & Accounts
 
-| Variable | Required | Default | Purpose |
-|---|---|---|---|
-| `API_KEY` | **Yes** | – | Groq API key for chat completions and Whisper |
-| `MongoDB` | **Yes** (for accounts) | – | MongoDB connection string. Note the exact, case-sensitive variable name |
-| `SECRET_KEY` | Strongly recommended | `my_secret_key_123` | Signs Flask session cookies |
+Authentication is session-based and stored in the `users` collection.
 
-Other fixed settings in code:
-
-| Setting | Value |
-|---|---|
-| Host / port | `127.0.0.1:5000` |
-| Debug mode | `True` |
-| Database name | `deutsch_app` |
-| Collection | `users` |
-| LLM model | `qwen/qwen3.8-27b` |
-| Transcription model | `whisper-large-v3` |
-
----
-
-## 9. Authentication & Sessions
-
-### Signup — `POST /signup`
+### Sign up (`GET/POST /signup`)
 
 Form fields: `username`, `email`, `password`.
 
-Validation order:
+Validation, in order:
 
 1. Database must be connected.
-2. Email must match `^[^\s@]+@[^\s@]+\.[^\s@]+$`.
-3. Password must be at least **8 characters**.
+2. Email must match a basic `name@domain.tld` pattern.
+3. Password must be **at least 8 characters**.
 4. Username must not already exist.
-5. Email must not already exist.
+5. Email must not already be registered.
 
-Usernames and emails are **trimmed and lower-cased** before storage. Passwords are stored only as Werkzeug hashes. On success the user is redirected to `/login` with a flash message.
+Username and email are trimmed and lower-cased. The password is stored only as a Werkzeug hash. New users get `is_first_login: true`. On success the user is redirected to the login page with a confirmation message.
 
-### Login — `POST /login`
+### Log in (`GET/POST /login`)
 
-Form fields: `username` (accepts a username **or** an email) and `password`.
+Form fields: `username` (accepts **either username or email**) and `password`.
 
-- On success: `session.permanent = True`, `session['username']` is set, and the user is sent to `/`.
-- If `is_first_login` is `true`, the session gets `show_tutorial = True` and the database flag is flipped to `false`, so the tutorial appears exactly once.
-- On failure: flash `Invalid username or password.` (the same message for unknown user and wrong password).
+On success:
 
-### Logout — `GET /logout`
+- `session['username']` is set and the session is marked permanent (Flask's default permanent lifetime is 31 days).
+- If `is_first_login` is true, `session['show_tutorial']` is set and the flag is flipped to `false` in the database. The home page reads and clears this value once, so the tutorial is shown **only on the very first login**.
 
-Removes `username` from the session and redirects to `/` (which then redirects to `/login`).
+On failure the user sees "Invalid username or password." (the same message for unknown user and wrong password).
 
-### Home gating
+### Log out (`GET /logout`)
 
-`GET /` redirects to `/login` when no session exists. It pops `show_tutorial` from the session and passes it to `index.html`.
+Removes `username` from the session and redirects to `/`, which in turn redirects to the login page.
 
-> **Note:** only `/` and the two preference endpoints check the session. The skill dashboards and AI endpoints are currently reachable without logging in — see [Security Review](#16-security-review--hardening-checklist).
+### Flash messages
+
+All feedback (validation errors, success notices) is delivered through Flask's `flash()` and rendered by the templates.
 
 ---
 
-## 10. Database Schema
+## 9. Page Routes
 
-**Database:** `deutsch_app` → **Collection:** `users`
+| Route | Methods | Template | Auth required | Purpose |
+| --- | --- | --- | --- | --- |
+| `/` | GET | `index.html` | **Yes** (redirects to `/login`) | Home dashboard; shows the tutorial on first login |
+| `/signup` | GET, POST | `signup.html` | No | Registration |
+| `/login` | GET, POST | `login.html` | No | Login |
+| `/logout` | GET | – | No | Ends the session |
+| `/grammar` | GET | `grammar_dashboard.html` | No\* | Grammar practice |
+| `/schreiben` | GET | `schreiben_dashboard.html` | No\* | Writing practice |
+| `/sprechen` | GET | `sprechen_dashboard.html` | No\* | Speaking practice |
+| `/hoeren` | GET | `hoeren_dashboard.html` | No\* | Listening practice |
+| `/lesen` | GET | `lesen_dashboard.html` | No\* | Reading practice |
 
+\* Only the home page enforces login in the backend. See [Known Limitations](#15-known-limitations).
+
+---
+
+## 10. API Reference
+
+- Request bodies are JSON unless stated otherwise (`/api/transcribe` uses multipart form data; `/api/get_preferences` is a `GET`).
+- Successful responses are JSON objects. Failures return `{"error": "..."}` with an HTTP `4xx/5xx` status.
+- AI endpoints call Groq with the model `qwen/qwen3.8-27b`.
+
+### Quick reference
+
+| Endpoint | Method | Skill | Login needed | API key source | Temp | Max tokens | Returns |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `/api/save_preference` | POST | Account | Yes | – | – | – | `success` |
+| `/api/get_preferences` | GET | Account | Yes (else `{}`) | – | – | – | preferences object |
+| `/api/check_text` | POST | Schreiben | No | request body or `.env` | 0.2 | 1024 | `feedback` (HTML) |
+| `/api/generate_scenario` | POST | Schreiben | No | request body or `.env` | 0.5 | 512 | `scenario` (HTML) |
+| `/api/transcribe` | POST | Sprechen | No | `.env` | – | – | `text` |
+| `/api/chat` | POST | Sprechen | No | `.env` | 0.5 | 256 | `reply` |
+| `/api/check_speech` | POST | Sprechen | No | `.env` | 0.1 | 256 | `correction` (HTML or `null`) |
+| `/api/generate_listen` | POST | Hören | No | `.env` | 0.7 | 128 | `transcript` |
+| `/api/generate_lesen` | POST | Lesen | No | `.env` | 0.7 | 512 | `text` |
+| `/api/dictionary` | POST | All | No | `.env` | 0.3 | 256 | `translation` |
+
+---
+
+### 10.1 `POST /api/save_preference`
+
+Stores one preference for the logged-in user under `preferences.<key>`.
+
+**Request**
+```json
+{ "key": "theme", "value": "dark" }
+```
+
+**Response**
+```json
+{ "success": true }
+```
+
+**Errors:** `401 {"error": "Unauthorized"}` if not logged in; `400 {"error": "Invalid data"}` if `key` or `value` is missing/falsy or the database is unavailable.
+
+> Because the check is `if key and value`, falsy values such as `false`, `0` or `""` are rejected. Store booleans as strings (`"true"`/`"false"`) or extend the check.
+
+---
+
+### 10.2 `GET /api/get_preferences`
+
+Returns the logged-in user's saved preferences.
+
+**Response**
+```json
+{ "theme": "dark", "level": "A2" }
+```
+
+Returns `{}` when not logged in, when the database is unavailable, or when no preferences exist.
+
+---
+
+### 10.3 `POST /api/check_text` — writing correction
+
+Grades a student's German text against a writing prompt.
+
+**Request**
 ```json
 {
-  "_id": "ObjectId",
-  "username": "anna",
-  "email": "anna@example.com",
-  "password": "pbkdf2:sha256:...hash...",
-  "is_first_login": false,
-  "preferences": {
-    "level": "B1",
-    "theme": "dark"
-  }
-}
-```
-
-| Field | Type | Description |
-|---|---|---|
-| `username` | string, **unique** | Lower-cased handle |
-| `email` | string, **unique** | Lower-cased email |
-| `password` | string | Salted hash — never the plain password |
-| `is_first_login` | bool | `true` until the first successful login |
-| `preferences` | object | Arbitrary key/value pairs written by `/api/save_preference` (the example keys above are illustrative) |
-
-Unique indexes on `username` and `email` are created at startup; failure to create them only prints a warning.
-
----
-
-## 11. Page Routes
-
-| Route | Methods | Template | Auth check | Description |
-|---|---|---|---|---|
-| `/` | GET | `index.html` | Redirects to login if no session | Home + optional tutorial |
-| `/signup` | GET, POST | `signup.html` | – | Registration |
-| `/login` | GET, POST | `login.html` | – | Sign in |
-| `/logout` | GET | – | – | End session |
-| `/grammar` | GET | `grammar_dashboard.html` | None | Grammar practice |
-| `/schreiben` | GET | `schreiben_dashboard.html` | None | Writing practice |
-| `/sprechen` | GET | `sprechen_dashboard.html` | None | Speaking practice |
-| `/hoeren` | GET | `hoeren_dashboard.html` | None | Listening practice |
-| `/lesen` | GET | `lesen_dashboard.html` | None | Reading practice |
-
----
-
-## 12. API Reference
-
-General conventions:
-
-- Request bodies are JSON unless stated otherwise.
-- Success responses are JSON objects; failures return `{"error": "..."}`.
-- The server-side `API_KEY` is used for all Groq calls. Two endpoints (`check_text`, `generate_scenario`) will prefer an `api_key` supplied in the request body.
-
-### 12.1 Preferences
-
-#### `POST /api/save_preference` — requires login
-
-```json
-{ "key": "level", "value": "B1" }
-```
-
-Writes to `preferences.<key>` on the current user.
-
-| Result | Response |
-|---|---|
-| Saved | `200` `{"success": true}` |
-| Not logged in | `401` `{"error": "Unauthorized"}` |
-| Missing `key`/`value` or no DB | `400` `{"error": "Invalid data"}` |
-
-> Because the check is `if key and value`, falsy values such as `""`, `0` or `false` are rejected.
-
-#### `GET /api/get_preferences`
-
-Returns the saved preference object, or `{}` when the user is not logged in, the DB is unavailable, or nothing has been saved.
-
----
-
-### 12.2 Schreiben (Writing)
-
-#### `POST /api/generate_scenario`
-
-Creates an exam-style writing task.
-
-```json
-{ "topic": "booking a hotel room", "api_key": "optional" }
-```
-
-- Task written in **German with English translations in parentheses**, plus 3–4 required bullet points.
-- Output is HTML using `<p>` and `<ul>`.
-- Parameters: `temperature 0.5`, `max_tokens 512`.
-
-```json
-{ "scenario": "<p>Sie möchten ein Hotelzimmer buchen… (You want to book…)</p><ul><li>…</li></ul>" }
-```
-
-#### `POST /api/check_text`
-
-Grades a student's writing.
-
-```json
-{
-  "prompt": "Schreibe eine E-Mail an einen Freund.",
-  "text": "Liebe Anna, ich möchte dich einladen…",
+  "prompt": "Schreibe eine E-Mail an einen Freund und lade ihn zum Essen ein.",
+  "text": "Lieber Tom, ich möchte dich einladen …",
   "api_key": "optional"
 }
 ```
 
-- `prompt` defaults to `"Korrigiere den Text."`.
-- The model points out grammar/spelling/style errors **in English**, supplies the corrected German text and estimates a **CEFR level**.
-- Output is clean HTML (`<h3>`, `<ul>`, `<b>`) with no code fences.
-- Parameters: `temperature 0.2`, `max_tokens 1024`.
+| Field | Required | Notes |
+| --- | --- | --- |
+| `text` | Yes | The student's German text |
+| `prompt` | No | Defaults to `"Korrigiere den Text."` |
+| `api_key` | No | Falls back to the server's `API_KEY` |
 
+**Behaviour:** the model acts as a friendly expert teacher. It lists grammar, spelling and style errors, **explains them in English**, supplies the corrected German text and estimates a **CEFR level**. Output is requested as clean HTML (`<h3>`, `<ul>`, `<b>`, no code fences) so the frontend can insert it directly into the page.
+
+**Response**
 ```json
-{ "feedback": "<h3>Errors</h3><ul>…</ul><h3>Corrected text</h3>…<b>Estimated level: A2</b>" }
+{ "feedback": "<h3>Corrections</h3><ul>…</ul>" }
 ```
 
 ---
 
-### 12.3 Sprechen (Speaking)
+### 10.4 `POST /api/generate_scenario` — writing task generator
 
-#### `POST /api/transcribe` — `multipart/form-data`
-
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `audio` | file | Yes | Recorded clip |
-| `language` | string | No | Language hint, e.g. `de` or `en` |
-
-Sent to Groq's `audio/transcriptions` with `whisper-large-v3` and a priming prompt that tells Whisper the speaker is a learner mixing German and English.
-
+**Request**
 ```json
-{ "text": "Hallo, ich möchte einen Kaffee bestellen." }
+{ "topic": "booking a hotel room", "api_key": "optional" }
 ```
 
-#### `POST /api/chat`
+**Behaviour:** the topic may be written in English or German. The model returns a short, realistic task with 3–4 bullet points the student must cover. Instructions are in German with English translations in parentheses, formatted as simple HTML (`<p>`, `<ul>`).
 
-AI conversation partner.
+**Response**
+```json
+{ "scenario": "<p>Sie möchten … (You want to …)</p><ul><li>…</li></ul>" }
+```
 
+---
+
+### 10.5 `POST /api/transcribe` — speech-to-text
+
+**Request:** `multipart/form-data`
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `audio` | Yes | Recorded audio file |
+| `language` | No | Language hint such as `de` or `en` |
+
+**Behaviour:** the audio is sent to Groq's transcription endpoint using `whisper-large-v3`. A priming prompt tells the model the speaker is a student mixing German and English, which improves accuracy for code-switching. Always uses the **server-side** `API_KEY`.
+
+**Response**
+```json
+{ "text": "Hallo, wie geht es dir?" }
+```
+
+**Errors:** `400 {"error": "No audio file provided"}` when `audio` is missing.
+
+---
+
+### 10.6 `POST /api/chat` — conversation partner
+
+A stateless chat endpoint for role-play.
+
+**Request**
 ```json
 {
-  "system": "You are a friendly waiter in a Berlin café. Reply in simple German.",
+  "system": "You are a waiter in a German restaurant. Reply in short, simple German.",
   "messages": [
-    { "role": "user", "content": "Guten Tag! Ich hätte gern einen Kaffee." }
+    { "role": "user", "content": "Guten Tag, ich möchte einen Tisch reservieren." }
   ]
 }
 ```
 
-- The `system` prompt is prepended to the supplied history; the server stores nothing.
-- Parameters: `temperature 0.5`, `max_tokens 256` — short, spoken-style replies.
+**Behaviour:** the `system` string is prepended to `messages` and sent to the model. Replies are capped at 256 tokens, which suits spoken dialogue. The client must resend the full history on each call.
 
+**Response**
 ```json
-{ "reply": "Gern! Mit Milch oder ohne?" }
+{ "reply": "Natürlich! Für wie viele Personen?" }
 ```
-
-#### `POST /api/check_speech` *(new)*
-
-Checks one spoken sentence for **relevance to the scenario** and **grammar**.
-
-```json
-{
-  "text": "Ich habe gestern ins Kino gegangen.",
-  "system": "Role-play: ordering food in a restaurant"
-}
-```
-
-| Condition | Response |
-|---|---|
-| `text` empty | `200` `{"correction": null}` |
-| Sentence correct *and* on topic (model replies exactly `OK`) | `200` `{"correction": null}` |
-| Off topic or contains errors | `200` `{"correction": "<b>✏️ Korrektur:</b> <span style='color:#7ee787'>…</span><br><b>💡 Erklärung:</b> …"}` |
-| No API key | `400` |
-
-Parameters: `temperature 0.1`, `max_tokens 256` for consistent grading. The correction is an HTML snippet, ready to insert into the UI.
 
 ---
 
-### 12.4 Hören (Listening)
+### 10.7 `POST /api/check_speech` — spoken sentence checker
 
-#### `POST /api/generate_listen`
+Checks a sentence the student just **spoke** (typically the output of `/api/transcribe`) for two things: relevance to the scenario and grammatical correctness.
 
-Generates a ~3-sentence German script (raw text, no markdown, no quotes, no translations) suitable for text-to-speech playback.
-
+**Request**
 ```json
-{ "topic": "bahnhof", "level": "A2", "custom_prompt": "used only when topic = custom" }
+{
+  "text": "Ich möchte ein Tisch für zwei Personen.",
+  "system": "Role-play: reserving a table in a restaurant"
+}
 ```
 
-| `topic` | Content |
-|---|---|
+| Field | Required | Description |
+| --- | --- | --- |
+| `text` | Yes | The spoken sentence. If empty, the endpoint returns `{"correction": null}` |
+| `system` | No | Scenario context used to judge whether the sentence is on topic |
+
+**Behaviour:** the model replies with exactly `OK` when the sentence is on topic and correct; the endpoint then returns `null`. Otherwise it returns a short HTML snippet with a corrected sentence (**✏️ Korrektur**) and an English explanation (**💡 Erklärung**).
+
+**Response (needs correction)**
+```json
+{ "correction": "<b>✏️ Korrektur:</b> <span style='color:#7ee787'>Ich möchte einen Tisch für zwei Personen.</span><br><b>💡 Erklärung:</b> …" }
+```
+
+**Response (correct)**
+```json
+{ "correction": null }
+```
+
+The low temperature (0.1) keeps grading strict and consistent.
+
+---
+
+### 10.8 `POST /api/generate_listen` — listening exercise text
+
+Generates a ~3-sentence German script that the frontend can read aloud (for example with browser text-to-speech).
+
+**Request**
+```json
+{ "topic": "bahnhof", "level": "A2", "custom_prompt": "used only when topic is 'custom'" }
+```
+
+| Field | Default | Description |
+| --- | --- | --- |
+| `topic` | – | `bahnhof`, `wetter`, `nachrichten`, `alltag` or `custom` |
+| `custom_prompt` | – | Scenario text, used when `topic` is `custom` |
+| `level` | `A1` | CEFR level appended to the prompt ("Strictly adapt your vocabulary and grammar to the {level} CEFR language level") |
+
+| Topic | Generated content |
+| --- | --- |
 | `bahnhof` | Train-station announcement (delay or platform change) |
 | `wetter` | Weather report for tomorrow |
 | `nachrichten` | Short news bulletin |
 | `alltag` | Casual voice message from a friend |
-| `custom` | Built from `custom_prompt` |
+| `custom` | Script based on `custom_prompt` |
 
-- `level` defaults to **`A1`**; the prompt appends *"Strictly adapt your vocabulary and grammar to the {level} CEFR language level."*
-- Unknown topics fall back to *"Write 3 short German sentences."*
-- Parameters: `temperature 0.7`, `max_tokens 128`.
+Unknown topics fall back to "Write 3 short German sentences." The model is told to output **raw German only**: no markdown, no quotes, no translations.
 
+**Response**
 ```json
-{ "transcript": "Achtung auf Gleis drei: Der Zug nach München hat zehn Minuten Verspätung." }
+{ "transcript": "Achtung an Gleis 3: Der Zug nach München hat zehn Minuten Verspätung." }
 ```
 
 ---
 
-### 12.5 Lesen (Reading)
+### 10.9 `POST /api/generate_lesen` — reading exercise
 
-#### `POST /api/generate_lesen`
+Generates a ~80-word German text followed immediately by 3 comprehension questions in German.
 
-Generates a ~80-word text followed immediately by **three comprehension questions in German**.
-
+**Request**
 ```json
-{ "topic": "blog", "level": "B1", "custom_prompt": "used only when topic = custom" }
+{ "topic": "email", "level": "B1", "custom_prompt": "used only when topic is 'custom'" }
 ```
 
-| `topic` | Text type |
-|---|---|
-| `email` *(default)* | Email |
-| `blog` | Blog post |
-| `news` | Short news article |
-| `story` | Short story |
-| `custom` | Text about `custom_prompt` |
+| Field | Default | Description |
+| --- | --- | --- |
+| `topic` | `email` | `email`, `blog`, `news`, `story` or `custom` (unknown topics fall back to `email`) |
+| `custom_prompt` | – | Text subject, used when `topic` is `custom` |
+| `level` | `A1` | CEFR level appended to the prompt |
 
-- `level` defaults to **`A1`** and is appended to the prompt.
-- Parameters: `temperature 0.7`, `max_tokens 512`.
-
+**Response**
 ```json
-{ "text": "Hallo Tom, …\n\n1. Wohin fährt …?\n2. …\n3. …" }
+{ "text": "Hallo Anna, …\n\n1. Wohin fährt …?\n2. …\n3. …" }
 ```
 
-> **Prompt note:** the base prompts still say "B1-level" and the `level` instruction is appended afterwards. The two instructions can conflict (e.g. `level: "A1"` with a "B1-level" base prompt). Consider removing the hard-coded "B1" wording so the selected level is the only one.
+> The preset prompts themselves say "B1-level" and the `level` instruction is appended afterwards. If you want the chosen level to be authoritative, remove "B1-level" from the presets.
 
 ---
 
-### 12.6 Dictionary
+### 10.10 `POST /api/dictionary` — German ⇄ English dictionary
 
-#### `POST /api/dictionary`
-
+**Request**
 ```json
 { "word": "gegangen" }
 ```
 
-- German input → English; English input → German (with **der/die/das** for nouns).
-- For verbs in any form, returns the translation, the identified form, the **infinitive**, and always **Partizip II, Präteritum, Futur I and Futur II**.
-- Parameters: `temperature 0.3`, `max_tokens 256`.
+**Behaviour**
 
+- German input is translated to English; English input to German, with **der/die/das** for nouns.
+- Verbs in **any form** (`gegangen`, `mache`, `write`) are translated, the current grammatical form is identified, and the **infinitive** is given.
+- The infinitive's **Partizip II, Präteritum, Futur I and Futur II** are always included.
+- Output is kept free of conversational filler.
+
+**Response**
 ```json
-{ "translation": "to go — Partizip II of 'gehen'. Perfekt: ist gegangen · Präteritum: ging · Futur I: wird gehen · Futur II: wird gegangen sein" }
+{ "translation": "to go — Partizip II of 'gehen'. Infinitive: gehen …" }
 ```
 
-*(The exact formatting comes from the model and may vary.)*
+**Errors:** `400 {"error": "Word is missing."}` for an empty word; `400` if no API key is configured.
 
 ---
 
-### Endpoint summary
+## 11. Data Model
 
-| Endpoint | Method | Login required | Key used | Temp | Max tokens | Returns |
-|---|---|---|---|---|---|---|
-| `/api/save_preference` | POST | **Yes** | – | – | – | `success` |
-| `/api/get_preferences` | GET | Soft (returns `{}`) | – | – | – | preferences |
-| `/api/generate_scenario` | POST | No | body or `.env` | 0.5 | 512 | HTML |
-| `/api/check_text` | POST | No | body or `.env` | 0.2 | 1024 | HTML |
-| `/api/transcribe` | POST | No | `.env` | – | – | text |
-| `/api/chat` | POST | No | `.env` | 0.5 | 256 | reply |
-| `/api/check_speech` | POST | No | `.env` | 0.1 | 256 | HTML or `null` |
-| `/api/generate_listen` | POST | No | `.env` | 0.7 | 128 | German text |
-| `/api/generate_lesen` | POST | No | `.env` | 0.7 | 512 | text + questions |
-| `/api/dictionary` | POST | No | `.env` | 0.3 | 256 | translation |
+Database `deutsch_app`, collection `users`:
 
----
+```json
+{
+  "_id": "ObjectId",
+  "username": "narinder",
+  "email": "narinder@example.com",
+  "password": "<werkzeug hash>",
+  "is_first_login": false,
+  "preferences": {
+    "theme": "dark",
+    "level": "A2"
+  }
+}
+```
 
-## 13. AI Prompt Design
-
-| Endpoint | Persona / goal | Key constraints |
-|---|---|---|
-| `check_text` | Friendly expert German teacher | Explain in English, give corrected German, estimate CEFR, return clean HTML, **no** code fences |
-| `generate_scenario` | German teacher creating exam tasks | German instructions with English in parentheses, 3–4 bullets, simple HTML |
-| `chat` | Caller-defined | Prompt supplied by the page, so role-plays can change per scenario |
-| `check_speech` | Strict but friendly grammar checker | Reply `OK` if correct and on-topic, otherwise a fixed two-line HTML format; no greetings or markdown |
-| `generate_listen` | German text generator | Output **only** raw German; CEFR level appended |
-| `generate_lesen` | German teacher | Text followed immediately by 3 questions; no markdown or English |
-| `dictionary` | Bilingual dictionary | Translation + grammatical form + infinitive + four tense forms, no filler |
-
-**Temperature strategy:** low values (0.1–0.3) for grading and lookup where consistency matters; moderate-to-higher values (0.5–0.7) for generation where variety is desirable.
+| Field | Notes |
+| --- | --- |
+| `username` | Lower-cased, **unique index** |
+| `email` | Lower-cased, **unique index** |
+| `password` | Hash only; plain text is never stored |
+| `is_first_login` | `true` on creation; set to `false` after the first successful login |
+| `preferences` | Created lazily by `/api/save_preference`; free-form keys |
 
 ---
 
-## 14. User Journeys
+## 12. User Guide
 
-**First visit**
-`/signup` → `/login` → home with tutorial (shown once) → choose a skill.
+**Getting started**
 
-**Writing**
-Enter a topic → `generate_scenario` → write an answer → `check_text` → read corrections, corrected text and level.
+1. Open the app and choose **Sign up**. Use a unique username, a valid email and a password of 8+ characters.
+2. Log in with your username *or* email. First-time users see the tutorial once.
+3. Pick a skill from the home dashboard.
 
-**Speaking**
-Pick a role-play (sets the `system` prompt) → record → `transcribe` → `check_speech` flags mistakes/off-topic answers → `chat` produces the partner's reply → repeat.
+**Schreiben (writing)**
+1. Describe a topic and generate a writing task.
+2. Write your answer and submit it.
+3. Review the explained corrections, the corrected text and your estimated CEFR level.
 
-**Listening**
-Choose topic + level → `generate_listen` → play the script with text-to-speech → answer questions on the page.
+**Sprechen (speaking)**
+1. Choose a role-play scenario.
+2. Record your speech; it is transcribed (German and English are both handled).
+3. Your sentence is checked for grammar and relevance, and the AI partner replies so the conversation can continue.
 
-**Reading**
-Choose text type + level → `generate_lesen` → read and answer the three questions.
+**Hören (listening)**
+1. Choose a topic and CEFR level, or enter a custom scenario.
+2. Listen to the generated script and test your comprehension.
+
+**Lesen (reading)**
+1. Choose a text type, topic and CEFR level.
+2. Read the text and answer the three German questions.
 
 **Dictionary**
-Type any word or verb form → `dictionary` → translation and tense forms.
+Type any German or English word, or any verb form, and get the translation, article and full set of tense forms.
 
 ---
 
-## 15. Error Handling
+## 13. Error Handling
 
-| Situation | Status | Body |
-|---|---|---|
-| Missing Groq key (endpoints that check) | `400` | `{"error": "API Key is missing."}` |
-| Missing audio file | `400` | `{"error": "No audio file provided"}` |
-| Empty dictionary word | `400` | `{"error": "Word is missing."}` |
-| Invalid preference payload | `400` | `{"error": "Invalid data"}` |
-| Preference save while logged out | `401` | `{"error": "Unauthorized"}` |
-| Groq HTTP error (`check_text`, `generate_scenario`) | `500` | `HTTP <code>: <upstream body>` |
-| Any other exception | `500` | `{"error": "<message>"}` |
-| Auth form problems | redirect | Flash message on the same page |
+| Situation | Status | Response |
+| --- | --- | --- |
+| No API key (`check_text`, `generate_scenario`, `generate_listen`, `generate_lesen`, `check_speech`, `dictionary`) | 400 | `{"error": "API Key is missing."}` |
+| No audio in `/api/transcribe` | 400 | `{"error": "No audio file provided"}` |
+| Empty word in `/api/dictionary` | 400 | `{"error": "Word is missing."}` |
+| Not logged in on `/api/save_preference` | 401 | `{"error": "Unauthorized"}` |
+| Invalid preference data | 400 | `{"error": "Invalid data"}` |
+| Groq HTTP error in `check_text` / `generate_scenario` | 500 | `{"error": "HTTP <code>: <upstream body>"}` |
+| Any other upstream or runtime exception | 500 | `{"error": "<message>"}` |
+| Signup/login problems | – | Flash message, redirect back to the form |
 
-**Known gaps:** `/api/transcribe` and `/api/chat` do not check for a missing key before calling Groq, so a missing key surfaces as a generic upstream `401` wrapped in a `500`. Several handlers also assume the JSON body exists; a request without JSON will raise an exception.
-
----
-
-## 16. Security Review & Hardening Checklist
-
-Priority items first.
-
-| # | Issue | Why it matters | Fix |
-|---|---|---|---|
-| 1 | **Default `SECRET_KEY`** (`my_secret_key_123`) | Anyone who knows it can forge session cookies | Require `SECRET_KEY` and fail startup if missing |
-| 2 | **AI endpoints are unauthenticated** | Anyone can spend your Groq quota | Add a `login_required` decorator and rate limiting (e.g. Flask-Limiter) |
-| 3 | **Debug mode on** | Werkzeug debugger can expose code and enable remote execution | Use `debug=False` and a WSGI server in production |
-| 4 | **No CSRF protection** on signup/login | Cross-site form submission | Add Flask-WTF / CSRF tokens |
-| 5 | **Client-supplied `api_key`** in two endpoints | Keys travel through the browser | Remove, or serve strictly over HTTPS |
-| 6 | **Model-generated HTML injected into the page** | Potential XSS if the model emits unsafe markup | Sanitise client-side (e.g. DOMPurify) |
-| 7 | **No login throttling** | Password brute-forcing | Rate-limit `/login`, add lockout/back-off |
-| 8 | **Session cookie flags** | Cookie theft over HTTP / XSS | Set `SESSION_COOKIE_SECURE`, `SESSION_COOKIE_HTTPONLY`, `SESSION_COOKIE_SAMESITE` |
-| 9 | **Permanent sessions with default lifetime** | Long-lived logins | Set `PERMANENT_SESSION_LIFETIME` explicitly |
-| 10 | **Arbitrary preference keys** | Users can write any `preferences.<key>` | Whitelist allowed keys and value types |
-| 11 | **Hard-coded fallback `User-Agent: Mozilla/5.0`** | Harmless, but unnecessary noise | Optional cleanup |
-| 12 | **Secrets in git** | Leaked Groq/Mongo credentials | Keep `.env` in `.gitignore`; rotate any key that was ever committed |
+Flash messages used by the auth flow: *Database connection failed*, *Invalid email address format*, *Password must be at least 8 characters long*, *Username already exists*, *Email already registered*, *Successfully registered. Please log in.*, *Invalid username or password.*
 
 ---
 
-## 17. Deployment
+## 14. Security Considerations
 
-### Production checklist
+**Already in place**
+- Passwords are salted and hashed with Werkzeug.
+- Unique indexes prevent duplicate usernames and emails.
+- Login errors do not reveal whether the username or the password was wrong.
+- Preference endpoints require an authenticated session.
 
-1. Set `debug=False` (or remove the `debug=True` argument).
-2. Provide `API_KEY`, `MongoDB`, and a strong `SECRET_KEY` as real environment variables.
-3. Serve with a production WSGI server:
+**Recommended before a public launch**
+- **Set a strong `SECRET_KEY`.** The built-in fallback is public in the source code, so anyone could forge session cookies.
+- **Protect the AI endpoints.** Only `/` and the preference APIs check the session. Page routes and every `/api/*` AI route can be called without logging in, so anyone could spend your Groq quota. Add a login check and rate limiting (for example Flask-Limiter).
+- **Add CSRF protection** to the signup and login forms (for example Flask-WTF).
+- **Treat client-supplied API keys carefully.** `check_text` and `generate_scenario` accept `api_key` in the request body; keys then travel from the browser. Serve over HTTPS only, or remove this option.
+- **Sanitise model-generated HTML.** `check_text`, `generate_scenario` and `check_speech` return HTML that is injected into the page. Sanitise it (for example with DOMPurify) before inserting it.
+- **Disable debug mode in production.** `debug=True` exposes the Werkzeug debugger; use a production server such as Gunicorn.
+- **Never commit `.env`** and rotate any key that has been exposed.
+- **Use secure cookie flags** in production (`SESSION_COOKIE_SECURE`, `SESSION_COOKIE_HTTPONLY`, `SESSION_COOKIE_SAMESITE`).
 
+---
+
+## 15. Known Limitations
+
+| # | Limitation | Impact |
+| --- | --- | --- |
+| 1 | Login is only enforced on `/`; other pages and AI APIs are open | Unauthenticated access, quota abuse |
+| 2 | `/api/transcribe` does not verify that `API_KEY` exists | A missing key results in an upstream authorization error instead of a clear message |
+| 3 | `/api/chat` also skips the missing-key check | Same as above |
+| 4 | `/api/save_preference` rejects falsy values | `false`, `0` and empty strings cannot be stored |
+| 5 | Hard-coded model name in seven places | Changing models requires many edits |
+| 6 | Mixed HTTP clients (`urllib` and `requests`) | Duplicated code, inconsistent error text |
+| 7 | Reading presets say "B1-level" while a separate `level` is appended | Conflicting instructions to the model |
+| 8 | `max_tokens` of 128 for listening scripts | Long scripts can be truncated |
+| 9 | Hard-coded default `SECRET_KEY` | Insecure if the env variable is forgotten |
+| 10 | Logout uses `GET` | Can be triggered by a cross-site link |
+| 11 | No progress history, scoring or exercise storage | Results are not tracked between sessions |
+| 12 | The grammar page has no dedicated backend endpoint | Grammar content is handled entirely on the frontend |
+
+---
+
+## 16. Deployment
+
+The public demo is hosted on Vercel at <https://deutsch-friend.vercel.app>.
+
+General checklist for any host:
+
+1. Set `API_KEY`, `MongoDB` and `SECRET_KEY` as **environment variables** in the hosting dashboard (do not upload `.env`).
+2. Allow your host's outbound IPs in MongoDB Atlas network access (or use `0.0.0.0/0` with strong credentials).
+3. Run the app with a production WSGI server, for example:
    ```bash
    pip install gunicorn
-   gunicorn -w 2 -b 0.0.0.0:8000 app:app
+   gunicorn app:app
    ```
-
-4. Put the app behind HTTPS (reverse proxy such as Nginx, Caddy or a platform router).
-5. If using MongoDB Atlas, allow your server's IP in the Atlas network access list.
-6. Add `.env` and `venv/` to `.gitignore`.
-
-> `load_dotenv(override=True)` makes values in a local `.env` file **override** platform-level environment variables. On a host that injects its own variables, don't ship a `.env` file — or change this to `override=False`.
-
-### Platform notes
-
-- **Serverless hosts (e.g. Vercel):** the app is stateless apart from MongoDB and signed cookies, which suits serverless. Check function timeouts for slower LLM calls, and file-upload limits for audio.
-- **Docker:** a minimal image only needs Python, `requirements.txt` and the `gunicorn` command above.
+4. Serve over HTTPS and enable secure cookie settings.
+5. Remember that `app.run(...)` at the bottom of `app.py` only executes when the file is run directly, so it is ignored by WSGI servers.
 
 ---
 
-## 18. Troubleshooting
+## 17. Extending the App
 
-| Symptom | Likely cause | Fix |
-|---|---|---|
-| "Database connection failed." on signup/login | `MongoDB` variable missing or wrong name | Use the exact name `MongoDB` in `.env` |
-| `ServerSelectionTimeoutError` | IP not allowed in Atlas, or bad URI | Whitelist your IP; check credentials |
-| `dnspython` / SRV errors | Missing `dnspython` | `pip install dnspython` |
-| "API Key is missing." | `API_KEY` not set | Add it to `.env`, restart |
-| `HTTP 401` from Groq | Invalid or revoked key | Generate a new key |
-| `HTTP 400/404` mentioning the model | Model name unavailable on your Groq account | Change the model ID (it appears in several places) |
-| Logged out unexpectedly after restart | `SECRET_KEY` changed or not set | Use a fixed `SECRET_KEY` |
-| Reading text is at the wrong difficulty | "B1-level" wording conflicts with `level` | See the prompt note in [12.5](#125-lesen-reading) |
-| Microphone upload fails | Browser blocked mic or unsupported format | Allow microphone access; test with a short `.webm`/`.wav` clip |
-| Preference won't save | Value is falsy (`""`, `0`, `false`) | Send a non-empty string |
+**Adding a new AI feature**
 
----
+1. If it needs its own page, add a route and a template:
+   ```python
+   @app.route('/new-skill')
+   def new_skill():
+       return render_template('new_skill_dashboard.html')
+   ```
+2. Add an API route that builds a system prompt, calls Groq and returns small JSON:
+   ```python
+   @app.route('/api/new_feature', methods=['POST'])
+   def new_feature():
+       data = request.json
+       reply = call_groq(
+           [{"role": "system", "content": "…"},
+            {"role": "user", "content": data.get('input', '')}],
+           temperature=0.5, max_tokens=256)
+       return jsonify({"result": reply})
+   ```
+3. Call it from the page with `fetch('/api/new_feature', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({...})})`.
 
-## 19. Extending the App
-
-### Add a new skill or tool
-
-1. Create `templates/<name>_dashboard.html`.
-2. Add a page route in `app.py` (and protect it with a login check if desired).
-3. Add an `/api/<name>` route that builds a prompt, calls Groq, and returns small JSON.
-4. Call the endpoint from the page with `fetch`.
-
-### Recommended refactor — one shared Groq helper
-
-Most endpoints repeat the same request logic. A single helper removes the duplication, centralises the model name, and unifies `urllib`/`requests`:
+**Recommended refactor: one shared Groq helper**
 
 ```python
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
@@ -677,35 +672,36 @@ def call_groq(messages, temperature=0.5, max_tokens=256, api_key=None):
     return res.json()["choices"][0]["message"]["content"].strip()
 ```
 
-### Recommended refactor — login decorator
+This removes the repeated request code, the hard-coded model name and the `urllib`/`requests` split in one change, and makes it easy to add timeouts and logging.
+
+**A login guard for protected routes**
 
 ```python
 from functools import wraps
 
-def login_required(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        if "username" not in session:
-            return jsonify({"error": "Unauthorized"}), 401
-        return f(*args, **kwargs)
-    return wrapper
+def login_required(view):
+    @wraps(view)
+    def wrapped(*args, **kwargs):
+        if 'username' not in session:
+            return redirect(url_for('login'))
+        return view(*args, **kwargs)
+    return wrapped
 ```
 
-Apply `@login_required` to every `/api/*` route that consumes Groq quota.
+Apply it to page routes, and return `401` JSON from a variant for `/api/*` routes.
 
 ---
 
-## 20. Roadmap Ideas
+## 18. Roadmap Ideas
 
-- Progress tracking per skill (scores, streaks, CEFR trend) stored on the user document
-- Persisting a user's chosen CEFR level and using it as the default for every generator
-- Answer-checking for Lesen/Hören questions (currently the questions are generated but not graded server-side)
-- Spaced-repetition word lists built from dictionary lookups
-- Password reset by email and email verification
-- Streaming responses for chat to reduce perceived latency
-- Automated tests with mocked Groq responses
-- Rate limiting and usage dashboards
+- Progress tracking: store exercise history, CEFR estimates and streaks per user
+- Saved vocabulary lists and spaced-repetition flashcards from dictionary lookups
+- Listening comprehension questions and answer checking
+- Server-side text-to-speech for listening scripts
+- Exam simulation mode (timed Schreiben/Lesen sets)
+- Rate limiting, CSRF protection and automated tests
+- Configurable model and per-user CEFR level stored in `preferences`
 
 ---
 
-*Documentation based on `app.py` and `requirements.txt` in the `main` branch of `themehmi/Deutsch-Friend`. The HTML/JavaScript templates were not accessible for review, so frontend behaviour is described only where it can be inferred from the backend.*
+*Documentation based on the `main` branch of `themehmi/Deutsch-Friend` (`app.py` and `requirements.txt`).*

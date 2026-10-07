@@ -107,6 +107,7 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
 
+
 @app.route('/grammar')
 def grammar():
     return render_template('grammar_dashboard.html')

@@ -762,6 +762,7 @@
                 <ul class="sidebar-menu collapsed">
                     <li><a onclick="loadCategory('artikel')" id="link-artikel">Artikel & Nomen</a></li>
                     <li><a onclick="loadCategory('pronomen')" id="link-pronomen">Pronomen</a></li>
+                    <li><a onclick="loadCategory('adjektiv')" id="link-adjektiv">Adjektivdeklination</a></li>
                     <li><a onclick="loadCategory('praep_artikel')" id="link-praep_artikel">Präpositionen & Kasus</a>
                     </li>
                 </ul>
@@ -6415,6 +6416,189 @@
         `,
 
 
+            adjektiv: `
+            <div class="verbs-container">
+                <!-- Adjektivdeklination Intro -->
+                <div class="verb-card">
+                    <div class="verb-title">Was ist die Adjektivdeklination?</div>
+                    <div class="verb-en">How to end adjectives in German</div>
+                    <div class="conjugation-grid" style="display:block;">
+                        <p style="color: var(--text); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1rem;">
+                            When an adjective comes <strong>before a noun</strong> (e.g., "the <em>blue</em> car"), its ending changes based on the gender (Maskulin, Feminin, Neutral, Plural), the case (Nominativ, Akkusativ, Dativ, Genitiv), and the type of article that comes before it.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bestimmter Artikel -->
+                <div class="verb-card">
+                    <div class="verb-title">1. Nach bestimmtem Artikel (der, die, das)</div>
+                    <div class="verb-en">Schwache Deklination (Weak Declension)</div>
+                    <div class="conjugation-grid" style="display:block;">
+                        <div class="tense-col" style="margin-bottom: 1.5rem;">
+                            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px; color:var(--primary); font-size:1.1rem;">Regel: -e oder -en</h4>
+                            <p style="color: var(--text); font-size: 0.95rem; line-height: 1.5; margin-top: 0.5rem; margin-bottom: 1rem;">
+                                If the definite article already clearly shows the case and gender, the adjective just gets a simple <strong>-e</strong> or <strong>-en</strong>. <br>
+                                <em>Tipp: Im Plural, Dativ und Genitiv ist die Endung immer <strong>-en</strong>!</em>
+                            </p>
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%; text-align:left; border-collapse:collapse; color:var(--text); font-size:0.9rem;">
+                                    <tr style="border-bottom:1px solid var(--border); color:#fff;">
+                                        <th style="padding:8px;">Kasus</th>
+                                        <th style="padding:8px; color:#58a6ff;">Maskulin</th>
+                                        <th style="padding:8px; color:#f778ba;">Feminin</th>
+                                        <th style="padding:8px; color:#16a34a;">Neutral</th>
+                                        <th style="padding:8px; color:#e3b341;">Plural</th>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Nominativ</td>
+                                        <td style="padding:8px;">der gut<strong>e</strong></td>
+                                        <td style="padding:8px;">die gut<strong>e</strong></td>
+                                        <td style="padding:8px;">das gut<strong>e</strong></td>
+                                        <td style="padding:8px;">die gut<strong>en</strong></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Akkusativ</td>
+                                        <td style="padding:8px;">den gut<strong>en</strong></td>
+                                        <td style="padding:8px;">die gut<strong>e</strong></td>
+                                        <td style="padding:8px;">das gut<strong>e</strong></td>
+                                        <td style="padding:8px;">die gut<strong>en</strong></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Dativ</td>
+                                        <td style="padding:8px;">dem gut<strong>en</strong></td>
+                                        <td style="padding:8px;">der gut<strong>en</strong></td>
+                                        <td style="padding:8px;">dem gut<strong>en</strong></td>
+                                        <td style="padding:8px;">den gut<strong>en</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px; font-weight:bold;">Genitiv</td>
+                                        <td style="padding:8px;">des gut<strong>en</strong></td>
+                                        <td style="padding:8px;">der gut<strong>en</strong></td>
+                                        <td style="padding:8px;">des gut<strong>en</strong></td>
+                                        <td style="padding:8px;">der gut<strong>en</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unbestimmter, Possessiv, Negativ -->
+                <div class="verb-card">
+                    <div class="verb-title">2. Nach unbestimmtem (ein), negativ (kein), possessiv (mein)</div>
+                    <div class="verb-en">Gemischte Deklination (Mixed Declension)</div>
+                    <div class="conjugation-grid" style="display:block;">
+                        <div class="tense-col" style="margin-bottom: 1.5rem;">
+                            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px; color:#e3b341; font-size:1.1rem;">Regel: Das Adjektiv zeigt das Geschlecht!</h4>
+                            <p style="color: var(--text); font-size: 0.95rem; line-height: 1.5; margin-top: 0.5rem; margin-bottom: 1rem;">
+                                Words like "ein" or "mein" don't show the gender in Nominativ (Maskulin/Neutral). So the adjective has to do the work! <br>
+                                <em>Tipp: For plural unbestimmt, there is no article ("--") and it takes strong endings. For negativ/possessiv, the plural ending is always <strong>-en</strong>.</em>
+                            </p>
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%; text-align:left; border-collapse:collapse; color:var(--text); font-size:0.9rem;">
+                                    <tr style="border-bottom:1px solid var(--border); color:#fff;">
+                                        <th style="padding:8px;">Kasus</th>
+                                        <th style="padding:8px; color:#58a6ff;">Maskulin</th>
+                                        <th style="padding:8px; color:#f778ba;">Feminin</th>
+                                        <th style="padding:8px; color:#16a34a;">Neutral</th>
+                                        <th style="padding:8px; color:#e3b341;">Plural (unbestimmt)</th>
+                                        <th style="padding:8px; color:#e3b341;">Plural (z.B. keine)</th>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Nominativ</td>
+                                        <td style="padding:8px;">ein gut<strong>er</strong></td>
+                                        <td style="padding:8px;">eine gut<strong>e</strong></td>
+                                        <td style="padding:8px;">ein gut<strong>es</strong></td>
+                                        <td style="padding:8px;">-- gut<strong>e</strong></td>
+                                        <td style="padding:8px;">keine gut<strong>en</strong></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Akkusativ</td>
+                                        <td style="padding:8px;">einen gut<strong>en</strong></td>
+                                        <td style="padding:8px;">eine gut<strong>e</strong></td>
+                                        <td style="padding:8px;">ein gut<strong>es</strong></td>
+                                        <td style="padding:8px;">-- gut<strong>e</strong></td>
+                                        <td style="padding:8px;">keine gut<strong>en</strong></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Dativ</td>
+                                        <td style="padding:8px;">einem gut<strong>en</strong></td>
+                                        <td style="padding:8px;">einer gut<strong>en</strong></td>
+                                        <td style="padding:8px;">einem gut<strong>en</strong></td>
+                                        <td style="padding:8px;">-- gut<strong>en</strong></td>
+                                        <td style="padding:8px;">keinen gut<strong>en</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px; font-weight:bold;">Genitiv</td>
+                                        <td style="padding:8px;">eines gut<strong>en</strong></td>
+                                        <td style="padding:8px;">einer gut<strong>en</strong></td>
+                                        <td style="padding:8px;">eines gut<strong>en</strong></td>
+                                        <td style="padding:8px;">-- gut<strong>er</strong></td>
+                                        <td style="padding:8px;">keiner gut<strong>en</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ohne Artikel -->
+                <div class="verb-card">
+                    <div class="verb-title">3. Ohne Artikel (Nullartikel)</div>
+                    <div class="verb-en">Starke Deklination (Strong Declension)</div>
+                    <div class="conjugation-grid" style="display:block;">
+                        <div class="tense-col" style="margin-bottom: 1.5rem;">
+                            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px; color:#ff7b72; font-size:1.1rem;">Regel: Das Adjektiv IST der Artikel!</h4>
+                            <p style="color: var(--text); font-size: 0.95rem; line-height: 1.5; margin-top: 0.5rem; margin-bottom: 1rem;">
+                                When there is no article before the adjective (often with uncountable nouns or plural), the adjective takes the ending of the definite article (der, die, das, etc.).<br>
+                                <em>Ausnahme (Exception): Genitiv Maskulin und Neutral enden auf <strong>-en</strong> (z.B. kalten Wassers), weil das Nomen schon ein "s" hat!</em>
+                            </p>
+                            <div style="overflow-x:auto;">
+                                <table style="width:100%; text-align:left; border-collapse:collapse; color:var(--text); font-size:0.9rem;">
+                                    <tr style="border-bottom:1px solid var(--border); color:#fff;">
+                                        <th style="padding:8px;">Kasus</th>
+                                        <th style="padding:8px; color:#58a6ff;">Maskulin</th>
+                                        <th style="padding:8px; color:#f778ba;">Feminin</th>
+                                        <th style="padding:8px; color:#16a34a;">Neutral</th>
+                                        <th style="padding:8px; color:#e3b341;">Plural</th>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Nominativ</td>
+                                        <td style="padding:8px;">gut<strong>er</strong> Wein (der)</td>
+                                        <td style="padding:8px;">gut<strong>e</strong> Milch (die)</td>
+                                        <td style="padding:8px;">gut<strong>es</strong> Brot (das)</td>
+                                        <td style="padding:8px;">gut<strong>e</strong> Leute (die)</td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Akkusativ</td>
+                                        <td style="padding:8px;">gut<strong>en</strong> Wein (den)</td>
+                                        <td style="padding:8px;">gut<strong>e</strong> Milch (die)</td>
+                                        <td style="padding:8px;">gut<strong>es</strong> Brot (das)</td>
+                                        <td style="padding:8px;">gut<strong>e</strong> Leute (die)</td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid rgba(48,54,61,0.5);">
+                                        <td style="padding:8px; font-weight:bold;">Dativ</td>
+                                        <td style="padding:8px;">gut<strong>em</strong> Wein (dem)</td>
+                                        <td style="padding:8px;">gut<strong>er</strong> Milch (der)</td>
+                                        <td style="padding:8px;">gut<strong>em</strong> Brot (dem)</td>
+                                        <td style="padding:8px;">gut<strong>en</strong> Leuten (den)</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px; font-weight:bold;">Genitiv</td>
+                                        <td style="padding:8px;">gut<strong>en</strong> Weines (des)</td>
+                                        <td style="padding:8px;">gut<strong>er</strong> Milch (der)</td>
+                                        <td style="padding:8px;">gut<strong>en</strong> Brotes (des)</td>
+                                        <td style="padding:8px;">gut<strong>er</strong> Leute (der)</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            `,
+
             artikel: `
             <div class="verbs-container">
                 <div class="verb-card">
@@ -7219,7 +7403,7 @@
             const container = document.getElementById('verbs-container');
             let content = '';
 
-            if (['tutor', 'artikel', 'pronomen', 'praep_artikel', 'satzbau'].includes(cat)) {
+            if (['tutor', 'artikel', 'pronomen', 'adjektiv', 'praep_artikel', 'satzbau'].includes(cat)) {
                 content += staticContent[cat];
                 document.getElementById('searchInput').parentElement.style.display = 'none';
             } else {

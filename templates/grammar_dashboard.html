@@ -690,19 +690,22 @@
             z-index: 1000;
             color: var(--sub);
             transition: color 0.3s, background 0.3s;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             font-size: 0.8rem;
         }
+
         .header-toggle-btn:hover {
             color: #fff;
             background: var(--border);
         }
-    
+
         /* iOS Zoom Fix */
-        input, textarea, select {
+        input,
+        textarea,
+        select {
             font-size: 16px !important;
         }
-</style>
+    </style>
 
 
 </head>
@@ -752,13 +755,13 @@
             <button class="close-sidebar-btn" onclick="toggleSidebar()" title="Menü schließen">◀</button>
 
             <div class="sidebar-section">
-                            <div class="sidebar-section">
-                <div class="sidebar-title" onclick="toggleDropdown(this)">KI Assistant (AI)</div>
-                <ul class="sidebar-menu">
-                    <li><a onclick="loadCategory('tutor')" id="link-tutor">🤖 Grammar Tutor</a></li>
-                </ul>
-            </div>
-            <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Grundlagen (Basics)</div>
+                <div class="sidebar-section">
+                    <div class="sidebar-title" onclick="toggleDropdown(this)">KI Assistant (AI)</div>
+                    <ul class="sidebar-menu">
+                        <li><a onclick="loadCategory('tutor')" id="link-tutor">🤖 Grammar Tutor</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Grundlagen (Basics)</div>
                 <ul class="sidebar-menu collapsed">
                     <li><a onclick="loadCategory('artikel')" id="link-artikel">Artikel & Nomen</a></li>
                     <li><a onclick="loadCategory('pronomen')" id="link-pronomen">Pronomen</a></li>
@@ -776,6 +779,15 @@
             </div>
 
 
+
+            <div class="sidebar-section">
+                <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Nomen (Nouns)</div>
+                <ul class="sidebar-menu collapsed">
+                    <li><a onclick="loadCategory('nouns')" id="link-nouns">498 Essential Nouns <span class="badge-count"
+                                id="count-nouns"></span></a></li>
+                </ul>
+            </div>
+
             <div class="sidebar-section">
                 <div class="sidebar-title collapsed" onclick="toggleDropdown(this)">Verben (Conjugations)</div>
                 <ul class="sidebar-menu collapsed">
@@ -787,7 +799,7 @@
                                 id="count-praep"></span></a></li>
                     <li><a onclick="loadCategory('regel')" id="link-regel">Regelmäßige Verben <span class="badge-count"
                                 id="count-regel"></span></a></li>
-                                        <li><a onclick="loadCategory('unregel')" id="link-unregel">Unregelmäßige Verben <span
+                    <li><a onclick="loadCategory('unregel')" id="link-unregel">Unregelmäßige Verben <span
                                 class="badge-count" id="count-unregel"></span></a></li>
                     <li><a onclick="loadCategory('reflexiv')" id="link-reflexiv">Reflexive Verben <span
                                 class="badge-count" id="count-reflexiv"></span></a></li>
@@ -838,6 +850,2997 @@
             const menu = element.nextElementSibling;
             if (menu) menu.classList.toggle('collapsed');
         }
+
+        const nounsData = [
+            {
+                "id": 1,
+                "article": "der",
+                "word": "Mann",
+                "en": "man"
+            },
+            {
+                "id": 26,
+                "article": "der",
+                "word": "Jugendliche",
+                "en": "teenager"
+            },
+            {
+                "id": 2,
+                "article": "die",
+                "word": "Frau",
+                "en": "woman"
+            },
+            {
+                "id": 27,
+                "article": "der",
+                "word": "Nachbar",
+                "en": "neighbor"
+            },
+            {
+                "id": 3,
+                "article": "das",
+                "word": "Kind",
+                "en": "child"
+            },
+            {
+                "id": 28,
+                "article": "der",
+                "word": "Kollege",
+                "en": "colleague"
+            },
+            {
+                "id": 4,
+                "article": "der",
+                "word": "Vater",
+                "en": "father"
+            },
+            {
+                "id": 29,
+                "article": "der",
+                "word": "Chef",
+                "en": "boss"
+            },
+            {
+                "id": 5,
+                "article": "die",
+                "word": "Mutter",
+                "en": "mother"
+            },
+            {
+                "id": 30,
+                "article": "der",
+                "word": "Partner",
+                "en": "partner"
+            },
+            {
+                "id": 6,
+                "article": "der",
+                "word": "Sohn",
+                "en": "son"
+            },
+            {
+                "id": 31,
+                "article": "der",
+                "word": "Ehemann",
+                "en": "husband"
+            },
+            {
+                "id": 7,
+                "article": "die",
+                "word": "Tochter",
+                "en": "daughter"
+            },
+            {
+                "id": 32,
+                "article": "die",
+                "word": "Ehefrau",
+                "en": "wife"
+            },
+            {
+                "id": 8,
+                "article": "der",
+                "word": "Bruder",
+                "en": "brother"
+            },
+            {
+                "id": 33,
+                "article": "die",
+                "word": "Eltern",
+                "en": "parents"
+            },
+            {
+                "id": 9,
+                "article": "die",
+                "word": "Schwester",
+                "en": "sister"
+            },
+            {
+                "id": 34,
+                "article": "die",
+                "word": "Geschwister",
+                "en": "siblings"
+            },
+            {
+                "id": 10,
+                "article": "der",
+                "word": "Großvater",
+                "en": "grandfather"
+            },
+            {
+                "id": 35,
+                "article": "der",
+                "word": "Verwandte",
+                "en": "relative"
+            },
+            {
+                "id": 11,
+                "article": "die",
+                "word": "Großmutter",
+                "en": "grandmother"
+            },
+            {
+                "id": 36,
+                "article": "der",
+                "word": "Schwager",
+                "en": "brother-in-law"
+            },
+            {
+                "id": 12,
+                "article": "der",
+                "word": "Onkel",
+                "en": "uncle"
+            },
+            {
+                "id": 37,
+                "article": "die",
+                "word": "Schwägerin",
+                "en": "sister-in-law"
+            },
+            {
+                "id": 13,
+                "article": "die",
+                "word": "Tante",
+                "en": "aunt"
+            },
+            {
+                "id": 38,
+                "article": "der",
+                "word": "Schwiegervater",
+                "en": "father-in-law"
+            },
+            {
+                "id": 14,
+                "article": "der",
+                "word": "Cousin",
+                "en": "male cousin"
+            },
+            {
+                "id": 39,
+                "article": "die",
+                "word": "Schwiegermutter",
+                "en": "mother-in-law"
+            },
+            {
+                "id": 15,
+                "article": "die",
+                "word": "Cousine",
+                "en": "female cousin"
+            },
+            {
+                "id": 40,
+                "article": "der",
+                "word": "Mensch",
+                "en": "human"
+            },
+            {
+                "id": 16,
+                "article": "der",
+                "word": "Neffe",
+                "en": "nephew"
+            },
+            {
+                "id": 41,
+                "article": "die",
+                "word": "Person",
+                "en": "person"
+            },
+            {
+                "id": 17,
+                "article": "die",
+                "word": "Nichte",
+                "en": "niece"
+            },
+            {
+                "id": 42,
+                "article": "die",
+                "word": "Leute",
+                "en": "people"
+            },
+            {
+                "id": 18,
+                "article": "der",
+                "word": "Enkel",
+                "en": "grandson"
+            },
+            {
+                "id": 43,
+                "article": "das",
+                "word": "Mitglied",
+                "en": "member"
+            },
+            {
+                "id": 19,
+                "article": "die",
+                "word": "Enkelin",
+                "en": "granddaughter"
+            },
+            {
+                "id": 44,
+                "article": "der",
+                "word": "Gast",
+                "en": "guest"
+            },
+            {
+                "id": 20,
+                "article": "der",
+                "word": "Freund",
+                "en": "male friend"
+            },
+            {
+                "id": 45,
+                "article": "der",
+                "word": "Kunde",
+                "en": "customer"
+            },
+            {
+                "id": 21,
+                "article": "die",
+                "word": "Freundin",
+                "en": "female friend"
+            },
+            {
+                "id": 46,
+                "article": "der",
+                "word": "Patient",
+                "en": "patient"
+            },
+            {
+                "id": 22,
+                "article": "das",
+                "word": "Baby",
+                "en": "baby"
+            },
+            {
+                "id": 47,
+                "article": "der",
+                "word": "Arzt",
+                "en": "doctor"
+            },
+            {
+                "id": 23,
+                "article": "der",
+                "word": "Junge",
+                "en": "boy"
+            },
+            {
+                "id": 48,
+                "article": "der",
+                "word": "Lehrer",
+                "en": "teacher"
+            },
+            {
+                "id": 24,
+                "article": "das",
+                "word": "Mädchen",
+                "en": "girl"
+            },
+            {
+                "id": 49,
+                "article": "der",
+                "word": "Schüler",
+                "en": "student"
+            },
+            {
+                "id": 25,
+                "article": "der",
+                "word": "Erwachsene",
+                "en": "adult"
+            },
+            {
+                "id": 50,
+                "article": "der",
+                "word": "Student",
+                "en": "university student"
+            },
+            {
+                "id": 51,
+                "article": "der",
+                "word": "Körper",
+                "en": "body"
+            },
+            {
+                "id": 76,
+                "article": "die",
+                "word": "Haut",
+                "en": "skin"
+            },
+            {
+                "id": 52,
+                "article": "der",
+                "word": "Kopf",
+                "en": "head"
+            },
+            {
+                "id": 77,
+                "article": "der",
+                "word": "Muskel",
+                "en": "muscle"
+            },
+            {
+                "id": 53,
+                "article": "das",
+                "word": "Haar",
+                "en": "hair"
+            },
+            {
+                "id": 78,
+                "article": "der",
+                "word": "Knochen",
+                "en": "bone"
+            },
+            {
+                "id": 54,
+                "article": "das",
+                "word": "Gesicht",
+                "en": "face"
+            },
+            {
+                "id": 79,
+                "article": "das",
+                "word": "Blut",
+                "en": "blood"
+            },
+            {
+                "id": 55,
+                "article": "das",
+                "word": "Auge",
+                "en": "eye"
+            },
+            {
+                "id": 80,
+                "article": "das",
+                "word": "Herz",
+                "en": "heart"
+            },
+            {
+                "id": 56,
+                "article": "das",
+                "word": "Ohr",
+                "en": "ear"
+            },
+            {
+                "id": 81,
+                "article": "das",
+                "word": "Gehirn",
+                "en": "brain"
+            },
+            {
+                "id": 57,
+                "article": "die",
+                "word": "Nase",
+                "en": "nose"
+            },
+            {
+                "id": 82,
+                "article": "die",
+                "word": "Lunge",
+                "en": "lung"
+            },
+            {
+                "id": 58,
+                "article": "der",
+                "word": "Mund",
+                "en": "mouth"
+            },
+            {
+                "id": 83,
+                "article": "der",
+                "word": "Magen",
+                "en": "stomach organ"
+            },
+            {
+                "id": 59,
+                "article": "die",
+                "word": "Lippe",
+                "en": "lip"
+            },
+            {
+                "id": 84,
+                "article": "die",
+                "word": "Gesundheit",
+                "en": "health"
+            },
+            {
+                "id": 60,
+                "article": "der",
+                "word": "Zahn",
+                "en": "tooth"
+            },
+            {
+                "id": 85,
+                "article": "die",
+                "word": "Krankheit",
+                "en": "illness"
+            },
+            {
+                "id": 61,
+                "article": "die",
+                "word": "Zunge",
+                "en": "tongue"
+            },
+            {
+                "id": 86,
+                "article": "der",
+                "word": "Schmerz",
+                "en": "pain"
+            },
+            {
+                "id": 62,
+                "article": "der",
+                "word": "Hals",
+                "en": "neck/throat"
+            },
+            {
+                "id": 87,
+                "article": "das",
+                "word": "Fieber",
+                "en": "fever"
+            },
+            {
+                "id": 63,
+                "article": "die",
+                "word": "Schulter",
+                "en": "shoulder"
+            },
+            {
+                "id": 88,
+                "article": "der",
+                "word": "Husten",
+                "en": "cough"
+            },
+            {
+                "id": 64,
+                "article": "der",
+                "word": "Arm",
+                "en": "arm"
+            },
+            {
+                "id": 89,
+                "article": "die",
+                "word": "Medizin",
+                "en": "medicine"
+            },
+            {
+                "id": 65,
+                "article": "der",
+                "word": "Ellbogen",
+                "en": "elbow"
+            },
+            {
+                "id": 90,
+                "article": "die",
+                "word": "Tablette",
+                "en": "pill"
+            },
+            {
+                "id": 66,
+                "article": "die",
+                "word": "Hand",
+                "en": "hand"
+            },
+            {
+                "id": 91,
+                "article": "das",
+                "word": "Pflaster",
+                "en": "band-aid"
+            },
+            {
+                "id": 67,
+                "article": "der",
+                "word": "Finger",
+                "en": "finger"
+            },
+            {
+                "id": 92,
+                "article": "das",
+                "word": "Krankenhaus",
+                "en": "hospital"
+            },
+            {
+                "id": 68,
+                "article": "der",
+                "word": "Daumen",
+                "en": "thumb"
+            },
+            {
+                "id": 93,
+                "article": "die",
+                "word": "Apotheke",
+                "en": "pharmacy"
+            },
+            {
+                "id": 69,
+                "article": "die",
+                "word": "Brust",
+                "en": "chest/breast"
+            },
+            {
+                "id": 94,
+                "article": "das",
+                "word": "Rezept",
+                "en": "prescription"
+            },
+            {
+                "id": 70,
+                "article": "der",
+                "word": "Bauch",
+                "en": "stomach/belly"
+            },
+            {
+                "id": 95,
+                "article": "die",
+                "word": "Verletzung",
+                "en": "injury"
+            },
+            {
+                "id": 71,
+                "article": "der",
+                "word": "Rücken",
+                "en": "back"
+            },
+            {
+                "id": 96,
+                "article": "die",
+                "word": "Wunde",
+                "en": "wound"
+            },
+            {
+                "id": 72,
+                "article": "das",
+                "word": "Bein",
+                "en": "leg"
+            },
+            {
+                "id": 97,
+                "article": "die",
+                "word": "Brille",
+                "en": "glasses"
+            },
+            {
+                "id": 73,
+                "article": "das",
+                "word": "Knie",
+                "en": "knee"
+            },
+            {
+                "id": 98,
+                "article": "der",
+                "word": "Arztbesuch",
+                "en": "doctor's visit"
+            },
+            {
+                "id": 74,
+                "article": "der",
+                "word": "Fuß",
+                "en": "foot"
+            },
+            {
+                "id": 99,
+                "article": "das",
+                "word": "Symptom",
+                "en": "symptom"
+            },
+            {
+                "id": 75,
+                "article": "die",
+                "word": "Zehe",
+                "en": "toe"
+            },
+            {
+                "id": 100,
+                "article": "die",
+                "word": "Energie",
+                "en": "energy"
+            },
+            {
+                "id": 101,
+                "article": "das",
+                "word": "Essen",
+                "en": "food"
+            },
+            {
+                "id": 126,
+                "article": "der",
+                "word": "Knoblauch",
+                "en": "garlic"
+            },
+            {
+                "id": 102,
+                "article": "das",
+                "word": "Getränk",
+                "en": "drink"
+            },
+            {
+                "id": 127,
+                "article": "die",
+                "word": "Karotte",
+                "en": "carrot"
+            },
+            {
+                "id": 103,
+                "article": "das",
+                "word": "Wasser",
+                "en": "water"
+            },
+            {
+                "id": 128,
+                "article": "der",
+                "word": "Salat",
+                "en": "salad"
+            },
+            {
+                "id": 104,
+                "article": "der",
+                "word": "Kaffee",
+                "en": "coffee"
+            },
+            {
+                "id": 129,
+                "article": "das",
+                "word": "Obst",
+                "en": "fruit"
+            },
+            {
+                "id": 105,
+                "article": "der",
+                "word": "Tee",
+                "en": "tea"
+            },
+            {
+                "id": 130,
+                "article": "der",
+                "word": "Apfel",
+                "en": "apple"
+            },
+            {
+                "id": 106,
+                "article": "die",
+                "word": "Milch",
+                "en": "milk"
+            },
+            {
+                "id": 131,
+                "article": "die",
+                "word": "Banane",
+                "en": "banana"
+            },
+            {
+                "id": 107,
+                "article": "der",
+                "word": "Saft",
+                "en": "juice"
+            },
+            {
+                "id": 132,
+                "article": "die",
+                "word": "Orange",
+                "en": "orange"
+            },
+            {
+                "id": 108,
+                "article": "der",
+                "word": "Wein",
+                "en": "wine"
+            },
+            {
+                "id": 133,
+                "article": "die",
+                "word": "Erdbeere",
+                "en": "strawberry"
+            },
+            {
+                "id": 109,
+                "article": "das",
+                "word": "Bier",
+                "en": "beer"
+            },
+            {
+                "id": 134,
+                "article": "die",
+                "word": "Zitrone",
+                "en": "lemon"
+            },
+            {
+                "id": 110,
+                "article": "das",
+                "word": "Brot",
+                "en": "bread"
+            },
+            {
+                "id": 135,
+                "article": "der",
+                "word": "Zucker",
+                "en": "sugar"
+            },
+            {
+                "id": 111,
+                "article": "das",
+                "word": "Brötchen",
+                "en": "bread roll"
+            },
+            {
+                "id": 136,
+                "article": "das",
+                "word": "Salz",
+                "en": "salt"
+            },
+            {
+                "id": 112,
+                "article": "die",
+                "word": "Butter",
+                "en": "butter"
+            },
+            {
+                "id": 137,
+                "article": "der",
+                "word": "Pfeffer",
+                "en": "pepper"
+            },
+            {
+                "id": 113,
+                "article": "der",
+                "word": "Käse",
+                "en": "cheese"
+            },
+            {
+                "id": 138,
+                "article": "das",
+                "word": "Öl",
+                "en": "oil"
+            },
+            {
+                "id": 114,
+                "article": "das",
+                "word": "Ei",
+                "en": "egg"
+            },
+            {
+                "id": 139,
+                "article": "der",
+                "word": "Essig",
+                "en": "vinegar"
+            },
+            {
+                "id": 115,
+                "article": "das",
+                "word": "Fleisch",
+                "en": "meat"
+            },
+            {
+                "id": 140,
+                "article": "die",
+                "word": "Suppe",
+                "en": "soup"
+            },
+            {
+                "id": 116,
+                "article": "das",
+                "word": "Hähnchen",
+                "en": "chicken"
+            },
+            {
+                "id": 141,
+                "article": "der",
+                "word": "Kuchen",
+                "en": "cake"
+            },
+            {
+                "id": 117,
+                "article": "der",
+                "word": "Fisch",
+                "en": "fish"
+            },
+            {
+                "id": 142,
+                "article": "die",
+                "word": "Schokolade",
+                "en": "chocolate"
+            },
+            {
+                "id": 118,
+                "article": "die",
+                "word": "Wurst",
+                "en": "sausage"
+            },
+            {
+                "id": 143,
+                "article": "das",
+                "word": "Eis",
+                "en": "ice cream"
+            },
+            {
+                "id": 119,
+                "article": "der",
+                "word": "Schinken",
+                "en": "ham"
+            },
+            {
+                "id": 144,
+                "article": "das",
+                "word": "Frühstück",
+                "en": "breakfast"
+            },
+            {
+                "id": 120,
+                "article": "der",
+                "word": "Reis",
+                "en": "rice"
+            },
+            {
+                "id": 145,
+                "article": "das",
+                "word": "Mittagessen",
+                "en": "lunch"
+            },
+            {
+                "id": 121,
+                "article": "die",
+                "word": "Nudel",
+                "en": "noodle/pasta"
+            },
+            {
+                "id": 146,
+                "article": "das",
+                "word": "Abendessen",
+                "en": "dinner"
+            },
+            {
+                "id": 122,
+                "article": "die",
+                "word": "Kartoffel",
+                "en": "potato"
+            },
+            {
+                "id": 147,
+                "article": "das",
+                "word": "Restaurant",
+                "en": "restaurant"
+            },
+            {
+                "id": 123,
+                "article": "das",
+                "word": "Gemüse",
+                "en": "vegetables"
+            },
+            {
+                "id": 148,
+                "article": "die",
+                "word": "Speisekarte",
+                "en": "menu"
+            },
+            {
+                "id": 124,
+                "article": "die",
+                "word": "Tomate",
+                "en": "tomato"
+            },
+            {
+                "id": 149,
+                "article": "der",
+                "word": "Kellner",
+                "en": "waiter"
+            },
+            {
+                "id": 125,
+                "article": "die",
+                "word": "Zwiebel",
+                "en": "onion"
+            },
+            {
+                "id": 150,
+                "article": "das",
+                "word": "Rezept",
+                "en": "recipe"
+            },
+            {
+                "id": 151,
+                "article": "das",
+                "word": "Haus",
+                "en": "house"
+            },
+            {
+                "id": 176,
+                "article": "der",
+                "word": "Sessel",
+                "en": "armchair"
+            },
+            {
+                "id": 152,
+                "article": "die",
+                "word": "Wohnung",
+                "en": "apartment"
+            },
+            {
+                "id": 177,
+                "article": "der",
+                "word": "Schrank",
+                "en": "closet/cupboard"
+            },
+            {
+                "id": 153,
+                "article": "das",
+                "word": "Zimmer",
+                "en": "room"
+            },
+            {
+                "id": 178,
+                "article": "das",
+                "word": "Regal",
+                "en": "shelf"
+            },
+            {
+                "id": 154,
+                "article": "das",
+                "word": "Wohnzimmer",
+                "en": "living room"
+            },
+            {
+                "id": 179,
+                "article": "der",
+                "word": "Spiegel",
+                "en": "mirror"
+            },
+            {
+                "id": 155,
+                "article": "das",
+                "word": "Schlafzimmer",
+                "en": "bedroom"
+            },
+            {
+                "id": 180,
+                "article": "die",
+                "word": "Lampe",
+                "en": "lamp"
+            },
+            {
+                "id": 156,
+                "article": "das",
+                "word": "Badezimmer",
+                "en": "bathroom"
+            },
+            {
+                "id": 181,
+                "article": "der",
+                "word": "Teppich",
+                "en": "rug/carpet"
+            },
+            {
+                "id": 157,
+                "article": "die",
+                "word": "Küche",
+                "en": "kitchen"
+            },
+            {
+                "id": 182,
+                "article": "das",
+                "word": "Bild",
+                "en": "picture"
+            },
+            {
+                "id": 158,
+                "article": "der",
+                "word": "Flur",
+                "en": "hallway"
+            },
+            {
+                "id": 183,
+                "article": "der",
+                "word": "Fernseher",
+                "en": "television"
+            },
+            {
+                "id": 159,
+                "article": "der",
+                "word": "Keller",
+                "en": "basement"
+            },
+            {
+                "id": 184,
+                "article": "das",
+                "word": "Radio",
+                "en": "radio"
+            },
+            {
+                "id": 160,
+                "article": "der",
+                "word": "Dachboden",
+                "en": "attic"
+            },
+            {
+                "id": 185,
+                "article": "der",
+                "word": "Computer",
+                "en": "computer"
+            },
+            {
+                "id": 161,
+                "article": "der",
+                "word": "Balkon",
+                "en": "balcony"
+            },
+            {
+                "id": 186,
+                "article": "der",
+                "word": "Kühlschrank",
+                "en": "refrigerator"
+            },
+            {
+                "id": 162,
+                "article": "der",
+                "word": "Garten",
+                "en": "garden"
+            },
+            {
+                "id": 187,
+                "article": "der",
+                "word": "Herd",
+                "en": "stove"
+            },
+            {
+                "id": 163,
+                "article": "die",
+                "word": "Tür",
+                "en": "door"
+            },
+            {
+                "id": 188,
+                "article": "der",
+                "word": "Ofen",
+                "en": "oven"
+            },
+            {
+                "id": 164,
+                "article": "das",
+                "word": "Fenster",
+                "en": "window"
+            },
+            {
+                "id": 189,
+                "article": "die",
+                "word": "Mikrowelle",
+                "en": "microwave"
+            },
+            {
+                "id": 165,
+                "article": "die",
+                "word": "Wand",
+                "en": "wall"
+            },
+            {
+                "id": 190,
+                "article": "die",
+                "word": "Spüle",
+                "en": "sink"
+            },
+            {
+                "id": 166,
+                "article": "der",
+                "word": "Boden",
+                "en": "floor"
+            },
+            {
+                "id": 191,
+                "article": "die",
+                "word": "Waschmaschine",
+                "en": "washing machine"
+            },
+            {
+                "id": 167,
+                "article": "die",
+                "word": "Decke",
+                "en": "ceiling/blanket"
+            },
+            {
+                "id": 192,
+                "article": "die",
+                "word": "Dusche",
+                "en": "shower"
+            },
+            {
+                "id": 168,
+                "article": "das",
+                "word": "Dach",
+                "en": "roof"
+            },
+            {
+                "id": 193,
+                "article": "die",
+                "word": "Badewanne",
+                "en": "bathtub"
+            },
+            {
+                "id": 169,
+                "article": "die",
+                "word": "Treppe",
+                "en": "stairs"
+            },
+            {
+                "id": 194,
+                "article": "die",
+                "word": "Toilette",
+                "en": "toilet"
+            },
+            {
+                "id": 170,
+                "article": "der",
+                "word": "Schlüssel",
+                "en": "key"
+            },
+            {
+                "id": 195,
+                "article": "das",
+                "word": "Handtuch",
+                "en": "towel"
+            },
+            {
+                "id": 171,
+                "article": "das",
+                "word": "Möbel",
+                "en": "furniture"
+            },
+            {
+                "id": 196,
+                "article": "die",
+                "word": "Seife",
+                "en": "soap"
+            },
+            {
+                "id": 172,
+                "article": "der",
+                "word": "Tisch",
+                "en": "table"
+            },
+            {
+                "id": 197,
+                "article": "der",
+                "word": "Mülleimer",
+                "en": "trash can"
+            },
+            {
+                "id": 173,
+                "article": "der",
+                "word": "Stuhl",
+                "en": "chair"
+            },
+            {
+                "id": 198,
+                "article": "das",
+                "word": "Kissen",
+                "en": "pillow"
+            },
+            {
+                "id": 174,
+                "article": "das",
+                "word": "Bett",
+                "en": "bed"
+            },
+            {
+                "id": 199,
+                "article": "der",
+                "word": "Wecker",
+                "en": "alarm clock"
+            },
+            {
+                "id": 175,
+                "article": "das",
+                "word": "Sofa",
+                "en": "sofa"
+            },
+            {
+                "id": 200,
+                "article": "der",
+                "word": "Vorhang",
+                "en": "curtain"
+            },
+            {
+                "id": 201,
+                "article": "die",
+                "word": "Stadt",
+                "en": "city"
+            },
+            {
+                "id": 226,
+                "article": "der",
+                "word": "Supermarkt",
+                "en": "supermarket"
+            },
+            {
+                "id": 202,
+                "article": "das",
+                "word": "Dorf",
+                "en": "village"
+            },
+            {
+                "id": 227,
+                "article": "das",
+                "word": "Auto",
+                "en": "car"
+            },
+            {
+                "id": 203,
+                "article": "die",
+                "word": "Straße",
+                "en": "street"
+            },
+            {
+                "id": 228,
+                "article": "der",
+                "word": "Bus",
+                "en": "bus"
+            },
+            {
+                "id": 204,
+                "article": "der",
+                "word": "Platz",
+                "en": "square"
+            },
+            {
+                "id": 229,
+                "article": "der",
+                "word": "Zug",
+                "en": "train"
+            },
+            {
+                "id": 205,
+                "article": "das",
+                "word": "Gebäude",
+                "en": "building"
+            },
+            {
+                "id": 206,
+                "article": "das",
+                "word": "Zentrum",
+                "en": "center"
+            },
+            {
+                "id": 231,
+                "article": "die",
+                "word": "Straßenbahn",
+                "en": "tram"
+            },
+            {
+                "id": 207,
+                "article": "der",
+                "word": "Bahnhof",
+                "en": "train station"
+            },
+            {
+                "id": 232,
+                "article": "das",
+                "word": "Fahrrad",
+                "en": "bicycle"
+            },
+            {
+                "id": 208,
+                "article": "der",
+                "word": "Flughafen",
+                "en": "airport"
+            },
+            {
+                "id": 233,
+                "article": "das",
+                "word": "Motorrad",
+                "en": "motorcycle"
+            },
+            {
+                "id": 209,
+                "article": "die",
+                "word": "Haltestelle",
+                "en": "bus stop"
+            },
+            {
+                "id": 234,
+                "article": "das",
+                "word": "Flugzeug",
+                "en": "airplane"
+            },
+            {
+                "id": 210,
+                "article": "die",
+                "word": "Brücke",
+                "en": "bridge"
+            },
+            {
+                "id": 235,
+                "article": "das",
+                "word": "Schiff",
+                "en": "ship"
+            },
+            {
+                "id": 211,
+                "article": "die",
+                "word": "Kirche",
+                "en": "church"
+            },
+            {
+                "id": 236,
+                "article": "das",
+                "word": "Boot",
+                "en": "boat"
+            },
+            {
+                "id": 212,
+                "article": "die",
+                "word": "Schule",
+                "en": "school"
+            },
+            {
+                "id": 237,
+                "article": "der",
+                "word": "LKW",
+                "en": "truck"
+            },
+            {
+                "id": 213,
+                "article": "die",
+                "word": "Universität",
+                "en": "university"
+            },
+            {
+                "id": 238,
+                "article": "das",
+                "word": "Taxi",
+                "en": "taxi"
+            },
+            {
+                "id": 214,
+                "article": "die",
+                "word": "Bibliothek",
+                "en": "library"
+            },
+            {
+                "id": 239,
+                "article": "das",
+                "word": "Ticket",
+                "en": "ticket"
+            },
+            {
+                "id": 215,
+                "article": "das",
+                "word": "Museum",
+                "en": "museum"
+            },
+            {
+                "id": 240,
+                "article": "der",
+                "word": "Bahnhof",
+                "en": "station"
+            },
+            {
+                "id": 216,
+                "article": "das",
+                "word": "Theater",
+                "en": "theater"
+            },
+            {
+                "id": 241,
+                "article": "der",
+                "word": "Verkehr",
+                "en": "traffic"
+            },
+            {
+                "id": 217,
+                "article": "das",
+                "word": "Kino",
+                "en": "cinema"
+            },
+            {
+                "id": 242,
+                "article": "die",
+                "word": "Ampel",
+                "en": "traffic light"
+            },
+            {
+                "id": 218,
+                "article": "das",
+                "word": "Hotel",
+                "en": "hotel"
+            },
+            {
+                "id": 243,
+                "article": "das",
+                "word": "Gepäck",
+                "en": "luggage"
+            },
+            {
+                "id": 219,
+                "article": "die",
+                "word": "Bank",
+                "en": "bank"
+            },
+            {
+                "id": 244,
+                "article": "der",
+                "word": "Koffer",
+                "en": "suitcase"
+            },
+            {
+                "id": 220,
+                "article": "die",
+                "word": "Post",
+                "en": "post office"
+            },
+            {
+                "id": 245,
+                "article": "die",
+                "word": "Tasche",
+                "en": "bag"
+            },
+            {
+                "id": 221,
+                "article": "das",
+                "word": "Krankenhaus",
+                "en": "hospital"
+            },
+            {
+                "id": 246,
+                "article": "der",
+                "word": "Pass",
+                "en": "passport"
+            },
+            {
+                "id": 222,
+                "article": "die",
+                "word": "Polizei",
+                "en": "police"
+            },
+            {
+                "id": 247,
+                "article": "die",
+                "word": "Grenze",
+                "en": "border"
+            },
+            {
+                "id": 223,
+                "article": "der",
+                "word": "Park",
+                "en": "park"
+            },
+            {
+                "id": 248,
+                "article": "die",
+                "word": "Reise",
+                "en": "trip"
+            },
+            {
+                "id": 224,
+                "article": "der",
+                "word": "Markt",
+                "en": "market"
+            },
+            {
+                "id": 249,
+                "article": "der",
+                "word": "Urlaub",
+                "en": "vacation"
+            },
+            {
+                "id": 225,
+                "article": "der",
+                "word": "Laden",
+                "en": "shop"
+            },
+            {
+                "id": 250,
+                "article": "der",
+                "word": "Weg",
+                "en": "path/way"
+            },
+            {
+                "id": 251,
+                "article": "die",
+                "word": "Natur",
+                "en": "nature"
+            },
+            {
+                "id": 276,
+                "article": "die",
+                "word": "Insel",
+                "en": "island"
+            },
+            {
+                "id": 252,
+                "article": "die",
+                "word": "Umwelt",
+                "en": "environment"
+            },
+            {
+                "id": 277,
+                "article": "der",
+                "word": "Berg",
+                "en": "mountain"
+            },
+            {
+                "id": 253,
+                "article": "die",
+                "word": "Erde",
+                "en": "earth"
+            },
+            {
+                "id": 278,
+                "article": "das",
+                "word": "Tal",
+                "en": "valley"
+            },
+            {
+                "id": 254,
+                "article": "die",
+                "word": "Welt",
+                "en": "world"
+            },
+            {
+                "id": 279,
+                "article": "der",
+                "word": "Stein",
+                "en": "stone/rock"
+            },
+            {
+                "id": 255,
+                "article": "die",
+                "word": "Sonne",
+                "en": "sun"
+            },
+            {
+                "id": 280,
+                "article": "der",
+                "word": "Sand",
+                "en": "sand"
+            },
+            {
+                "id": 256,
+                "article": "der",
+                "word": "Mond",
+                "en": "moon"
+            },
+            {
+                "id": 281,
+                "article": "die",
+                "word": "Wüste",
+                "en": "desert"
+            },
+            {
+                "id": 257,
+                "article": "der",
+                "word": "Stern",
+                "en": "star"
+            },
+            {
+                "id": 282,
+                "article": "das",
+                "word": "Feuer",
+                "en": "fire"
+            },
+            {
+                "id": 258,
+                "article": "der",
+                "word": "Himmel",
+                "en": "sky"
+            },
+            {
+                "id": 283,
+                "article": "das",
+                "word": "Eis",
+                "en": "ice"
+            },
+            {
+                "id": 259,
+                "article": "die",
+                "word": "Wolke",
+                "en": "cloud"
+            },
+            {
+                "id": 284,
+                "article": "die",
+                "word": "Luft",
+                "en": "air"
+            },
+            {
+                "id": 260,
+                "article": "der",
+                "word": "Regen",
+                "en": "rain"
+            },
+            {
+                "id": 285,
+                "article": "das",
+                "word": "Klima",
+                "en": "climate"
+            },
+            {
+                "id": 261,
+                "article": "der",
+                "word": "Schnee",
+                "en": "snow"
+            },
+            {
+                "id": 286,
+                "article": "die",
+                "word": "Jahreszeit",
+                "en": "season"
+            },
+            {
+                "id": 262,
+                "article": "der",
+                "word": "Wind",
+                "en": "wind"
+            },
+            {
+                "id": 287,
+                "article": "der",
+                "word": "Frühling",
+                "en": "spring"
+            },
+            {
+                "id": 263,
+                "article": "das",
+                "word": "Wetter",
+                "en": "weather"
+            },
+            {
+                "id": 288,
+                "article": "der",
+                "word": "Sommer",
+                "en": "summer"
+            },
+            {
+                "id": 264,
+                "article": "der",
+                "word": "Baum",
+                "en": "tree"
+            },
+            {
+                "id": 289,
+                "article": "der",
+                "word": "Herbst",
+                "en": "autumn"
+            },
+            {
+                "id": 265,
+                "article": "der",
+                "word": "Wald",
+                "en": "forest"
+            },
+            {
+                "id": 290,
+                "article": "der",
+                "word": "Winter",
+                "en": "winter"
+            },
+            {
+                "id": 266,
+                "article": "das",
+                "word": "Holz",
+                "en": "wood"
+            },
+            {
+                "id": 291,
+                "article": "der",
+                "word": "Sturm",
+                "en": "storm"
+            },
+            {
+                "id": 267,
+                "article": "das",
+                "word": "Blatt",
+                "en": "leaf"
+            },
+            {
+                "id": 292,
+                "article": "das",
+                "word": "Gewitter",
+                "en": "thunderstorm"
+            },
+            {
+                "id": 268,
+                "article": "die",
+                "word": "Blume",
+                "en": "flower"
+            },
+            {
+                "id": 293,
+                "article": "der",
+                "word": "Nebel",
+                "en": "fog"
+            },
+            {
+                "id": 269,
+                "article": "das",
+                "word": "Gras",
+                "en": "grass"
+            },
+            {
+                "id": 294,
+                "article": "die",
+                "word": "Hitze",
+                "en": "heat"
+            },
+            {
+                "id": 270,
+                "article": "die",
+                "word": "Pflanze",
+                "en": "plant"
+            },
+            {
+                "id": 295,
+                "article": "die",
+                "word": "Kälte",
+                "en": "cold"
+            },
+            {
+                "id": 271,
+                "article": "das",
+                "word": "Meer",
+                "en": "sea"
+            },
+            {
+                "id": 296,
+                "article": "die",
+                "word": "Landschaft",
+                "en": "landscape"
+            },
+            {
+                "id": 272,
+                "article": "der",
+                "word": "Ozean",
+                "en": "ocean"
+            },
+            {
+                "id": 297,
+                "article": "das",
+                "word": "Land",
+                "en": "country/land"
+            },
+            {
+                "id": 273,
+                "article": "der",
+                "word": "See",
+                "en": "lake"
+            },
+            {
+                "id": 298,
+                "article": "das",
+                "word": "Tier",
+                "en": "animal"
+            },
+            {
+                "id": 274,
+                "article": "der",
+                "word": "Fluss",
+                "en": "river"
+            },
+            {
+                "id": 299,
+                "article": "der",
+                "word": "Umweltschutz",
+                "en": "environmental"
+            },
+            {
+                "id": 275,
+                "article": "der",
+                "word": "Strand",
+                "en": "beach"
+            },
+            {
+                "id": 300,
+                "article": "der",
+                "word": "Müll",
+                "en": "trash"
+            },
+            {
+                "id": 301,
+                "article": "das",
+                "word": "Tier",
+                "en": "animal"
+            },
+            {
+                "id": 326,
+                "article": "die",
+                "word": "Giraffe",
+                "en": "giraffe"
+            },
+            {
+                "id": 302,
+                "article": "der",
+                "word": "Hund",
+                "en": "dog"
+            },
+            {
+                "id": 327,
+                "article": "das",
+                "word": "Zebra",
+                "en": "zebra"
+            },
+            {
+                "id": 303,
+                "article": "die",
+                "word": "Katze",
+                "en": "cat"
+            },
+            {
+                "id": 328,
+                "article": "das",
+                "word": "Krokodil",
+                "en": "crocodile"
+            },
+            {
+                "id": 304,
+                "article": "die",
+                "word": "Maus",
+                "en": "mouse"
+            },
+            {
+                "id": 329,
+                "article": "die",
+                "word": "Schlange",
+                "en": "snake"
+            },
+            {
+                "id": 305,
+                "article": "der",
+                "word": "Vogel",
+                "en": "bird"
+            },
+            {
+                "id": 330,
+                "article": "der",
+                "word": "Frosch",
+                "en": "frog"
+            },
+            {
+                "id": 306,
+                "article": "der",
+                "word": "Fisch",
+                "en": "fish"
+            },
+            {
+                "id": 331,
+                "article": "die",
+                "word": "Schildkröte",
+                "en": "turtle"
+            },
+            {
+                "id": 307,
+                "article": "das",
+                "word": "Pferd",
+                "en": "horse"
+            },
+            {
+                "id": 332,
+                "article": "der",
+                "word": "Delfin",
+                "en": "dolphin"
+            },
+            {
+                "id": 308,
+                "article": "die",
+                "word": "Kuh",
+                "en": "cow"
+            },
+            {
+                "id": 333,
+                "article": "der",
+                "word": "Wal",
+                "en": "whale"
+            },
+            {
+                "id": 309,
+                "article": "das",
+                "word": "Schwein",
+                "en": "pig"
+            },
+            {
+                "id": 334,
+                "article": "der",
+                "word": "Hai",
+                "en": "shark"
+            },
+            {
+                "id": 310,
+                "article": "das",
+                "word": "Schaf",
+                "en": "sheep"
+            },
+            {
+                "id": 335,
+                "article": "der",
+                "word": "Pinguin",
+                "en": "penguin"
+            },
+            {
+                "id": 311,
+                "article": "die",
+                "word": "Ziege",
+                "en": "goat"
+            },
+            {
+                "id": 336,
+                "article": "das",
+                "word": "Insekt",
+                "en": "insect"
+            },
+            {
+                "id": 312,
+                "article": "das",
+                "word": "Huhn",
+                "en": "chicken"
+            },
+            {
+                "id": 337,
+                "article": "die",
+                "word": "Fliege",
+                "en": "fly"
+            },
+            {
+                "id": 313,
+                "article": "der",
+                "word": "Hahn",
+                "en": "rooster"
+            },
+            {
+                "id": 338,
+                "article": "die",
+                "word": "Mücke",
+                "en": "mosquito"
+            },
+            {
+                "id": 314,
+                "article": "die",
+                "word": "Ente",
+                "en": "duck"
+            },
+            {
+                "id": 339,
+                "article": "die",
+                "word": "Biene",
+                "en": "bee"
+            },
+            {
+                "id": 315,
+                "article": "die",
+                "word": "Gans",
+                "en": "goose"
+            },
+            {
+                "id": 340,
+                "article": "die",
+                "word": "Wespe",
+                "en": "wasp"
+            },
+            {
+                "id": 316,
+                "article": "der",
+                "word": "Bär",
+                "en": "bear"
+            },
+            {
+                "id": 341,
+                "article": "der",
+                "word": "Schmetterling",
+                "en": "butterfly"
+            },
+            {
+                "id": 317,
+                "article": "der",
+                "word": "Wolf",
+                "en": "wolf"
+            },
+            {
+                "id": 342,
+                "article": "die",
+                "word": "Spinne",
+                "en": "spider"
+            },
+            {
+                "id": 318,
+                "article": "der",
+                "word": "Fuchs",
+                "en": "fox"
+            },
+            {
+                "id": 343,
+                "article": "die",
+                "word": "Ameise",
+                "en": "ant"
+            },
+            {
+                "id": 319,
+                "article": "der",
+                "word": "Hase",
+                "en": "hare"
+            },
+            {
+                "id": 344,
+                "article": "der",
+                "word": "Käfer",
+                "en": "beetle"
+            },
+            {
+                "id": 320,
+                "article": "das",
+                "word": "Kaninchen",
+                "en": "rabbit"
+            },
+            {
+                "id": 345,
+                "article": "die",
+                "word": "Schnecke",
+                "en": "snail"
+            },
+            {
+                "id": 321,
+                "article": "der",
+                "word": "Hirsch",
+                "en": "deer"
+            },
+            {
+                "id": 346,
+                "article": "der",
+                "word": "Wurm",
+                "en": "worm"
+            },
+            {
+                "id": 322,
+                "article": "der",
+                "word": "Affe",
+                "en": "monkey"
+            },
+            {
+                "id": 347,
+                "article": "das",
+                "word": "Haustier",
+                "en": "pet"
+            },
+            {
+                "id": 323,
+                "article": "der",
+                "word": "Elefant",
+                "en": "elephant"
+            },
+            {
+                "id": 348,
+                "article": "der",
+                "word": "Zoo",
+                "en": "zoo"
+            },
+            {
+                "id": 324,
+                "article": "der",
+                "word": "Löwe",
+                "en": "lion"
+            },
+            {
+                "id": 349,
+                "article": "das",
+                "word": "Fell",
+                "en": "fur"
+            },
+            {
+                "id": 325,
+                "article": "der",
+                "word": "Tiger",
+                "en": "tiger"
+            },
+            {
+                "id": 350,
+                "article": "der",
+                "word": "Schwanz",
+                "en": "tail"
+            },
+            {
+                "id": 351,
+                "article": "die",
+                "word": "Kleidung",
+                "en": "clothing"
+            },
+            {
+                "id": 376,
+                "article": "der",
+                "word": "Handschuh",
+                "en": "glove"
+            },
+            {
+                "id": 352,
+                "article": "das",
+                "word": "Hemd",
+                "en": "shirt"
+            },
+            {
+                "id": 377,
+                "article": "der",
+                "word": "Gürtel",
+                "en": "belt"
+            },
+            {
+                "id": 353,
+                "article": "die",
+                "word": "Hose",
+                "en": "pants"
+            },
+            {
+                "id": 378,
+                "article": "die",
+                "word": "Brille",
+                "en": "glasses"
+            },
+            {
+                "id": 354,
+                "article": "die",
+                "word": "Jeans",
+                "en": "jeans"
+            },
+            {
+                "id": 379,
+                "article": "die",
+                "word": "Sonnenbrille",
+                "en": "sunglasses"
+            },
+            {
+                "id": 380,
+                "article": "die",
+                "word": "Uhr",
+                "en": "watch"
+            },
+            {
+                "id": 356,
+                "article": "der",
+                "word": "Pullover",
+                "en": "sweater"
+            },
+            {
+                "id": 381,
+                "article": "der",
+                "word": "Schmuck",
+                "en": "jewelry"
+            },
+            {
+                "id": 357,
+                "article": "die",
+                "word": "Jacke",
+                "en": "jacket"
+            },
+            {
+                "id": 382,
+                "article": "der",
+                "word": "Ring",
+                "en": "ring"
+            },
+            {
+                "id": 358,
+                "article": "der",
+                "word": "Mantel",
+                "en": "coat"
+            },
+            {
+                "id": 383,
+                "article": "die",
+                "word": "Kette",
+                "en": "necklace"
+            },
+            {
+                "id": 359,
+                "article": "das",
+                "word": "Kleid",
+                "en": "dress"
+            },
+            {
+                "id": 384,
+                "article": "das",
+                "word": "Armband",
+                "en": "bracelet"
+            },
+            {
+                "id": 360,
+                "article": "der",
+                "word": "Rock",
+                "en": "skirt"
+            },
+            {
+                "id": 385,
+                "article": "der",
+                "word": "Ohrring",
+                "en": "earring"
+            },
+            {
+                "id": 361,
+                "article": "der",
+                "word": "Anzug",
+                "en": "suit"
+            },
+            {
+                "id": 386,
+                "article": "die",
+                "word": "Tasche",
+                "en": "bag"
+            },
+            {
+                "id": 362,
+                "article": "die",
+                "word": "Krawatte",
+                "en": "tie"
+            },
+            {
+                "id": 387,
+                "article": "der",
+                "word": "Rucksack",
+                "en": "backpack"
+            },
+            {
+                "id": 363,
+                "article": "der",
+                "word": "Schuh",
+                "en": "shoe"
+            },
+            {
+                "id": 388,
+                "article": "der",
+                "word": "Koffer",
+                "en": "suitcase"
+            },
+            {
+                "id": 364,
+                "article": "der",
+                "word": "Stiefel",
+                "en": "boot"
+            },
+            {
+                "id": 389,
+                "article": "der",
+                "word": "Regenschirm",
+                "en": "umbrella"
+            },
+            {
+                "id": 365,
+                "article": "die",
+                "word": "Socke",
+                "en": "sock"
+            },
+            {
+                "id": 390,
+                "article": "das",
+                "word": "Portemonnaie",
+                "en": "wallet"
+            },
+            {
+                "id": 366,
+                "article": "der",
+                "word": "Strumpf",
+                "en": "stocking"
+            },
+            {
+                "id": 391,
+                "article": "die",
+                "word": "Größe",
+                "en": "size"
+            },
+            {
+                "id": 367,
+                "article": "die",
+                "word": "Unterhose",
+                "en": "underwear"
+            },
+            {
+                "id": 392,
+                "article": "die",
+                "word": "Farbe",
+                "en": "color"
+            },
+            {
+                "id": 368,
+                "article": "das",
+                "word": "Unterhemd",
+                "en": "undershirt"
+            },
+            {
+                "id": 393,
+                "article": "der",
+                "word": "Knopf",
+                "en": "button"
+            },
+            {
+                "id": 369,
+                "article": "der",
+                "word": "BH",
+                "en": "bra"
+            },
+            {
+                "id": 394,
+                "article": "der",
+                "word": "Reißverschluss",
+                "en": "zipper"
+            },
+            {
+                "id": 370,
+                "article": "der",
+                "word": "Schlafanzug",
+                "en": "pajamas"
+            },
+            {
+                "id": 395,
+                "article": "die",
+                "word": "Tasche",
+                "en": "pocket"
+            },
+            {
+                "id": 371,
+                "article": "der",
+                "word": "Badeanzug",
+                "en": "swimsuit"
+            },
+            {
+                "id": 396,
+                "article": "der",
+                "word": "Stoff",
+                "en": "fabric"
+            },
+            {
+                "id": 372,
+                "article": "die",
+                "word": "Badehose",
+                "en": "swimming trunks"
+            },
+            {
+                "id": 397,
+                "article": "die",
+                "word": "Baumwolle",
+                "en": "cotton"
+            },
+            {
+                "id": 373,
+                "article": "der",
+                "word": "Hut",
+                "en": "hat"
+            },
+            {
+                "id": 398,
+                "article": "die",
+                "word": "Wolle",
+                "en": "wool"
+            },
+            {
+                "id": 374,
+                "article": "die",
+                "word": "Mütze",
+                "en": "beanie/cap"
+            },
+            {
+                "id": 399,
+                "article": "das",
+                "word": "Leder",
+                "en": "leather"
+            },
+            {
+                "id": 375,
+                "article": "der",
+                "word": "Schal",
+                "en": "scarf"
+            },
+            {
+                "id": 400,
+                "article": "der",
+                "word": "Schuhband",
+                "en": "shoelace"
+            },
+            {
+                "id": 401,
+                "article": "die",
+                "word": "Zeit",
+                "en": "time"
+            },
+            {
+                "id": 426,
+                "article": "der",
+                "word": "Januar",
+                "en": "January"
+            },
+            {
+                "id": 402,
+                "article": "die",
+                "word": "Sekunde",
+                "en": "second"
+            },
+            {
+                "id": 427,
+                "article": "der",
+                "word": "Februar",
+                "en": "February"
+            },
+            {
+                "id": 403,
+                "article": "die",
+                "word": "Minute",
+                "en": "minute"
+            },
+            {
+                "id": 428,
+                "article": "der",
+                "word": "März",
+                "en": "March"
+            },
+            {
+                "id": 404,
+                "article": "die",
+                "word": "Stunde",
+                "en": "hour"
+            },
+            {
+                "id": 429,
+                "article": "der",
+                "word": "April",
+                "en": "April"
+            },
+            {
+                "id": 405,
+                "article": "der",
+                "word": "Tag",
+                "en": "day"
+            },
+            {
+                "id": 430,
+                "article": "der",
+                "word": "Mai",
+                "en": "May"
+            },
+            {
+                "id": 406,
+                "article": "die",
+                "word": "Woche",
+                "en": "week"
+            },
+            {
+                "id": 431,
+                "article": "der",
+                "word": "Juni",
+                "en": "June"
+            },
+            {
+                "id": 407,
+                "article": "der",
+                "word": "Monat",
+                "en": "month"
+            },
+            {
+                "id": 432,
+                "article": "der",
+                "word": "Juli",
+                "en": "July"
+            },
+            {
+                "id": 408,
+                "article": "das",
+                "word": "Jahr",
+                "en": "year"
+            },
+            {
+                "id": 433,
+                "article": "der",
+                "word": "August",
+                "en": "August"
+            },
+            {
+                "id": 409,
+                "article": "das",
+                "word": "Jahrzehnt",
+                "en": "decade"
+            },
+            {
+                "id": 434,
+                "article": "der",
+                "word": "September",
+                "en": "September"
+            },
+            {
+                "id": 410,
+                "article": "das",
+                "word": "Jahrhundert",
+                "en": "century"
+            },
+            {
+                "id": 435,
+                "article": "der",
+                "word": "Oktober",
+                "en": "October"
+            },
+            {
+                "id": 411,
+                "article": "der",
+                "word": "Morgen",
+                "en": "morning"
+            },
+            {
+                "id": 436,
+                "article": "der",
+                "word": "November",
+                "en": "November"
+            },
+            {
+                "id": 412,
+                "article": "der",
+                "word": "Vormittag",
+                "en": "late morning"
+            },
+            {
+                "id": 437,
+                "article": "der",
+                "word": "Dezember",
+                "en": "December"
+            },
+            {
+                "id": 413,
+                "article": "der",
+                "word": "Mittag",
+                "en": "noon"
+            },
+            {
+                "id": 438,
+                "article": "das",
+                "word": "Datum",
+                "en": "date"
+            },
+            {
+                "id": 414,
+                "article": "der",
+                "word": "Nachmittag",
+                "en": "afternoon"
+            },
+            {
+                "id": 439,
+                "article": "der",
+                "word": "Feiertag",
+                "en": "holiday"
+            },
+            {
+                "id": 415,
+                "article": "der",
+                "word": "Abend",
+                "en": "evening"
+            },
+            {
+                "id": 440,
+                "article": "der",
+                "word": "Geburtstag",
+                "en": "birthday"
+            },
+            {
+                "id": 416,
+                "article": "die",
+                "word": "Nacht",
+                "en": "night"
+            },
+            {
+                "id": 441,
+                "article": "die",
+                "word": "Uhrzeit",
+                "en": "clock time"
+            },
+            {
+                "id": 417,
+                "article": "die",
+                "word": "Mitternacht",
+                "en": "midnight"
+            },
+            {
+                "id": 442,
+                "article": "die",
+                "word": "Vergangenheit",
+                "en": "past"
+            },
+            {
+                "id": 418,
+                "article": "der",
+                "word": "Montag",
+                "en": "Monday"
+            },
+            {
+                "id": 443,
+                "article": "die",
+                "word": "Gegenwart",
+                "en": "present"
+            },
+            {
+                "id": 419,
+                "article": "der",
+                "word": "Dienstag",
+                "en": "Tuesday"
+            },
+            {
+                "id": 444,
+                "article": "die",
+                "word": "Zukunft",
+                "en": "future"
+            },
+            {
+                "id": 420,
+                "article": "der",
+                "word": "Mittwoch",
+                "en": "Wednesday"
+            },
+            {
+                "id": 445,
+                "article": "der",
+                "word": "Moment",
+                "en": "moment"
+            },
+            {
+                "id": 421,
+                "article": "der",
+                "word": "Donnerstag",
+                "en": "Thursday"
+            },
+            {
+                "id": 446,
+                "article": "die",
+                "word": "Ewigkeit",
+                "en": "eternity"
+            },
+            {
+                "id": 422,
+                "article": "der",
+                "word": "Freitag",
+                "en": "Friday"
+            },
+            {
+                "id": 447,
+                "article": "die",
+                "word": "Frist",
+                "en": "deadline"
+            },
+            {
+                "id": 423,
+                "article": "der",
+                "word": "Samstag",
+                "en": "Saturday"
+            },
+            {
+                "id": 448,
+                "article": "die",
+                "word": "Verspätung",
+                "en": "delay"
+            },
+            {
+                "id": 424,
+                "article": "der",
+                "word": "Sonntag",
+                "en": "Sunday"
+            },
+            {
+                "id": 449,
+                "article": "der",
+                "word": "Termin",
+                "en": "appointment"
+            },
+            {
+                "id": 425,
+                "article": "das",
+                "word": "Wochenende",
+                "en": "weekend"
+            },
+            {
+                "id": 450,
+                "article": "der",
+                "word": "Kalender",
+                "en": "calendar"
+            },
+            {
+                "id": 451,
+                "article": "die",
+                "word": "Arbeit",
+                "en": "work"
+            },
+            {
+                "id": 476,
+                "article": "der",
+                "word": "Stift",
+                "en": "pen"
+            },
+            {
+                "id": 452,
+                "article": "der",
+                "word": "Beruf",
+                "en": "profession"
+            },
+            {
+                "id": 477,
+                "article": "der",
+                "word": "Bleistift",
+                "en": "pencil"
+            },
+            {
+                "id": 453,
+                "article": "die",
+                "word": "Firma",
+                "en": "company"
+            },
+            {
+                "id": 478,
+                "article": "die",
+                "word": "Prüfung",
+                "en": "exam"
+            },
+            {
+                "id": 454,
+                "article": "das",
+                "word": "Büro",
+                "en": "office"
+            },
+            {
+                "id": 479,
+                "article": "die",
+                "word": "Note",
+                "en": "grade"
+            },
+            {
+                "id": 455,
+                "article": "der",
+                "word": "Vertrag",
+                "en": "contract"
+            },
+            {
+                "id": 480,
+                "article": "das",
+                "word": "Zeugnis",
+                "en": "report card"
+            },
+            {
+                "id": 456,
+                "article": "das",
+                "word": "Gehalt",
+                "en": "salary"
+            },
+            {
+                "id": 481,
+                "article": "die",
+                "word": "Universität",
+                "en": "university"
+            },
+            {
+                "id": 457,
+                "article": "der",
+                "word": "Kollege",
+                "en": "colleague"
+            },
+            {
+                "id": 482,
+                "article": "der",
+                "word": "Professor",
+                "en": "professor"
+            },
+            {
+                "id": 458,
+                "article": "der",
+                "word": "Chef",
+                "en": "boss"
+            },
+            {
+                "id": 483,
+                "article": "die",
+                "word": "Vorlesung",
+                "en": "lecture"
+            },
+            {
+                "id": 459,
+                "article": "das",
+                "word": "Meeting",
+                "en": "meeting"
+            },
+            {
+                "id": 484,
+                "article": "das",
+                "word": "Studium",
+                "en": "studies"
+            },
+            {
+                "id": 460,
+                "article": "das",
+                "word": "Projekt",
+                "en": "project"
+            },
+            {
+                "id": 485,
+                "article": "die",
+                "word": "Sprache",
+                "en": "language"
+            },
+            {
+                "id": 461,
+                "article": "die",
+                "word": "Erfahrung",
+                "en": "experience"
+            },
+            {
+                "id": 486,
+                "article": "das",
+                "word": "Wort",
+                "en": "word"
+            },
+            {
+                "id": 462,
+                "article": "der",
+                "word": "Erfolg",
+                "en": "success"
+            },
+            {
+                "id": 487,
+                "article": "der",
+                "word": "Satz",
+                "en": "sentence"
+            },
+            {
+                "id": 463,
+                "article": "das",
+                "word": "Problem",
+                "en": "problem"
+            },
+            {
+                "id": 488,
+                "article": "der",
+                "word": "Text",
+                "en": "text"
+            },
+            {
+                "id": 464,
+                "article": "die",
+                "word": "Lösung",
+                "en": "solution"
+            },
+            {
+                "id": 489,
+                "article": "die",
+                "word": "Geschichte",
+                "en": "story/history"
+            },
+            {
+                "id": 465,
+                "article": "die",
+                "word": "Idee",
+                "en": "idea"
+            },
+            {
+                "id": 490,
+                "article": "die",
+                "word": "Kunst",
+                "en": "art"
+            },
+            {
+                "id": 466,
+                "article": "das",
+                "word": "Ziel",
+                "en": "goal"
+            },
+            {
+                "id": 491,
+                "article": "die",
+                "word": "Musik",
+                "en": "music"
+            },
+            {
+                "id": 467,
+                "article": "die",
+                "word": "Frage",
+                "en": "question"
+            },
+            {
+                "id": 492,
+                "article": "die",
+                "word": "Wissenschaft",
+                "en": "science"
+            },
+            {
+                "id": 468,
+                "article": "die",
+                "word": "Antwort",
+                "en": "answer"
+            },
+            {
+                "id": 493,
+                "article": "die",
+                "word": "Politik",
+                "en": "politics"
+            },
+            {
+                "id": 469,
+                "article": "der",
+                "word": "Fehler",
+                "en": "mistake"
+            },
+            {
+                "id": 494,
+                "article": "das",
+                "word": "Gesetz",
+                "en": "law"
+            },
+            {
+                "id": 470,
+                "article": "die",
+                "word": "Schule",
+                "en": "school"
+            },
+            {
+                "id": 495,
+                "article": "die",
+                "word": "Liebe",
+                "en": "love"
+            },
+            {
+                "id": 471,
+                "article": "die",
+                "word": "Klasse",
+                "en": "class"
+            },
+            {
+                "id": 496,
+                "article": "der",
+                "word": "Hass",
+                "en": "hate"
+            },
+            {
+                "id": 472,
+                "article": "der",
+                "word": "Lehrer",
+                "en": "teacher"
+            },
+            {
+                "id": 497,
+                "article": "die",
+                "word": "Freude",
+                "en": "joy"
+            },
+            {
+                "id": 473,
+                "article": "der",
+                "word": "Schüler",
+                "en": "student"
+            },
+            {
+                "id": 498,
+                "article": "die",
+                "word": "Angst",
+                "en": "fear"
+            },
+            {
+                "id": 474,
+                "article": "das",
+                "word": "Buch",
+                "en": "book"
+            },
+            {
+                "id": 499,
+                "article": "der",
+                "word": "Traum",
+                "en": "dream"
+            },
+            {
+                "id": 475,
+                "article": "das",
+                "word": "Heft",
+                "en": "notebook"
+            },
+            {
+                "id": 500,
+                "article": "die",
+                "word": "Wahrheit",
+                "en": "truth"
+            }
+        ];
 
         const verbsData = {
             "nom": [
@@ -1198,10 +4201,6 @@
                     "en": "to dream"
                 },
                 {
-                    "inf": "aufwachen",
-                    "en": "to wake up"
-                },
-                {
                     "inf": "eilen",
                     "en": "to hurry"
                 },
@@ -1424,10 +4423,6 @@
                     "en": "to use"
                 },
                 {
-                    "inf": "brauchen",
-                    "en": "to need"
-                },
-                {
                     "inf": "wollen",
                     "en": "to want"
                 },
@@ -1442,10 +4437,6 @@
                 {
                     "inf": "wissen",
                     "en": "to know (fact)"
-                },
-                {
-                    "inf": "lernen",
-                    "en": "to learn"
                 },
                 {
                     "inf": "studieren",
@@ -1490,18 +4481,6 @@
                 {
                     "inf": "verstecken",
                     "en": "to hide"
-                },
-                {
-                    "inf": "suchen",
-                    "en": "to look for"
-                },
-                {
-                    "inf": "finden",
-                    "en": "to find"
-                },
-                {
-                    "inf": "verlieren",
-                    "en": "to lose"
                 },
                 {
                     "inf": "behalten",
@@ -1560,10 +4539,6 @@
                     "en": "to sing"
                 },
                 {
-                    "inf": "hören",
-                    "en": "to hear/listen"
-                },
-                {
                     "inf": "riechen",
                     "en": "to smell"
                 },
@@ -1604,20 +4579,8 @@
                     "en": "to invite"
                 },
                 {
-                    "inf": "treffen",
-                    "en": "to meet"
-                },
-                {
-                    "inf": "besuchen",
-                    "en": "to visit"
-                },
-                {
                     "inf": "anrufen",
                     "en": "to call (phone)"
-                },
-                {
-                    "inf": "fragen",
-                    "en": "to ask"
                 },
                 {
                     "inf": "bitten",
@@ -1632,16 +4595,8 @@
                     "en": "to rent"
                 },
                 {
-                    "inf": "kaufen",
-                    "en": "to buy"
-                },
-                {
                     "inf": "bestellen",
                     "en": "to order"
-                },
-                {
-                    "inf": "bezahlen",
-                    "en": "to pay"
                 }
             ],
             "dat": [
@@ -2024,10 +4979,6 @@
                 {
                     "inf": "zurufen",
                     "en": "to call out to"
-                },
-                {
-                    "inf": "zusagen",
-                    "en": "to appeal to/promise"
                 },
                 {
                     "inf": "zuschreiben",
@@ -2428,10 +5379,6 @@
                     "en": "to prepare (food for someone)"
                 },
                 {
-                    "inf": "bezahlen",
-                    "en": "to pay"
-                },
-                {
                     "inf": "schulden",
                     "en": "to owe"
                 },
@@ -2442,10 +5389,6 @@
                 {
                     "inf": "entziehen",
                     "en": "to withdraw/revoke"
-                },
-                {
-                    "inf": "geben",
-                    "en": "to give (someone something)"
                 }
             ],
             "trenn": [
@@ -2844,10 +5787,6 @@
                 {
                     "inf": "wegfallen",
                     "en": "to be omitted"
-                },
-                {
-                    "inf": "anrufen",
-                    "en": "to call"
                 }
             ],
             "untr": [
@@ -3657,11 +6596,7 @@
             "regel": [
                 {
                     "inf": "machen",
-                    "en": "to make/do"
-                },
-                {
-                    "inf": "suchen",
-                    "en": "to search"
+                    "en": "to make / do"
                 },
                 {
                     "inf": "spielen",
@@ -3672,8 +6607,48 @@
                     "en": "to learn"
                 },
                 {
+                    "inf": "arbeiten",
+                    "en": "to work"
+                },
+                {
+                    "inf": "wohnen",
+                    "en": "to live (reside)"
+                },
+                {
+                    "inf": "kaufen",
+                    "en": "to buy"
+                },
+                {
                     "inf": "kochen",
                     "en": "to cook"
+                },
+                {
+                    "inf": "fragen",
+                    "en": "to ask"
+                },
+                {
+                    "inf": "antworten",
+                    "en": "to answer"
+                },
+                {
+                    "inf": "hören",
+                    "en": "to hear / listen"
+                },
+                {
+                    "inf": "sagen",
+                    "en": "to say"
+                },
+                {
+                    "inf": "zeigen",
+                    "en": "to show"
+                },
+                {
+                    "inf": "lieben",
+                    "en": "to love"
+                },
+                {
+                    "inf": "leben",
+                    "en": "to live"
                 },
                 {
                     "inf": "lachen",
@@ -3684,48 +6659,32 @@
                     "en": "to cry"
                 },
                 {
-                    "inf": "putzen",
-                    "en": "to clean"
+                    "inf": "tanzen",
+                    "en": "to dance"
                 },
                 {
-                    "inf": "baden",
-                    "en": "to bathe"
+                    "inf": "reisen",
+                    "en": "to travel"
                 },
                 {
-                    "inf": "duschen",
-                    "en": "to shower"
-                },
-                {
-                    "inf": "arbeiten",
-                    "en": "to work"
-                },
-                {
-                    "inf": "wohnen",
-                    "en": "to live (reside)"
-                },
-                {
-                    "inf": "leben",
-                    "en": "to live (be alive)"
-                },
-                {
-                    "inf": "lieben",
-                    "en": "to love"
-                },
-                {
-                    "inf": "hassen",
-                    "en": "to hate"
-                },
-                {
-                    "inf": "kaufen",
-                    "en": "to buy"
+                    "inf": "glauben",
+                    "en": "to believe"
                 },
                 {
                     "inf": "brauchen",
                     "en": "to need"
                 },
                 {
-                    "inf": "hoffen",
-                    "en": "to hope"
+                    "inf": "besuchen",
+                    "en": "to visit"
+                },
+                {
+                    "inf": "suchen",
+                    "en": "to search / look for"
+                },
+                {
+                    "inf": "öffnen",
+                    "en": "to open"
                 },
                 {
                     "inf": "warten",
@@ -3736,64 +6695,88 @@
                     "en": "to thank"
                 },
                 {
-                    "inf": "antworten",
-                    "en": "to answer"
+                    "inf": "folgen",
+                    "en": "to follow"
                 },
                 {
-                    "inf": "fragen",
-                    "en": "to ask"
+                    "inf": "holen",
+                    "en": "to fetch"
                 },
                 {
-                    "inf": "zeigen",
-                    "en": "to show"
+                    "inf": "legen",
+                    "en": "to lay down"
                 },
                 {
-                    "inf": "schauen",
-                    "en": "to look"
-                },
-                {
-                    "inf": "hören",
-                    "en": "to hear"
-                },
-                {
-                    "inf": "rechnen",
-                    "en": "to calculate"
-                },
-                {
-                    "inf": "zeichnen",
-                    "en": "to draw"
-                },
-                {
-                    "inf": "atmen",
-                    "en": "to breathe"
+                    "inf": "stellen",
+                    "en": "to put / place"
                 },
                 {
                     "inf": "setzen",
                     "en": "to set"
                 },
                 {
-                    "inf": "passen",
-                    "en": "to fit/suit"
+                    "inf": "zählen",
+                    "en": "to count"
                 },
                 {
-                    "inf": "tanzen",
-                    "en": "to dance"
+                    "inf": "malen",
+                    "en": "to paint"
+                },
+                {
+                    "inf": "putzen",
+                    "en": "to clean"
+                },
+                {
+                    "inf": "reden",
+                    "en": "to talk"
+                },
+                {
+                    "inf": "baden",
+                    "en": "to bathe"
+                },
+                {
+                    "inf": "kosten",
+                    "en": "to cost"
+                },
+                {
+                    "inf": "träumen",
+                    "en": "to dream"
                 },
                 {
                     "inf": "feiern",
                     "en": "to celebrate"
                 },
                 {
+                    "inf": "lehren",
+                    "en": "to teach"
+                },
+                {
+                    "inf": "studieren",
+                    "en": "to study (university)"
+                },
+                {
+                    "inf": "telefonieren",
+                    "en": "to phone"
+                },
+                {
+                    "inf": "passieren",
+                    "en": "to happen"
+                },
+                {
+                    "inf": "probieren",
+                    "en": "to try / taste"
+                },
+                {
                     "inf": "reparieren",
                     "en": "to repair"
                 },
                 {
-                    "inf": "studieren",
-                    "en": "to study"
+                    "inf": "kontrollieren",
+                    "en": "to check"
                 },
                 {
-                    "inf": "probieren",
-                    "en": "to try"
+                    "inf": "organisieren",
+                    "en": "to organize"
                 },
                 {
                     "inf": "fotografieren",
@@ -3804,104 +6787,12 @@
                     "en": "to discuss"
                 },
                 {
-                    "inf": "organisieren",
-                    "en": "to organize"
-                },
-                {
-                    "inf": "chatten",
-                    "en": "to chat"
-                },
-                {
-                    "inf": "surfen",
-                    "en": "to surf"
-                },
-                {
-                    "inf": "klicken",
-                    "en": "to click"
-                },
-                {
-                    "inf": "bauen",
-                    "en": "to build"
-                },
-                {
-                    "inf": "sagen",
-                    "en": "to say"
-                },
-                {
-                    "inf": "glauben",
-                    "en": "to believe"
-                },
-                {
-                    "inf": "wünschen",
-                    "en": "to wish"
-                },
-                {
-                    "inf": "schmecken",
-                    "en": "to taste"
-                },
-                {
-                    "inf": "wecken",
-                    "en": "to wake"
-                },
-                {
-                    "inf": "kämmen",
-                    "en": "to comb"
-                },
-                {
-                    "inf": "schminken",
-                    "en": "to put on makeup"
-                },
-                {
-                    "inf": "irren",
-                    "en": "to err/be wrong"
-                },
-                {
-                    "inf": "wundern",
-                    "en": "to wonder"
-                },
-                {
-                    "inf": "freuen",
-                    "en": "to be glad"
-                },
-                {
-                    "inf": "beeilen",
-                    "en": "to hurry"
-                },
-                {
-                    "inf": "kümmern",
-                    "en": "to take care"
-                },
-                {
-                    "inf": "erinnern",
-                    "en": "to remember"
-                },
-                {
-                    "inf": "fühlen",
-                    "en": "to feel"
-                },
-                {
-                    "inf": "schämen",
-                    "en": "to be ashamed"
-                },
-                {
-                    "inf": "ärgern",
-                    "en": "to get angry"
-                },
-                {
-                    "inf": "verkaufen",
-                    "en": "to sell"
-                },
-                {
                     "inf": "erzählen",
-                    "en": "to tell"
+                    "en": "to tell (a story)"
                 },
                 {
                     "inf": "erklären",
                     "en": "to explain"
-                },
-                {
-                    "inf": "bedeuten",
-                    "en": "to mean"
                 },
                 {
                     "inf": "bestellen",
@@ -3909,151 +6800,199 @@
                 },
                 {
                     "inf": "bezahlen",
-                    "en": "to pay"
+                    "en": "to pay for"
                 },
                 {
-                    "inf": "öffnen",
-                    "en": "to open"
+                    "inf": "verkaufen",
+                    "en": "to sell"
                 },
                 {
-                    "inf": "kosten",
-                    "en": "to cost"
+                    "inf": "benutzen",
+                    "en": "to use"
                 },
                 {
-                    "inf": "mieten",
-                    "en": "to rent"
+                    "inf": "gehören",
+                    "en": "to belong to"
                 },
                 {
-                    "inf": "packen",
-                    "en": "to pack"
-                },
-                {
-                    "inf": "parken",
-                    "en": "to park"
-                },
-                {
-                    "inf": "reisen",
-                    "en": "to travel"
-                },
-                {
-                    "inf": "sammeln",
-                    "en": "to collect"
-                },
-                {
-                    "inf": "stimmen",
-                    "en": "to be correct"
-                },
-                {
-                    "inf": "tanken",
-                    "en": "to refuel"
-                },
-                {
-                    "inf": "tauschen",
-                    "en": "to exchange"
-                },
-                {
-                    "inf": "teilen",
-                    "en": "to share"
-                },
-                {
-                    "inf": "trösten",
-                    "en": "to comfort"
-                },
-                {
-                    "inf": "üben",
-                    "en": "to practice"
-                },
-                {
-                    "inf": "verdienen",
-                    "en": "to earn"
-                },
-                {
-                    "inf": "verpassen",
-                    "en": "to miss"
-                },
-                {
-                    "inf": "wecken",
-                    "en": "to wake someone"
-                },
-                {
-                    "inf": "wiederholen",
-                    "en": "to repeat"
-                },
-                {
-                    "inf": "zahlen",
-                    "en": "to pay"
-                },
-                {
-                    "inf": "zählen",
-                    "en": "to count"
-                },
-                {
-                    "inf": "zelten",
-                    "en": "to camp"
-                },
-                {
-                    "inf": "ärgern",
-                    "en": "to annoy"
-                },
-                {
-                    "inf": "ändern",
-                    "en": "to change"
-                },
-                {
-                    "inf": "bilden",
-                    "en": "to form/educate"
-                },
-                {
-                    "inf": "buchstabieren",
-                    "en": "to spell"
-                },
-                {
-                    "inf": "dauern",
-                    "en": "to last"
-                },
-                {
-                    "inf": "drücken",
-                    "en": "to press"
-                },
-                {
-                    "inf": "erkälten",
-                    "en": "to catch a cold"
+                    "inf": "erreichen",
+                    "en": "to reach"
                 },
                 {
                     "inf": "erleben",
                     "en": "to experience"
                 },
                 {
-                    "inf": "fehlen",
-                    "en": "to miss/lack"
+                    "inf": "entdecken",
+                    "en": "to discover"
                 },
                 {
-                    "inf": "gehören",
-                    "en": "to belong"
+                    "inf": "verändern",
+                    "en": "to change"
                 },
                 {
-                    "inf": "grüßen",
-                    "en": "to greet"
+                    "inf": "vermissen",
+                    "en": "to miss"
                 },
                 {
-                    "inf": "holen",
-                    "en": "to fetch"
+                    "inf": "versuchen",
+                    "en": "to attempt"
                 },
                 {
-                    "inf": "kennenlernen",
-                    "en": "to get to know"
+                    "inf": "verbessern",
+                    "en": "to improve"
                 },
                 {
-                    "inf": "lächeln",
-                    "en": "to smile"
+                    "inf": "bewundern",
+                    "en": "to admire"
                 },
                 {
-                    "inf": "machen",
-                    "en": "to make/do"
+                    "inf": "beobachten",
+                    "en": "to observe"
                 },
                 {
-                    "inf": "machen",
-                    "en": "to make/do"
+                    "inf": "bemerken",
+                    "en": "to notice"
+                },
+                {
+                    "inf": "beantworten",
+                    "en": "to answer (a question)"
+                },
+                {
+                    "inf": "bestätigen",
+                    "en": "to confirm"
+                },
+                {
+                    "inf": "beenden",
+                    "en": "to finish"
+                },
+                {
+                    "inf": "begegnen",
+                    "en": "to encounter"
+                },
+                {
+                    "inf": "erwachen",
+                    "en": "to awaken"
+                },
+                {
+                    "inf": "verunglücken",
+                    "en": "to have an accident"
+                },
+                {
+                    "inf": "zerstören",
+                    "en": "to destroy"
+                },
+                {
+                    "inf": "zeichnen",
+                    "en": "to draw"
+                },
+                {
+                    "inf": "rechnen",
+                    "en": "to calculate"
+                },
+                {
+                    "inf": "atmen",
+                    "en": "to breathe"
+                },
+                {
+                    "inf": "trocknen",
+                    "en": "to dry"
+                },
+                {
+                    "inf": "melden",
+                    "en": "to report"
+                },
+                {
+                    "inf": "wünschen",
+                    "en": "to wish"
+                },
+                {
+                    "inf": "fühlen",
+                    "en": "to feel"
+                },
+                {
+                    "inf": "stören",
+                    "en": "to disturb"
+                },
+                {
+                    "inf": "sparen",
+                    "en": "to save (money)"
+                },
+                {
+                    "inf": "schenken",
+                    "en": "to give (a gift)"
+                },
+                {
+                    "inf": "schicken",
+                    "en": "to send"
+                },
+                {
+                    "inf": "schmecken",
+                    "en": "to taste"
+                },
+                {
+                    "inf": "schützen",
+                    "en": "to protect"
+                },
+                {
+                    "inf": "zahlen",
+                    "en": "to pay"
+                },
+                {
+                    "inf": "kämpfen",
+                    "en": "to fight"
+                },
+                {
+                    "inf": "hoffen",
+                    "en": "to hope"
+                },
+                {
+                    "inf": "lösen",
+                    "en": "to solve"
+                },
+                {
+                    "inf": "meinen",
+                    "en": "to mean / think"
+                },
+                {
+                    "inf": "nutzen",
+                    "en": "to use"
+                },
+                {
+                    "inf": "planen",
+                    "en": "to plan"
+                },
+                {
+                    "inf": "rauchen",
+                    "en": "to smoke"
+                },
+                {
+                    "inf": "regnen",
+                    "en": "to rain"
+                },
+                {
+                    "inf": "schauen",
+                    "en": "to look"
+                },
+                {
+                    "inf": "starten",
+                    "en": "to start"
+                },
+                {
+                    "inf": "stimmen",
+                    "en": "to be correct"
+                },
+                {
+                    "inf": "tauchen",
+                    "en": "to dive"
+                },
+                {
+                    "inf": "testen",
+                    "en": "to test"
+                },
+                {
+                    "inf": "üben",
+                    "en": "to practice"
                 }
             ],
             "unregel": [
@@ -4070,36 +7009,40 @@
                     "en": "to become"
                 },
                 {
-                    "inf": "sehen",
-                    "en": "to see"
-                },
-                {
                     "inf": "gehen",
                     "en": "to go"
-                },
-                {
-                    "inf": "stehen",
-                    "en": "to stand"
-                },
-                {
-                    "inf": "verstehen",
-                    "en": "to understand"
                 },
                 {
                     "inf": "kommen",
                     "en": "to come"
                 },
                 {
-                    "inf": "bekommen",
-                    "en": "to get/receive"
+                    "inf": "sehen",
+                    "en": "to see"
                 },
                 {
-                    "inf": "fahren",
-                    "en": "to drive/ride"
+                    "inf": "essen",
+                    "en": "to eat"
                 },
                 {
-                    "inf": "schlafen",
-                    "en": "to sleep"
+                    "inf": "trinken",
+                    "en": "to drink"
+                },
+                {
+                    "inf": "lesen",
+                    "en": "to read"
+                },
+                {
+                    "inf": "schreiben",
+                    "en": "to write"
+                },
+                {
+                    "inf": "sprechen",
+                    "en": "to speak"
+                },
+                {
+                    "inf": "finden",
+                    "en": "to find"
                 },
                 {
                     "inf": "geben",
@@ -4110,36 +7053,40 @@
                     "en": "to take"
                 },
                 {
-                    "inf": "sprechen",
-                    "en": "to speak"
+                    "inf": "helfen",
+                    "en": "to help"
                 },
                 {
-                    "inf": "lesen",
-                    "en": "to read"
+                    "inf": "schlafen",
+                    "en": "to sleep"
                 },
                 {
-                    "inf": "essen",
-                    "en": "to eat"
+                    "inf": "fahren",
+                    "en": "to drive"
                 },
                 {
-                    "inf": "schreiben",
-                    "en": "to write"
+                    "inf": "fliegen",
+                    "en": "to fly"
                 },
                 {
                     "inf": "bleiben",
                     "en": "to stay"
                 },
                 {
-                    "inf": "helfen",
-                    "en": "to help"
+                    "inf": "laufen",
+                    "en": "to walk / run"
                 },
                 {
-                    "inf": "treffen",
-                    "en": "to meet"
+                    "inf": "tun",
+                    "en": "to do"
                 },
                 {
-                    "inf": "finden",
-                    "en": "to find"
+                    "inf": "stehen",
+                    "en": "to stand"
+                },
+                {
+                    "inf": "verstehen",
+                    "en": "to understand"
                 },
                 {
                     "inf": "bringen",
@@ -4150,264 +7097,100 @@
                     "en": "to think"
                 },
                 {
-                    "inf": "kennen",
-                    "en": "to know (a person/place)"
-                },
-                {
                     "inf": "wissen",
                     "en": "to know (a fact)"
                 },
                 {
+                    "inf": "kennen",
+                    "en": "to know (a person)"
+                },
+                {
+                    "inf": "nennen",
+                    "en": "to name"
+                },
+                {
+                    "inf": "rennen",
+                    "en": "to run fast"
+                },
+                {
                     "inf": "lassen",
-                    "en": "to let/leave"
-                },
-                {
-                    "inf": "tun",
-                    "en": "to do"
-                },
-                {
-                    "inf": "entscheiden",
-                    "en": "to decide"
-                },
-                {
-                    "inf": "gefallen",
-                    "en": "to please (someone)"
-                },
-                {
-                    "inf": "rufen",
-                    "en": "to call/shout"
-                },
-                {
-                    "inf": "verlieren",
-                    "en": "to lose"
-                },
-                {
-                    "inf": "gewinnen",
-                    "en": "to win"
-                },
-                {
-                    "inf": "vergessen",
-                    "en": "to forget"
-                },
-                {
-                    "inf": "fangen",
-                    "en": "to catch"
-                },
-                {
-                    "inf": "schlagen",
-                    "en": "to hit"
-                },
-                {
-                    "inf": "tragen",
-                    "en": "to carry/wear"
-                },
-                {
-                    "inf": "wachsen",
-                    "en": "to grow"
-                },
-                {
-                    "inf": "waschen",
-                    "en": "to wash"
-                },
-                {
-                    "inf": "ziehen",
-                    "en": "to pull/move"
-                },
-                {
-                    "inf": "fliegen",
-                    "en": "to fly"
-                },
-                {
-                    "inf": "bieten",
-                    "en": "to offer"
-                },
-                {
-                    "inf": "lügen",
-                    "en": "to lie"
-                },
-                {
-                    "inf": "sterben",
-                    "en": "to die"
-                },
-                {
-                    "inf": "bewerben",
-                    "en": "to apply"
-                },
-                {
-                    "inf": "leiden",
-                    "en": "to suffer"
-                },
-                {
-                    "inf": "gelingen",
-                    "en": "to succeed"
-                },
-                {
-                    "inf": "raten",
-                    "en": "to advise/guess"
-                },
-                {
-                    "inf": "schieben",
-                    "en": "to push"
-                },
-                {
-                    "inf": "schneiden",
-                    "en": "to cut"
-                },
-                {
-                    "inf": "streiten",
-                    "en": "to argue"
-                },
-                {
-                    "inf": "trinken",
-                    "en": "to drink"
-                },
-                {
-                    "inf": "binden",
-                    "en": "to tie"
-                },
-                {
-                    "inf": "bitten",
-                    "en": "to ask for/request"
-                },
-                {
-                    "inf": "brechen",
-                    "en": "to break"
-                },
-                {
-                    "inf": "brennen",
-                    "en": "to burn"
-                },
-                {
-                    "inf": "empfehlen",
-                    "en": "to recommend"
-                },
-                {
-                    "inf": "erschrecken",
-                    "en": "to be frightened"
+                    "en": "to let"
                 },
                 {
                     "inf": "fallen",
                     "en": "to fall"
                 },
                 {
-                    "inf": "fließen",
-                    "en": "to flow"
-                },
-                {
-                    "inf": "frieren",
-                    "en": "to freeze"
-                },
-                {
-                    "inf": "genießen",
-                    "en": "to enjoy"
-                },
-                {
-                    "inf": "geschehen",
-                    "en": "to happen"
-                },
-                {
-                    "inf": "gießen",
-                    "en": "to pour/water"
-                },
-                {
-                    "inf": "greifen",
-                    "en": "to grab/grasp"
+                    "inf": "fangen",
+                    "en": "to catch"
                 },
                 {
                     "inf": "halten",
-                    "en": "to hold/stop"
+                    "en": "to hold / stop"
                 },
                 {
-                    "inf": "hängen",
-                    "en": "to hang"
+                    "inf": "tragen",
+                    "en": "to carry / wear"
                 },
                 {
-                    "inf": "heben",
-                    "en": "to lift"
+                    "inf": "waschen",
+                    "en": "to wash"
+                },
+                {
+                    "inf": "schlagen",
+                    "en": "to hit"
+                },
+                {
+                    "inf": "wachsen",
+                    "en": "to grow"
                 },
                 {
                     "inf": "heißen",
                     "en": "to be called"
                 },
                 {
-                    "inf": "klingen",
-                    "en": "to sound"
+                    "inf": "rufen",
+                    "en": "to call"
                 },
                 {
-                    "inf": "kriechen",
-                    "en": "to crawl"
+                    "inf": "ziehen",
+                    "en": "to pull"
                 },
                 {
-                    "inf": "laden",
-                    "en": "to load/charge"
+                    "inf": "bitten",
+                    "en": "to ask (request)"
                 },
                 {
-                    "inf": "laufen",
-                    "en": "to run"
+                    "inf": "bieten",
+                    "en": "to offer"
                 },
                 {
-                    "inf": "leihen",
-                    "en": "to lend/borrow"
+                    "inf": "verbieten",
+                    "en": "to forbid"
                 },
                 {
                     "inf": "liegen",
-                    "en": "to lie (position)"
+                    "en": "to lie (down)"
                 },
                 {
-                    "inf": "messen",
-                    "en": "to measure"
+                    "inf": "sitzen",
+                    "en": "to sit"
                 },
                 {
-                    "inf": "nennen",
-                    "en": "to name/call"
+                    "inf": "beginnen",
+                    "en": "to begin"
                 },
                 {
-                    "inf": "pfeifen",
-                    "en": "to whistle"
-                },
-                {
-                    "inf": "reiten",
-                    "en": "to ride (horse)"
-                },
-                {
-                    "inf": "rennen",
-                    "en": "to run (fast)"
-                },
-                {
-                    "inf": "riechen",
-                    "en": "to smell"
-                },
-                {
-                    "inf": "scheinen",
-                    "en": "to shine/seem"
-                },
-                {
-                    "inf": "schießen",
-                    "en": "to shoot"
-                },
-                {
-                    "inf": "schließen",
-                    "en": "to close"
-                },
-                {
-                    "inf": "schmelzen",
-                    "en": "to melt"
-                },
-                {
-                    "inf": "schreien",
-                    "en": "to scream"
-                },
-                {
-                    "inf": "schweigen",
-                    "en": "to be silent"
+                    "inf": "gewinnen",
+                    "en": "to win"
                 },
                 {
                     "inf": "schwimmen",
                     "en": "to swim"
                 },
                 {
-                    "inf": "schwören",
-                    "en": "to swear (oath)"
+                    "inf": "springen",
+                    "en": "to jump"
                 },
                 {
                     "inf": "singen",
@@ -4418,44 +7201,200 @@
                     "en": "to sink"
                 },
                 {
-                    "inf": "sitzen",
-                    "en": "to sit"
+                    "inf": "stinken",
+                    "en": "to stink"
                 },
                 {
-                    "inf": "springen",
-                    "en": "to jump"
+                    "inf": "fließen",
+                    "en": "to flow"
                 },
                 {
-                    "inf": "stechen",
-                    "en": "to sting/stab"
+                    "inf": "schließen",
+                    "en": "to close"
                 },
                 {
-                    "inf": "stehlen",
-                    "en": "to steal"
+                    "inf": "riechen",
+                    "en": "to smell"
                 },
                 {
-                    "inf": "steigen",
-                    "en": "to climb/rise"
+                    "inf": "verlieren",
+                    "en": "to lose"
                 },
                 {
-                    "inf": "streichen",
-                    "en": "to paint/cancel"
+                    "inf": "frieren",
+                    "en": "to freeze"
                 },
                 {
-                    "inf": "treiben",
-                    "en": "to drive/do (sports)"
+                    "inf": "wiegen",
+                    "en": "to weigh"
+                },
+                {
+                    "inf": "brechen",
+                    "en": "to break"
+                },
+                {
+                    "inf": "sterben",
+                    "en": "to die"
+                },
+                {
+                    "inf": "werfen",
+                    "en": "to throw"
+                },
+                {
+                    "inf": "treffen",
+                    "en": "to meet"
                 },
                 {
                     "inf": "treten",
-                    "en": "to step/kick"
+                    "en": "to step"
+                },
+                {
+                    "inf": "vergessen",
+                    "en": "to forget"
+                },
+                {
+                    "inf": "schneiden",
+                    "en": "to cut"
+                },
+                {
+                    "inf": "streiten",
+                    "en": "to argue"
+                },
+                {
+                    "inf": "reiten",
+                    "en": "to ride"
+                },
+                {
+                    "inf": "beißen",
+                    "en": "to bite"
+                },
+                {
+                    "inf": "leiden",
+                    "en": "to suffer"
+                },
+                {
+                    "inf": "vergleichen",
+                    "en": "to compare"
+                },
+                {
+                    "inf": "greifen",
+                    "en": "to grab"
+                },
+                {
+                    "inf": "pfeifen",
+                    "en": "to whistle"
+                },
+                {
+                    "inf": "reißen",
+                    "en": "to tear"
+                },
+                {
+                    "inf": "scheinen",
+                    "en": "to shine / seem"
+                },
+                {
+                    "inf": "schreien",
+                    "en": "to scream"
+                },
+                {
+                    "inf": "schweigen",
+                    "en": "to be silent"
+                },
+                {
+                    "inf": "steigen",
+                    "en": "to climb"
+                },
+                {
+                    "inf": "treiben",
+                    "en": "to do (sports) / drive"
+                },
+                {
+                    "inf": "weisen",
+                    "en": "to point / show"
+                },
+                {
+                    "inf": "leihen",
+                    "en": "to lend"
+                },
+                {
+                    "inf": "meiden",
+                    "en": "to avoid"
+                },
+                {
+                    "inf": "entscheiden",
+                    "en": "to decide"
+                },
+                {
+                    "inf": "beweisen",
+                    "en": "to prove"
                 },
                 {
                     "inf": "verzeihen",
                     "en": "to forgive"
                 },
                 {
-                    "inf": "werfen",
-                    "en": "to throw"
+                    "inf": "binden",
+                    "en": "to bind / tie"
+                },
+                {
+                    "inf": "dringen",
+                    "en": "to urge / press"
+                },
+                {
+                    "inf": "gelingen",
+                    "en": "to succeed"
+                },
+                {
+                    "inf": "klingen",
+                    "en": "to sound"
+                },
+                {
+                    "inf": "zwingen",
+                    "en": "to force"
+                },
+                {
+                    "inf": "werben",
+                    "en": "to advertise"
+                },
+                {
+                    "inf": "gelten",
+                    "en": "to be valid"
+                },
+                {
+                    "inf": "befehlen",
+                    "en": "to command"
+                },
+                {
+                    "inf": "empfehlen",
+                    "en": "to recommend"
+                },
+                {
+                    "inf": "stehlen",
+                    "en": "to steal"
+                },
+                {
+                    "inf": "brennen",
+                    "en": "to burn"
+                },
+                {
+                    "inf": "senden",
+                    "en": "to send"
+                },
+                {
+                    "inf": "wenden",
+                    "en": "to turn"
+                },
+                {
+                    "inf": "backen",
+                    "en": "to bake"
+                },
+                {
+                    "inf": "laden",
+                    "en": "to load / invite"
+                },
+                {
+                    "inf": "braten",
+                    "en": "to roast"
                 }
             ],
             "nom_verben": [
@@ -4816,10 +7755,6 @@
                     "en": "to dream"
                 },
                 {
-                    "inf": "aufwachen",
-                    "en": "to wake up"
-                },
-                {
                     "inf": "eilen",
                     "en": "to hurry"
                 },
@@ -5042,10 +7977,6 @@
                     "en": "to use"
                 },
                 {
-                    "inf": "brauchen",
-                    "en": "to need"
-                },
-                {
                     "inf": "wollen",
                     "en": "to want"
                 },
@@ -5060,10 +7991,6 @@
                 {
                     "inf": "wissen",
                     "en": "to know (fact)"
-                },
-                {
-                    "inf": "lernen",
-                    "en": "to learn"
                 },
                 {
                     "inf": "studieren",
@@ -5108,18 +8035,6 @@
                 {
                     "inf": "verstecken",
                     "en": "to hide"
-                },
-                {
-                    "inf": "suchen",
-                    "en": "to look for"
-                },
-                {
-                    "inf": "finden",
-                    "en": "to find"
-                },
-                {
-                    "inf": "verlieren",
-                    "en": "to lose"
                 },
                 {
                     "inf": "behalten",
@@ -5178,10 +8093,6 @@
                     "en": "to sing"
                 },
                 {
-                    "inf": "hören",
-                    "en": "to hear/listen"
-                },
-                {
                     "inf": "riechen",
                     "en": "to smell"
                 },
@@ -5222,20 +8133,8 @@
                     "en": "to invite"
                 },
                 {
-                    "inf": "treffen",
-                    "en": "to meet"
-                },
-                {
-                    "inf": "besuchen",
-                    "en": "to visit"
-                },
-                {
                     "inf": "anrufen",
                     "en": "to call (phone)"
-                },
-                {
-                    "inf": "fragen",
-                    "en": "to ask"
                 },
                 {
                     "inf": "bitten",
@@ -5250,16 +8149,8 @@
                     "en": "to rent"
                 },
                 {
-                    "inf": "kaufen",
-                    "en": "to buy"
-                },
-                {
                     "inf": "bestellen",
                     "en": "to order"
-                },
-                {
-                    "inf": "bezahlen",
-                    "en": "to pay"
                 }
             ],
             "dativ_verben": [
@@ -5644,10 +8535,6 @@
                     "en": "to call out to"
                 },
                 {
-                    "inf": "zusagen",
-                    "en": "to appeal to/promise"
-                },
-                {
                     "inf": "zuschreiben",
                     "en": "to attribute to"
                 },
@@ -5666,230 +8553,230 @@
             ],
             "reflexiv": [
                 {
-                                "inf": "sich beeilen",
-                                "en": "to hurry"
+                    "inf": "sich beeilen",
+                    "en": "to hurry"
                 },
                 {
-                                "inf": "sich ausruhen",
-                                "en": "to rest"
+                    "inf": "sich ausruhen",
+                    "en": "to rest"
                 },
                 {
-                                "inf": "sich befinden",
-                                "en": "to be located"
+                    "inf": "sich befinden",
+                    "en": "to be located"
                 },
                 {
-                                "inf": "sich beschweren \u00fcber",
-                                "en": "to complain about"
+                    "inf": "sich beschweren \u00fcber",
+                    "en": "to complain about"
                 },
                 {
-                                "inf": "sich bewerben um",
-                                "en": "to apply for"
+                    "inf": "sich bewerben um",
+                    "en": "to apply for"
                 },
                 {
-                                "inf": "sich erinnern an",
-                                "en": "to remember"
+                    "inf": "sich erinnern an",
+                    "en": "to remember"
                 },
                 {
-                                "inf": "sich erk\u00e4lten",
-                                "en": "to catch a cold"
+                    "inf": "sich erk\u00e4lten",
+                    "en": "to catch a cold"
                 },
                 {
-                                "inf": "sich freuen auf",
-                                "en": "to look forward to"
+                    "inf": "sich freuen auf",
+                    "en": "to look forward to"
                 },
                 {
-                                "inf": "sich freuen \u00fcber",
-                                "en": "to be happy about"
+                    "inf": "sich freuen \u00fcber",
+                    "en": "to be happy about"
                 },
                 {
-                                "inf": "sich f\u00fchlen",
-                                "en": "to feel"
+                    "inf": "sich f\u00fchlen",
+                    "en": "to feel"
                 },
                 {
-                                "inf": "sich interessieren f\u00fcr",
-                                "en": "to be interested in"
+                    "inf": "sich interessieren f\u00fcr",
+                    "en": "to be interested in"
                 },
                 {
-                                "inf": "sich k\u00fcmmern um",
-                                "en": "to take care of"
+                    "inf": "sich k\u00fcmmern um",
+                    "en": "to take care of"
                 },
                 {
-                                "inf": "sich setzen",
-                                "en": "to sit down"
+                    "inf": "sich setzen",
+                    "en": "to sit down"
                 },
                 {
-                                "inf": "sich treffen mit",
-                                "en": "to meet with"
+                    "inf": "sich treffen mit",
+                    "en": "to meet with"
                 },
                 {
-                                "inf": "sich unterhalten mit",
-                                "en": "to chat/entertain with"
+                    "inf": "sich unterhalten mit",
+                    "en": "to chat/entertain with"
                 },
                 {
-                                "inf": "sich verlieben in",
-                                "en": "to fall in love with"
+                    "inf": "sich verlieben in",
+                    "en": "to fall in love with"
                 },
                 {
-                                "inf": "sich vorstellen",
-                                "en": "to introduce oneself"
+                    "inf": "sich vorstellen",
+                    "en": "to introduce oneself"
                 },
                 {
-                                "inf": "sich waschen",
-                                "en": "to wash oneself"
+                    "inf": "sich waschen",
+                    "en": "to wash oneself"
                 },
                 {
-                                "inf": "sich \u00e4rgern \u00fcber",
-                                "en": "to be annoyed about"
+                    "inf": "sich \u00e4rgern \u00fcber",
+                    "en": "to be annoyed about"
                 },
                 {
-                                "inf": "sich entscheiden f\u00fcr",
-                                "en": "to decide on"
+                    "inf": "sich entscheiden f\u00fcr",
+                    "en": "to decide on"
                 },
                 {
-                                "inf": "sich entspannen",
-                                "en": "to relax"
+                    "inf": "sich entspannen",
+                    "en": "to relax"
                 },
                 {
-                                "inf": "sich aufregen \u00fcber",
-                                "en": "to get upset about"
+                    "inf": "sich aufregen \u00fcber",
+                    "en": "to get upset about"
                 },
                 {
-                                "inf": "sich anpassen an",
-                                "en": "to adapt to"
+                    "inf": "sich anpassen an",
+                    "en": "to adapt to"
                 },
                 {
-                                "inf": "sich abfinden mit",
-                                "en": "to resign oneself to"
+                    "inf": "sich abfinden mit",
+                    "en": "to resign oneself to"
                 },
                 {
-                                "inf": "sich anstrengen",
-                                "en": "to make an effort"
+                    "inf": "sich anstrengen",
+                    "en": "to make an effort"
                 },
                 {
-                                "inf": "sich bedanken f\u00fcr",
-                                "en": "to thank for"
+                    "inf": "sich bedanken f\u00fcr",
+                    "en": "to thank for"
                 },
                 {
-                                "inf": "sich begn\u00fcgen mit",
-                                "en": "to be content with"
+                    "inf": "sich begn\u00fcgen mit",
+                    "en": "to be content with"
                 },
                 {
-                                "inf": "sich bem\u00fchen um",
-                                "en": "to strive for"
+                    "inf": "sich bem\u00fchen um",
+                    "en": "to strive for"
                 },
                 {
-                                "inf": "sich beteiligen an",
-                                "en": "to participate in"
+                    "inf": "sich beteiligen an",
+                    "en": "to participate in"
                 },
                 {
-                                "inf": "sich beziehen auf",
-                                "en": "to refer to"
+                    "inf": "sich beziehen auf",
+                    "en": "to refer to"
                 },
                 {
-                                "inf": "sich einigen auf",
-                                "en": "to agree on"
+                    "inf": "sich einigen auf",
+                    "en": "to agree on"
                 },
                 {
-                                "inf": "sich entschlie\u00dfen zu",
-                                "en": "to resolve to"
+                    "inf": "sich entschlie\u00dfen zu",
+                    "en": "to resolve to"
                 },
                 {
-                                "inf": "sich entschuldigen bei",
-                                "en": "to apologize to"
+                    "inf": "sich entschuldigen bei",
+                    "en": "to apologize to"
                 },
                 {
-                                "inf": "sich entwickeln zu",
-                                "en": "to develop into"
+                    "inf": "sich entwickeln zu",
+                    "en": "to develop into"
                 },
                 {
-                                "inf": "sich erholen von",
-                                "en": "to recover from"
+                    "inf": "sich erholen von",
+                    "en": "to recover from"
                 },
                 {
-                                "inf": "sich erkundigen nach",
-                                "en": "to inquire about"
+                    "inf": "sich erkundigen nach",
+                    "en": "to inquire about"
                 },
                 {
-                                "inf": "sich f\u00fcrchten vor",
-                                "en": "to be afraid of"
+                    "inf": "sich f\u00fcrchten vor",
+                    "en": "to be afraid of"
                 },
                 {
-                                "inf": "sich gew\u00f6hnen an",
-                                "en": "to get used to"
+                    "inf": "sich gew\u00f6hnen an",
+                    "en": "to get used to"
                 },
                 {
-                                "inf": "sich konzentrieren auf",
-                                "en": "to concentrate on"
+                    "inf": "sich konzentrieren auf",
+                    "en": "to concentrate on"
                 },
                 {
-                                "inf": "sich verlassen auf",
-                                "en": "to rely on"
+                    "inf": "sich verlassen auf",
+                    "en": "to rely on"
                 },
                 {
-                                "inf": "sich vorbereiten auf",
-                                "en": "to prepare for"
+                    "inf": "sich vorbereiten auf",
+                    "en": "to prepare for"
                 },
                 {
-                                "inf": "sich wundern \u00fcber",
-                                "en": "to be surprised about"
+                    "inf": "sich wundern \u00fcber",
+                    "en": "to be surprised about"
                 },
                 {
-                                "inf": "sich weigern",
-                                "en": "to refuse"
+                    "inf": "sich weigern",
+                    "en": "to refuse"
                 },
                 {
-                                "inf": "sich wehren gegen",
-                                "en": "to defend oneself against"
+                    "inf": "sich wehren gegen",
+                    "en": "to defend oneself against"
                 },
                 {
-                                "inf": "sich trennen von",
-                                "en": "to separate from"
+                    "inf": "sich trennen von",
+                    "en": "to separate from"
                 },
                 {
-                                "inf": "sich \u00fcberlegen",
-                                "en": "to think over (Dativ? wait, Akk if no object)"
+                    "inf": "sich \u00fcberlegen",
+                    "en": "to think over (Dativ? wait, Akk if no object)"
                 },
                 {
-                                "inf": "sich (D) etwas ansehen",
-                                "en": "to take a look at something"
+                    "inf": "sich (D) etwas ansehen",
+                    "en": "to take a look at something"
                 },
                 {
-                                "inf": "sich (D) etwas ausdenken",
-                                "en": "to invent/come up with something"
+                    "inf": "sich (D) etwas ausdenken",
+                    "en": "to invent/come up with something"
                 },
                 {
-                                "inf": "sich (D) etwas einbilden",
-                                "en": "to imagine/be conceited about something"
+                    "inf": "sich (D) etwas einbilden",
+                    "en": "to imagine/be conceited about something"
                 },
                 {
-                                "inf": "sich (D) etwas leisten",
-                                "en": "to afford something"
+                    "inf": "sich (D) etwas leisten",
+                    "en": "to afford something"
                 },
                 {
-                                "inf": "sich (D) etwas merken",
-                                "en": "to memorize something"
+                    "inf": "sich (D) etwas merken",
+                    "en": "to memorize something"
                 },
                 {
-                                "inf": "sich (D) etwas \u00fcberlegen",
-                                "en": "to consider something"
+                    "inf": "sich (D) etwas \u00fcberlegen",
+                    "en": "to consider something"
                 },
                 {
-                                "inf": "sich (D) etwas vorstellen",
-                                "en": "to imagine something"
+                    "inf": "sich (D) etwas vorstellen",
+                    "en": "to imagine something"
                 },
                 {
-                                "inf": "sich (D) etwas w\u00fcnschen",
-                                "en": "to wish for something"
+                    "inf": "sich (D) etwas w\u00fcnschen",
+                    "en": "to wish for something"
                 },
                 {
-                                "inf": "sich (D) M\u00fche geben",
-                                "en": "to make an effort"
+                    "inf": "sich (D) M\u00fche geben",
+                    "en": "to make an effort"
                 },
                 {
-                                "inf": "sich (D) Sorgen machen",
-                                "en": "to worry"
+                    "inf": "sich (D) Sorgen machen",
+                    "en": "to worry"
                 }
-]
+            ]
         };
 
 
@@ -5955,7 +8842,7 @@
             let isReflexiveAkk = rawVerb.startsWith("sich ");
             let isReflexiveDat = rawVerb.startsWith("sich (D) ");
             let isReflexive = isReflexiveAkk || isReflexiveDat;
-            
+
             if (isReflexiveDat) {
                 rawVerb = rawVerb.substring(9).trim();
             } else if (isReflexiveAkk) {
@@ -6032,7 +8919,7 @@
 
             let hilfs = ir && ir.hilfs ? ir.hilfs : "haben";
             let perf = [];
-            
+
             let hilfsVerbsSein = ["bin", "bist", "ist", "sind", "seid", "sind"];
             let hilfsVerbsHaben = ["habe", "hast", "hat", "haben", "habt", "haben"];
             let hVerbs = hilfs === "sein" ? hilfsVerbsSein : hilfsVerbsHaben;
@@ -6055,10 +8942,10 @@
             }
 
             if (prefix && isSeparable) {
-                praes = praes.map((v, i) => v + (isReflexive ? " " + refl[i] : "") + " " + prefix); 
+                praes = praes.map((v, i) => v + (isReflexive ? " " + refl[i] : "") + " " + prefix);
                 praet = praet.map((v, i) => v + (isReflexive ? " " + refl[i] : "") + " " + prefix);
             } else if (prefix && !isSeparable) {
-                praes = praes.map((v, i) => prefix + v + (isReflexive ? " " + refl[i] : "")); 
+                praes = praes.map((v, i) => prefix + v + (isReflexive ? " " + refl[i] : ""));
                 praet = praet.map((v, i) => prefix + v + (isReflexive ? " " + refl[i] : ""));
             } else {
                 if (isReflexive) {
@@ -6075,6 +8962,22 @@
         }
 
         const pronouns = ["ich", "du", "er/sie/es", "wir", "ihr", "sie/Sie"];
+
+
+        function renderNounCard(nounObj) {
+            let color = nounObj.article === 'der' ? '#58a6ff' : nounObj.article === 'die' ? '#ff7b72' : '#e3b341';
+            return `
+            <div class="verb-card" style="padding: 1rem; min-height: auto;">
+                <div class="verb-header" style="margin-bottom: 0; align-items: center;">
+                    <div>
+                        <span class="verb-title" style="color: ${color}; font-size: 1.1rem; display: block; margin-bottom: 2px;">${nounObj.article} ${nounObj.word}</span>
+                        <span class="verb-en" style="font-size: 0.85rem;">${nounObj.en}</span>
+                    </div>
+                    <span class="badge-count" style="font-size: 0.75rem; padding: 2px 6px;">#${nounObj.id}</span>
+                </div>
+            </div>
+            `;
+        }
 
         function renderVerbCard(verbObj, cat, index) {
             const conj = conjugateVerb(verbObj.inf);
@@ -6144,8 +9047,9 @@
             trenn: { title: "Trennbare Verben", sub: "100 Verben vollständig konjugiert." },
             untr: { title: "Untrennbare Verben", sub: "100 Verben vollständig konjugiert." },
             praep: { title: "Präpositionen", sub: "100 Verben mit festen Präpositionen vollständig konjugiert." },
+            nouns: { title: "Essential Nouns", sub: "500 German Nouns by Category" },
             regel: { title: "Regelmäßige Verben", sub: "100 schwache Verben vollständig konjugiert." },
-                        unregel: { title: "Unregelmäßige Verben", sub: "100 starke/unregelmäßige Verben vollständig konjugiert." },
+            unregel: { title: "Unregelmäßige Verben", sub: "100 starke/unregelmäßige Verben vollständig konjugiert." },
             reflexiv: { title: "Reflexive Verben", sub: "Häufige reflexive Verben vollständig konjugiert." }
         };
 
@@ -7339,7 +10243,7 @@
         `
 
         };
-        
+
         let tutorChatHistory = [];
         async function sendTutorMessage() {
             const input = document.getElementById('tutor-chat-input');
@@ -7370,9 +10274,9 @@
                 const res = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
+                    body: JSON.stringify({
                         system: "You are an expert, friendly German AI teacher. Answer any questions about German grammar, exercises, quizzes, vocabulary, or culture. Important: Always explain any grammatical mistakes clearly in English so the student can understand. Format your answers in plain text or simple markdown.",
-                        messages: tutorChatHistory 
+                        messages: tutorChatHistory
                     })
                 });
                 const data = await res.json();
@@ -7385,7 +10289,7 @@
             } catch (e) {
                 botMsg.textContent = "Verbindungsfehler";
             }
-            
+
             botMsg.innerHTML = botMsg.textContent.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
             content.scrollTop = content.scrollHeight;
         }
@@ -7395,7 +10299,13 @@
             document.getElementById('link-' + cat).classList.add('active');
 
             document.getElementById('page-title').innerText = titles[cat].title;
-            document.getElementById('page-sub').innerText = titles[cat].sub;
+            let subText = titles[cat].sub;
+            if (cat === "nouns" && typeof nounsData !== "undefined") {
+                subText = subText.replace("500", nounsData.length);
+            } else if (verbsData[cat]) {
+                subText = subText.replace("100", verbsData[cat].length);
+            }
+            document.getElementById('page-sub').innerText = subText;
 
             // Clear search
             document.getElementById('searchInput').value = "";
@@ -7406,6 +10316,73 @@
             if (['tutor', 'artikel', 'pronomen', 'adjektiv', 'praep_artikel', 'satzbau'].includes(cat)) {
                 content += staticContent[cat];
                 document.getElementById('searchInput').parentElement.style.display = 'none';
+            } else if (cat === 'nouns') {
+                document.getElementById('searchInput').parentElement.style.display = 'block';
+
+                const nounCategories = [
+                    { id: 1, name: "1. People & Family", min: 1, max: 50 },
+                    { id: 2, name: "2. Body Parts & Health", min: 51, max: 100 },
+                    { id: 3, name: "3. Food & Drink", min: 101, max: 150 },
+                    { id: 4, name: "4. House & Furniture", min: 151, max: 200 },
+                    { id: 5, name: "5. City, Transport & Travel", min: 201, max: 250 },
+                    { id: 6, name: "6. Nature & Environment", min: 251, max: 300 },
+                    { id: 7, name: "7. Animals", min: 301, max: 350 },
+                    { id: 8, name: "8. Clothing & Accessories", min: 351, max: 400 },
+                    { id: 9, name: "9. Time & Calendar", min: 401, max: 450 },
+                    { id: 10, name: "10. Work, Education & Abstract", min: 451, max: 500 }
+                ];
+
+                // Add the toggle function globally if it doesn't exist
+                if (!window.toggleNounCategory) {
+                    window.toggleNounCategory = function (id) {
+                        const contentDiv = document.getElementById('content-cat-' + id);
+                        const icon = document.getElementById('icon-cat-' + id);
+                        const isCurrentlyHidden = (contentDiv.style.display === 'none');
+
+                        // Close all categories first
+                        for (let i = 1; i <= 10; i++) {
+                            const cDiv = document.getElementById('content-cat-' + i);
+                            const cIcon = document.getElementById('icon-cat-' + i);
+                            if (cDiv) cDiv.style.display = 'none';
+                            if (cIcon) cIcon.innerText = '▼';
+                        }
+
+                        // Open the target category if it was previously closed
+                        if (isCurrentlyHidden) {
+                            contentDiv.style.display = 'grid';
+                            icon.innerText = '▲';
+
+                            // Scroll the header into view to prevent jumping when above sections collapse
+                            setTimeout(() => {
+                                const header = document.getElementById('header-cat-' + id);
+                                if (header) {
+                                    header.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }, 50);
+                        }
+                    };
+                }
+
+                nounCategories.forEach(c => {
+                    let groupNouns = nounsData.filter(n => n.id >= c.min && n.id <= c.max);
+                    if (groupNouns.length > 0) {
+                        content += `
+                        <div class="noun-category-block" style="grid-column: 1 / -1; margin-bottom: 1rem;">
+                            <div id="header-cat-${c.id}" onclick="window.toggleNounCategory(${c.id})" style="cursor: pointer; background: var(--bg-alt); padding: 1rem 1.5rem; border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; transition: background 0.2s;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='var(--bg-alt)'">
+                                <h3 style="margin: 0; color: var(--primary); font-size: 1.3rem;">${c.name} <span style="font-size:0.9rem; color:var(--sub); margin-left:10px;">(${groupNouns.length} Nouns)</span></h3>
+                                <span id="icon-cat-${c.id}" style="color: var(--primary); font-size: 1.2rem;">▼</span>
+                            </div>
+                            <div id="content-cat-${c.id}" style="display: none; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; width: 100%; padding-top: 1.5rem;">`;
+
+                        groupNouns.forEach(n => {
+                            content += renderNounCard(n);
+                        });
+
+                        content += `
+                            </div>
+                        </div>`;
+                    }
+                });
             } else {
                 document.getElementById('searchInput').parentElement.style.display = 'block';
                 let verbs = verbsData[cat];
@@ -7448,9 +10425,11 @@
         }
 
         window.onload = () => {
-            ['trenn', 'untr', 'praep', 'regel', 'unregel', 'reflexiv'].forEach(c => {
+            ['trenn', 'untr', 'praep', 'regel', 'unregel', 'reflexiv', 'nouns'].forEach(c => {
                 const countEl = document.getElementById('count-' + c);
-                if (countEl) countEl.innerText = verbsData[c].length;
+                if (countEl) {
+                    countEl.innerText = (c === 'nouns' && typeof nounsData !== 'undefined') ? nounsData.length : (verbsData[c] ? verbsData[c].length : '');
+                }
             });
             loadCategory('tutor');
         };
@@ -7602,13 +10581,17 @@
                     <div
                         style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid var(--primary, #58a6ff); border-radius: 4px;">
                         <h4 style="margin-bottom: 0.3rem; color: #fff;">📚 Grammatik (Grammar)</h4>
-                        <p>Learn cases, reflexive verbs, and fixed prepositions. Practice with the built-in Verb Conjugation engine, or chat with the AI Grammar Tutor to ask any German-related questions!</p>
+                        <p>Learn cases, reflexive verbs, and fixed prepositions. Practice with the built-in Verb
+                            Conjugation engine, or chat with the AI Grammar Tutor to ask any German-related questions!
+                        </p>
                     </div>
-                    
+
                     <div
                         style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(22, 163, 74, 0.1); border-left: 4px solid #16a34a; border-radius: 4px;">
                         <h4 style="margin-bottom: 0.3rem; color: #fff;">🤖 AI Grammar Tutor & Dictionary</h4>
-                        <p>Have a question? Ask the dedicated Grammar Tutor chatbot on the Grammar page. Or, use the floating Dictionary widget (bottom right) from any page to instantly translate words and conjugate verbs.</p>
+                        <p>Have a question? Ask the dedicated Grammar Tutor chatbot on the Grammar page. Or, use the
+                            floating Dictionary widget (bottom right) from any page to instantly translate words and
+                            conjugate verbs.</p>
                     </div>
                     <div
                         style="margin-bottom: 1.2rem; padding: 1rem; background: rgba(247, 120, 186, 0.1); border-left: 4px solid #f778ba; border-radius: 4px;">
